@@ -7,6 +7,7 @@
 
 #ifndef USART_DMA_H_
 #define USART_DMA_H_
+
 /*
  * uart_dma.h
  *
@@ -16,7 +17,7 @@
 
 #ifndef UART_DMA_H_
 #define UART_DMA_H_
-#include "config.h"
+#include <device_config.h>
 #include "string.h"
 #include "buffors.h"
 

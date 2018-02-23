@@ -1,6 +1,6 @@
 src/usart_dma.o: ../src/usart_dma.c \
  /home/gwarchol/STMworkspace/clock/inc/usart_dma.h \
- /home/gwarchol/STMworkspace/clock/inc/config.h \
+ /home/gwarchol/STMworkspace/clock/inc/device_config.h \
  /home/gwarchol/STMworkspace/clock/CMSIS/device/stm32f10x.h \
  /home/gwarchol/STMworkspace/clock/CMSIS/core/core_cm3.h \
  /home/gwarchol/STMworkspace/clock/CMSIS/device/system_stm32f10x.h \
@@ -34,7 +34,7 @@ src/usart_dma.o: ../src/usart_dma.c \
 
 /home/gwarchol/STMworkspace/clock/inc/usart_dma.h:
 
-/home/gwarchol/STMworkspace/clock/inc/config.h:
+/home/gwarchol/STMworkspace/clock/inc/device_config.h:
 
 /home/gwarchol/STMworkspace/clock/CMSIS/device/stm32f10x.h:
 

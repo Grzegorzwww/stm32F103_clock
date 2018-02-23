@@ -8,8 +8,8 @@
 #ifndef RTC_H_
 #define RTC_H_
 
+#include <device_config.h>
 #include "stm32f10x.h"
-#include "config.h"
 
 void RTC_Configuration(void);
 void NVIC_RTC_Configuration(void);

@@ -1,12 +1,19 @@
 /*
+ * device_config.h
+ *
+ *  Created on: 23.02.2018
+ *      Author: gwarchol
+ */
+
+#ifndef DEVICE_CONFIG_H_
+#define DEVICE_CONFIG_H_
+
+/*
  * config.h
  *
  *  Created on: 05.12.2017
  *      Author: gwarchol
- */
-
-#ifndef CONFIG_H_
-#define CONFIG_H_
+ **/
 
 
 
@@ -29,4 +36,6 @@ void RCC_Conf(void);
 
 
 
-#endif /* CONFIG_H_ */
+#endif /* DEVICE_CONFIG_H_ *
+
+#endif /* DEVICE_CONFIG_H_ */

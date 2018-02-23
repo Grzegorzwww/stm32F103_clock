@@ -17,6 +17,8 @@ C_DEPS :=
 SUBDIRS := \
 CMSIS/core \
 StdPeriph_Driver/src \
+lib/ILI9341 \
+lib/tinystd \
 src \
 startup \
 

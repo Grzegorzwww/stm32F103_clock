@@ -5,7 +5,8 @@
  *      Author: gwarchol
  */
 
-#include "config.h"
+#include "device_config.h"
+
 
 GPIO_InitTypeDef GPIO_InitStruct;
 

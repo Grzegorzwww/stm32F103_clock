@@ -1,6 +1,6 @@
 src/uart_interrupt.o: ../src/uart_interrupt.c \
  /home/gwarchol/STMworkspace/clock/inc/uart_interrupt.h \
- /home/gwarchol/STMworkspace/clock/inc/config.h \
+ /home/gwarchol/STMworkspace/clock/inc/device_config.h \
  /home/gwarchol/STMworkspace/clock/CMSIS/device/stm32f10x.h \
  /home/gwarchol/STMworkspace/clock/CMSIS/core/core_cm3.h \
  /home/gwarchol/STMworkspace/clock/CMSIS/device/system_stm32f10x.h \
@@ -34,7 +34,7 @@ src/uart_interrupt.o: ../src/uart_interrupt.c \
 
 /home/gwarchol/STMworkspace/clock/inc/uart_interrupt.h:
 
-/home/gwarchol/STMworkspace/clock/inc/config.h:
+/home/gwarchol/STMworkspace/clock/inc/device_config.h:
 
 /home/gwarchol/STMworkspace/clock/CMSIS/device/stm32f10x.h:
 

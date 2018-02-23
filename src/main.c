@@ -13,12 +13,16 @@
 
 
 #include "stm32f10x.h"
-#include "config.h"
+#include "device_config.h"
 #include "timers.h"
 #include "usart_dma.h"
 #include "uart_interrupt.h"
 #include "scan_timer.h"
 #include "rtc.h"
+
+
+#include "text.h"
+#include "itoa.h"
 
 
 
@@ -47,6 +51,17 @@ int main(void) {
 
 	RCC_Conf();
 	device_init();
+
+
+    LCD_init();
+    LCD_setOrientation(ORIENTATION_PORTRAIT);
+    LCD_fillScreen(BLACK);
+
+    char buf[16];
+    LCD_setTextBgColor(DGREEN);
+    LCD_setTextSize(3);
+
+
 
 	volatile bool x = false;
 	volatile bool y = false;
@@ -84,8 +99,8 @@ int main(void) {
 				y = true;
 			}
 
-			//int ticks = getTotalRtcTicks();
-			//int n = sprintf (tablica,"timer ticks = %d\n", ticks);
+//			int ticks = getTotalRtcTicks();
+//			int n = sprintf (tablica,"timer ticks = %d\n", ticks);
 
 
 

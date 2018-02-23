@@ -26,17 +26,28 @@ src/main.o: ../src/main.c \
  /home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/stm32f10x_usart.h \
  /home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/stm32f10x_wwdg.h \
  /home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/misc.h \
- /home/gwarchol/STMworkspace/clock/inc/config.h \
+ /home/gwarchol/STMworkspace/clock/inc/device_config.h \
  /home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/stm32f10x_rcc.h \
  /home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/stm32f10x_gpio.h \
  /home/gwarchol/STMworkspace/clock/inc/timers.h \
  /home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/stm32f10x_tim.h \
  /home/gwarchol/STMworkspace/clock/inc/usart_dma.h \
- /home/gwarchol/STMworkspace/clock/inc/config.h \
  /home/gwarchol/STMworkspace/clock/inc/buffors.h \
  /home/gwarchol/STMworkspace/clock/inc/uart_interrupt.h \
  /home/gwarchol/STMworkspace/clock/inc/scan_timer.h \
- /home/gwarchol/STMworkspace/clock/inc/rtc.h
+ /home/gwarchol/STMworkspace/clock/inc/rtc.h \
+ /home/gwarchol/STMworkspace/clock/lib/ILI9341/text.h \
+ /home/gwarchol/STMworkspace/clock/lib/ILI9341/graph.h \
+ /home/gwarchol/STMworkspace/clock/lib/ILI9341/core.h \
+ /home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/stm32f10x_spi.h \
+ /home/gwarchol/STMworkspace/clock/lib/ILI9341/delay.h \
+ /home/gwarchol/STMworkspace/clock/lib/ILI9341/commands.h \
+ /home/gwarchol/STMworkspace/clock/lib/ILI9341/dma.h \
+ /home/gwarchol/STMworkspace/clock/lib/ILI9341/control.h \
+ /home/gwarchol/STMworkspace/clock/lib/ILI9341/config.h \
+ /home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/stm32f10x_dma.h \
+ /home/gwarchol/STMworkspace/clock/lib/ILI9341/fonts/glcdfont.h \
+ /home/gwarchol/STMworkspace/clock/lib/tinystd/itoa.h
 
 /home/gwarchol/STMworkspace/clock/CMSIS/device/stm32f10x.h:
 
@@ -92,7 +103,7 @@ src/main.o: ../src/main.c \
 
 /home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/misc.h:
 
-/home/gwarchol/STMworkspace/clock/inc/config.h:
+/home/gwarchol/STMworkspace/clock/inc/device_config.h:
 
 /home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/stm32f10x_rcc.h:
 
@@ -104,8 +115,6 @@ src/main.o: ../src/main.c \
 
 /home/gwarchol/STMworkspace/clock/inc/usart_dma.h:
 
-/home/gwarchol/STMworkspace/clock/inc/config.h:
-
 /home/gwarchol/STMworkspace/clock/inc/buffors.h:
 
 /home/gwarchol/STMworkspace/clock/inc/uart_interrupt.h:
@@ -113,3 +122,27 @@ src/main.o: ../src/main.c \
 /home/gwarchol/STMworkspace/clock/inc/scan_timer.h:
 
 /home/gwarchol/STMworkspace/clock/inc/rtc.h:
+
+/home/gwarchol/STMworkspace/clock/lib/ILI9341/text.h:
+
+/home/gwarchol/STMworkspace/clock/lib/ILI9341/graph.h:
+
+/home/gwarchol/STMworkspace/clock/lib/ILI9341/core.h:
+
+/home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/stm32f10x_spi.h:
+
+/home/gwarchol/STMworkspace/clock/lib/ILI9341/delay.h:
+
+/home/gwarchol/STMworkspace/clock/lib/ILI9341/commands.h:
+
+/home/gwarchol/STMworkspace/clock/lib/ILI9341/dma.h:
+
+/home/gwarchol/STMworkspace/clock/lib/ILI9341/control.h:
+
+/home/gwarchol/STMworkspace/clock/lib/ILI9341/config.h:
+
+/home/gwarchol/STMworkspace/clock/StdPeriph_Driver/inc/stm32f10x_dma.h:
+
+/home/gwarchol/STMworkspace/clock/lib/ILI9341/fonts/glcdfont.h:
+
+/home/gwarchol/STMworkspace/clock/lib/tinystd/itoa.h:

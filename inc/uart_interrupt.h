@@ -7,7 +7,7 @@
 
 #ifndef UART_INTERRUPT_H_
 #define UART_INTERRUPT_H_
-#include "config.h"
+#include <device_config.h>
 #include "string.h"
 #include "buffors.h"
 
