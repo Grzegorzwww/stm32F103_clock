@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
-  * @file      startup_stm32.s dedicated to STM32F103R8Tx device
+  * @file      startup_stm32.s dedicated to STM32F103RBTx device
   * @author    Ac6
   * @version   V1.0.0
-  * @date      2018-02-08
+  * @date      2018-02-26
   ******************************************************************************
   */
 
@@ -59,7 +59,7 @@ LoopCopyDataInit:
   adds r4, r0, r3
   cmp r4, r1
   bcc CopyDataInit
-
+  
 /* Zero fill the bss segment. */
   ldr r2, =_sbss
   ldr r4, =_ebss
@@ -102,7 +102,7 @@ Infinite_Loop:
   .size Default_Handler, .-Default_Handler
 /******************************************************************************
 *
-* The STM32F103R8Tx vector table.  Note that the proper constructs
+* The STM32F103RBTx vector table.  Note that the proper constructs
 * must be placed on this to ensure that it ends up at physical address
 * 0x0000.0000.
 *
@@ -212,13 +212,13 @@ g_pfnVectors:
 
 	.weak	UsageFault_Handler
 	.thumb_set UsageFault_Handler,Default_Handler
-
+	
 	.weak	SVC_Handler
 	.thumb_set SVC_Handler,Default_Handler
 
 	.weak	DebugMon_Handler
 	.thumb_set DebugMon_Handler,Default_Handler
-
+	
 	.weak	PendSV_Handler
 	.thumb_set PendSV_Handler,Default_Handler
 
@@ -227,181 +227,181 @@ g_pfnVectors:
 
 	.weak	WWDG_IRQHandler
 	.thumb_set WWDG_IRQHandler,Default_Handler
-
+	
 	.weak	PVD_IRQHandler
 	.thumb_set PVD_IRQHandler,Default_Handler
-
+	
 	.weak	TAMPER_IRQHandler
 	.thumb_set TAMPER_IRQHandler,Default_Handler
-
+	
 	.weak	RTC_IRQHandler
 	.thumb_set RTC_IRQHandler,Default_Handler
-
+	
 	.weak	FLASH_IRQHandler
 	.thumb_set FLASH_IRQHandler,Default_Handler
-
+	
 	.weak	RCC_IRQHandler
 	.thumb_set RCC_IRQHandler,Default_Handler
-
+	
 	.weak	EXTI0_IRQHandler
 	.thumb_set EXTI0_IRQHandler,Default_Handler
-
+	
 	.weak	EXTI1_IRQHandler
 	.thumb_set EXTI1_IRQHandler,Default_Handler
-
+	
 	.weak	EXTI2_IRQHandler
 	.thumb_set EXTI2_IRQHandler,Default_Handler
-
+	
 	.weak	EXTI3_IRQHandler
 	.thumb_set EXTI3_IRQHandler,Default_Handler
-
+	
 	.weak	EXTI4_IRQHandler
 	.thumb_set EXTI4_IRQHandler,Default_Handler
-
+	
 	.weak	DMA1_Channel1_IRQHandler
 	.thumb_set DMA1_Channel1_IRQHandler,Default_Handler
-
+	
 	.weak	DMA1_Channel2_IRQHandler
 	.thumb_set DMA1_Channel2_IRQHandler,Default_Handler
-
+	
 	.weak	DMA1_Channel3_IRQHandler
 	.thumb_set DMA1_Channel3_IRQHandler,Default_Handler
-
+	
 	.weak	DMA1_Channel4_IRQHandler
 	.thumb_set DMA1_Channel4_IRQHandler,Default_Handler
-
+	
 	.weak	DMA1_Channel5_IRQHandler
 	.thumb_set DMA1_Channel5_IRQHandler,Default_Handler
-
+	
 	.weak	DMA1_Channel6_IRQHandler
 	.thumb_set DMA1_Channel6_IRQHandler,Default_Handler
-
+	
 	.weak	DMA1_Channel7_IRQHandler
 	.thumb_set DMA1_Channel7_IRQHandler,Default_Handler
-
+	
 	.weak	ADC1_2_IRQHandler
 	.thumb_set ADC1_2_IRQHandler,Default_Handler
-
+	
 	.weak	USB_HP_CAN_TX_IRQHandler
 	.thumb_set USB_HP_CAN_TX_IRQHandler,Default_Handler
-
+	
 	.weak	USB_LP_CAN_RX0_IRQHandler
 	.thumb_set USB_LP_CAN_RX0_IRQHandler,Default_Handler
-
+	
 	.weak	CAN_RX1_IRQHandler
 	.thumb_set CAN_RX1_IRQHandler,Default_Handler
-
+	
 	.weak	CAN_SCE_IRQHandler
 	.thumb_set CAN_SCE_IRQHandler,Default_Handler
-
+	
 	.weak	EXTI9_5_IRQHandler
 	.thumb_set EXTI9_5_IRQHandler,Default_Handler
-
+	
 	.weak	TIM1_BRK_IRQHandler
 	.thumb_set TIM1_BRK_IRQHandler,Default_Handler
-
+	
 	.weak	TIM1_UP_IRQHandler
 	.thumb_set TIM1_UP_IRQHandler,Default_Handler
-
+	
 	.weak	TIM1_TRG_COM_IRQHandler
 	.thumb_set TIM1_TRG_COM_IRQHandler,Default_Handler
-
+	
 	.weak	TIM1_CC_IRQHandler
 	.thumb_set TIM1_CC_IRQHandler,Default_Handler
-
+	
 	.weak	TIM2_IRQHandler
 	.thumb_set TIM2_IRQHandler,Default_Handler
-
+	
 	.weak	TIM3_IRQHandler
 	.thumb_set TIM3_IRQHandler,Default_Handler
-
+	
 	.weak	TIM4_IRQHandler
 	.thumb_set TIM4_IRQHandler,Default_Handler
-
+	
 	.weak	I2C1_EV_IRQHandler
 	.thumb_set I2C1_EV_IRQHandler,Default_Handler
-
+	
 	.weak	I2C1_ER_IRQHandler
 	.thumb_set I2C1_ER_IRQHandler,Default_Handler
-
+	
 	.weak	I2C2_EV_IRQHandler
 	.thumb_set I2C2_EV_IRQHandler,Default_Handler
-
+	
 	.weak	I2C2_ER_IRQHandler
 	.thumb_set I2C2_ER_IRQHandler,Default_Handler
-
+	
 	.weak	SPI1_IRQHandler
 	.thumb_set SPI1_IRQHandler,Default_Handler
-
+	
 	.weak	SPI2_IRQHandler
 	.thumb_set SPI2_IRQHandler,Default_Handler
-
+	
 	.weak	USART1_IRQHandler
 	.thumb_set USART1_IRQHandler,Default_Handler
-
+	
 	.weak	USART2_IRQHandler
 	.thumb_set USART2_IRQHandler,Default_Handler
-
+	
 	.weak	USART3_IRQHandler
 	.thumb_set USART3_IRQHandler,Default_Handler
-
+	
 	.weak	EXTI15_10_IRQHandler
 	.thumb_set EXTI15_10_IRQHandler,Default_Handler
-
+	
 	.weak	RTCAlarm_IRQHandler
 	.thumb_set RTCAlarm_IRQHandler,Default_Handler
-
+	
 	.weak	TIM8_BRK_IRQHandler
 	.thumb_set TIM8_BRK_IRQHandler,Default_Handler
-
+	
 	.weak	TIM8_UP_IRQHandler
 	.thumb_set TIM8_UP_IRQHandler,Default_Handler
-
+	
 	.weak	TIM8_TRG_COM_IRQHandler
 	.thumb_set TIM8_TRG_COM_IRQHandler,Default_Handler
-
+	
 	.weak	TIM8_CC_IRQHandler
 	.thumb_set TIM8_CC_IRQHandler,Default_Handler
-
+	
 	.weak	ADC3_IRQHandler
 	.thumb_set ADC3_IRQHandler,Default_Handler
-
+	
 	.weak	FSMC_IRQHandler
 	.thumb_set FSMC_IRQHandler,Default_Handler
-
+	
 	.weak	SDIO_IRQHandler
 	.thumb_set SDIO_IRQHandler,Default_Handler
-
+	
 	.weak	TIM5_IRQHandler
 	.thumb_set TIM5_IRQHandler,Default_Handler
-
+	
 	.weak	SPI3_IRQHandler
 	.thumb_set SPI3_IRQHandler,Default_Handler
-
+	
 	.weak	UART4_IRQHandler
 	.thumb_set UART4_IRQHandler,Default_Handler
-
+	
 	.weak	UART5_IRQHandler
 	.thumb_set UART5_IRQHandler,Default_Handler
-
+	
 	.weak	TIM6_IRQHandler
 	.thumb_set TIM6_IRQHandler,Default_Handler
-
+	
 	.weak	TIM7_IRQHandler
 	.thumb_set TIM7_IRQHandler,Default_Handler
-
+	
 	.weak	DMA2_Channel1_IRQHandler
 	.thumb_set DMA2_Channel1_IRQHandler,Default_Handler
-
+	
 	.weak	DMA2_Channel2_IRQHandler
 	.thumb_set DMA2_Channel2_IRQHandler,Default_Handler
-
+	
 	.weak	DMA2_Channel3_IRQHandler
 	.thumb_set DMA2_Channel3_IRQHandler,Default_Handler
-
+	
 	.weak	DMA2_Channel4_5_IRQHandler
 	.thumb_set DMA2_Channel4_5_IRQHandler,Default_Handler
-
+	
 	.weak	SystemInit
 
 /************************ (C) COPYRIGHT Ac6 *****END OF FILE****/

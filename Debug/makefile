@@ -31,13 +31,13 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: clock.elf
+all: clock_digital.elf
 
 # Tool invocations
-clock.elf: $(OBJS) $(USER_OBJS) /home/gwarchol/STMworkspace/clock/LinkerScript.ld
+clock_digital.elf: $(OBJS) $(USER_OBJS) /home/gwarchol/STMworkspace/clock_digital/LinkerScript.ld
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU GCC Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -specs=rdimon.specs -lc -lrdimon -T"/home/gwarchol/STMworkspace/clock/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "clock.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -T"/home/gwarchol/STMworkspace/clock_digital/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "clock_digital.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
@@ -49,8 +49,8 @@ clean:
 
 post-build:
 	-@echo 'Generating binary and Printing size information:'
-	arm-none-eabi-objcopy -O binary "clock.elf" "clock.bin"
-	arm-none-eabi-size "clock.elf"
+	arm-none-eabi-objcopy -O binary "clock_digital.elf" "clock_digital.bin"
+	arm-none-eabi-size "clock_digital.elf"
 	-@echo ' '
 
 .PHONY: all clean dependents

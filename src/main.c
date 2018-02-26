@@ -34,9 +34,6 @@ extern void initialise_monitor_handles(void);
 #endif
 
 volatile bool state = false;
-
-
-
 unsigned char temp_data[6];
 
 int main(void) {
@@ -54,29 +51,28 @@ int main(void) {
 
 
     LCD_init();
-    LCD_setOrientation(ORIENTATION_PORTRAIT);
+    LCD_setOrientation(ORIENTATION_LANDSCAPE);
     LCD_fillScreen(BLACK);
-
-    char buf[16];
-    LCD_setTextBgColor(DGREEN);
-    LCD_setTextSize(3);
+    LCD_setTextBgColor(WHITE );
+    LCD_setTextSize(6);
 
 
 
 	volatile bool x = false;
 	volatile bool y = false;
 
+
+	unsigned char tabilca[20];
+	static int index = 0;
+
 	init_timer();
-//	uart_interrup_init();
 	usart_dma_init();
 
 
-	rtc_init();
+	//rtc_init();
 
 
 	unsigned char _crc = 0;
-
-
 	unsigned char tablica[14];
 	int i;
 	for(i = 0; i < 14; i++){
@@ -90,6 +86,13 @@ int main(void) {
 		controlUartTransfer();
 		analizeIncomingDMAData();
 
+		if(getTimerChannelState(TIMER_10ms)){
+
+
+
+
+		}
+
 		if (getTimerChannelState(TIMER_100ms)) {
 			if (y == true) {
 				GPIO_WriteBit(GPIOC, GPIO_Pin_14, Bit_RESET);
@@ -99,16 +102,17 @@ int main(void) {
 				y = true;
 			}
 
+			LCD_setCursor(0, 0);
+			LCD_fillRect(0, 0, 100, 24, BLACK);
+			sprintf(tabilca, "%d",index++);
+			LCD_writeString(tabilca);
+			setTimerChannelState(TIMER_10ms, false);
+
 //			int ticks = getTotalRtcTicks();
 //			int n = sprintf (tablica,"timer ticks = %d\n", ticks);
-
-
-
-
 			//read_timer(tablica);
 
 			_crc = 0;
-
 			tablica[0] = 0x3C;
 			tablica[1] = 0xA5;
 			tablica[2] = 0x01;
@@ -117,32 +121,19 @@ int main(void) {
 			tablica[5] = 0xDB;
 			tablica[6] = 0xDB;
 			tablica[7] = 0xDB;
-
-
-
+			
 			for(i = 0; i < 8; i++){
 				_crc = AddCRC(_crc, tablica[i]);
-
 			}
 			tablica[8] = _crc;
-
-
-
-
-
-
-
-
-
-
 			uart_dma_send_data(tablica, 9);
-
-
-
 
 			//analizeIncomingData();
 			//uart_send_data("Hello world\n", 12);
 			//uart_send_data(temp_tab, 12);
+
+
+
 
 			setTimerChannelState(TIMER_100ms, false);
 		}
