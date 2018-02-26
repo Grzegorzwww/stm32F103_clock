@@ -89,8 +89,6 @@ int main(void) {
 		if(getTimerChannelState(TIMER_10ms)){
 
 
-
-
 		}
 
 		if (getTimerChannelState(TIMER_100ms)) {

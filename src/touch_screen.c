@@ -8,6 +8,7 @@
 #include "touch_screen.h"
 
 SPI_InitTypeDef SPI_InitStructure;
+GPIO_InitTypeDef GPIO_InitStructure;
 
 uint8_t SPIy_Buffer_Tx[BufferSize] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
                                       0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E,
@@ -26,8 +27,57 @@ uint8_t SPIz_Buffer_Tx[BufferSize] = {0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57,
 void init_spi(){
 
 
-	  RCC_Configuration();
+	//	  RCC_PCLK2Config(RCC_HCLK_Div2);
+	RCC_APB2PeriphClockCmd(SPI_2_CLK  | SPI_2_GPIO_CLK, ENABLE);
+
+	/* Configure SPIy pins: SCK, MISO and MOSI ---------------------------------*/
+	GPIO_InitStructure.GPIO_Pin = SPI_2_PIN_SCK | SPI_2_PIN_MOSI;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+	/* Configure SCK and MOSI pins as Input Floating */
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	GPIO_Init(SPI_2_GPIO, &GPIO_InitStructure);
 
 
+
+	/* SPIy Config -------------------------------------------------------------*/
+	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+	SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+	SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
+	SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
+	SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;
+	SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_LSB;
+	SPI_InitStructure.SPI_CRCPolynomial = 7;
+	SPI_Init(SPI_2, &SPI_InitStructure);
+
+
+	SPI_Cmd(SPI_2, ENABLE);
+
+
+//	  SPI_I2S_ITConfig(SPI_2, SPI_I2S_IT_TXE, ENABLE);
+//	  /* Enable SPI_SLAVE RXNE interrupt */
+	  SPI_I2S_ITConfig(SPI_2, SPI_I2S_IT_RXNE, ENABLE);
+
+
+
+
+	  NVIC_InitTypeDef NVIC_InitStructure;
+
+	  /* 1 bit for pre-emption priority, 3 bits for subpriority */
+	  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+
+	  /* Configure and enable SPI_MASTER interrupt -------------------------------*/
+	  NVIC_InitStructure.NVIC_IRQChannel = SPI2_IRQn;
+	  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+	  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+	  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	  NVIC_Init(&NVIC_InitStructure);
 
 }
+
+
+
+
+

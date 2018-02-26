@@ -12,6 +12,7 @@ C_SRCS += \
 ../src/syscalls.c \
 ../src/system_stm32f10x.c \
 ../src/timers.c \
+../src/touch_screen.c \
 ../src/uart_interrupt.c \
 ../src/usart_dma.c 
 
@@ -24,6 +25,7 @@ OBJS += \
 ./src/syscalls.o \
 ./src/system_stm32f10x.o \
 ./src/timers.o \
+./src/touch_screen.o \
 ./src/uart_interrupt.o \
 ./src/usart_dma.o 
 
@@ -36,6 +38,7 @@ C_DEPS += \
 ./src/syscalls.d \
 ./src/system_stm32f10x.d \
 ./src/timers.d \
+./src/touch_screen.d \
 ./src/uart_interrupt.d \
 ./src/usart_dma.d 
 

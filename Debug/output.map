@@ -152,7 +152,9 @@ dmaStructure        0x2c              lib/ILI9341/dma.o
 dmaBuffer           0x1000            lib/ILI9341/dma.o
 GPIO_InitStruct     0x4               src/device_config.o
 s_AlarmStructVar    0x6               src/rtc.o
+GPIO_InitStructure  0x4               src/touch_screen.o
 nvic                0x4               src/device_config.o
+SPI_InitStructure   0x12              src/touch_screen.o
 USART_InitStructure
                     0x10              src/main.o
 __lock___at_quick_exit_mutex
@@ -3843,6 +3845,94 @@ Discarded input sections
  .ARM.attributes
                 0x0000000000000000       0x33 src/timers.o
  COMMON         0x0000000000000000        0xa src/timers.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .group         0x0000000000000000        0x8 src/touch_screen.o
+ .text          0x0000000000000000        0x0 src/touch_screen.o
+ .data          0x0000000000000000       0x40 src/touch_screen.o
+ .bss           0x0000000000000000        0x0 src/touch_screen.o
+ .text.init_spi
+                0x0000000000000000       0x9c src/touch_screen.o
+ .debug_info    0x0000000000000000      0x6a5 src/touch_screen.o
+ .debug_abbrev  0x0000000000000000      0x188 src/touch_screen.o
+ .debug_aranges
+                0x0000000000000000       0x20 src/touch_screen.o
+ .debug_ranges  0x0000000000000000       0x10 src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x19e src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x8c8 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x56 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x22 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x22 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x87 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x51 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0xef src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x6a src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x1df src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x69f src/touch_screen.o
+ .debug_macro   0x0000000000000000     0x7dbe src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x2df src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x144 src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x3cf src/touch_screen.o
+ .debug_macro   0x0000000000000000       0xc8 src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x17a src/touch_screen.o
+ .debug_macro   0x0000000000000000       0xac src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x3ad src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x9a src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x2cf src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x279 src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x2ac src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x2b1 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x64 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x82 src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x3e2 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x58 src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x341 src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x711 src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x220 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x34 src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x8b src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x35 src/touch_screen.o
+ .debug_macro   0x0000000000000000      0x2be src/touch_screen.o
+ .debug_macro   0x0000000000000000       0x3a src/touch_screen.o
+ .debug_line    0x0000000000000000      0x615 src/touch_screen.o
+ .debug_str     0x0000000000000000    0x4d19e src/touch_screen.o
+ .comment       0x0000000000000000       0x80 src/touch_screen.o
+ .debug_frame   0x0000000000000000       0x30 src/touch_screen.o
+ .ARM.attributes
+                0x0000000000000000       0x33 src/touch_screen.o
+ COMMON         0x0000000000000000       0x16 src/touch_screen.o
  .group         0x0000000000000000        0x8 src/uart_interrupt.o
  .group         0x0000000000000000        0x8 src/uart_interrupt.o
  .group         0x0000000000000000        0x8 src/uart_interrupt.o
@@ -4453,6 +4543,7 @@ LOAD src/scan_timer.o
 LOAD src/syscalls.o
 LOAD src/system_stm32f10x.o
 LOAD src/timers.o
+LOAD src/touch_screen.o
 LOAD src/uart_interrupt.o
 LOAD src/usart_dma.o
 LOAD startup/startup_stm32.o
