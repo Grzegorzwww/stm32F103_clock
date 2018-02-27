@@ -34,8 +34,4 @@ void RCC_Conf(void);
 
 
 
-
-
-#endif /* DEVICE_CONFIG_H_ *
-
 #endif /* DEVICE_CONFIG_H_ */

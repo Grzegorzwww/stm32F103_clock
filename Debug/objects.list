@@ -33,7 +33,6 @@
 "src/main.o"
 "src/rtc.o"
 "src/scan_timer.o"
-"src/syscalls.o"
 "src/system_stm32f10x.o"
 "src/timers.o"
 "src/touch_screen.o"

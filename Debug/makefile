@@ -37,7 +37,7 @@ all: clock_digital.elf
 clock_digital.elf: $(OBJS) $(USER_OBJS) /home/gwarchol/STMworkspace/clock_digital/LinkerScript.ld
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU GCC Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -T"/home/gwarchol/STMworkspace/clock_digital/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "clock_digital.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -specs=nosys.specs -specs=nano.specs -specs=rdimon.specs -lc -lrdimon -T"/home/gwarchol/STMworkspace/clock_digital/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "clock_digital.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build

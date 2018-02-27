@@ -25,7 +25,16 @@
 
 
 
-void init_spi();
+void init_spi_2();
+void init_touch_screen();
 
+void touch_screen_cs_low(void);
+void touch_screen_cs_high(void);
+
+void touch_screen_send_command(unsigned short command);
+
+int Odczytaj_Pomiar(void);
+int Odczyt_X(void);
+int Odczyt_Y(void);
 
 #endif /* TOUCH_SCREEN_H_ */

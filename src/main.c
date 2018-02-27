@@ -18,6 +18,7 @@
 #include "usart_dma.h"
 #include "uart_interrupt.h"
 #include "scan_timer.h"
+#include "touch_screen.h"
 #include "rtc.h"
 
 
@@ -25,13 +26,14 @@
 #include "itoa.h"
 
 
+extern void initialise_monitor_handles(void);
 
 
 unsigned char AddCRC(unsigned char crc,unsigned char b);
+//
+//#ifdef DEBUG
 
-#ifdef DEBUG
-extern void initialise_monitor_handles(void);
-#endif
+//#endif
 
 volatile bool state = false;
 unsigned char temp_data[6];
@@ -41,10 +43,10 @@ int main(void) {
 	//SystemInit();
 
 
-#ifdef DEBUG
+//#ifdef DEBUG
 	initialise_monitor_handles();
-	printf("start\n");
-#endif
+	//printf("start\n");
+//#endif
 
 	RCC_Conf();
 	device_init();
@@ -55,6 +57,12 @@ int main(void) {
     LCD_fillScreen(BLACK);
     LCD_setTextBgColor(WHITE );
     LCD_setTextSize(6);
+
+
+
+    init_spi_2();
+
+//    init_touch_screen();
 
 
 
@@ -81,6 +89,8 @@ int main(void) {
 
 
 
+
+
 	while (1) {
 
 		controlUartTransfer();
@@ -89,6 +99,7 @@ int main(void) {
 		if(getTimerChannelState(TIMER_10ms)){
 
 
+			setTimerChannelState(TIMER_10ms, false);
 		}
 
 		if (getTimerChannelState(TIMER_100ms)) {
@@ -129,14 +140,24 @@ int main(void) {
 			//analizeIncomingData();
 			//uart_send_data("Hello world\n", 12);
 			//uart_send_data(temp_tab, 12);
+//0xB3
+//0xC3
+			touch_screen_send_command(0xB3);
+			touch_screen_send_command(0xC3);
+			touch_screen_send_command(0x90);
+			touch_screen_send_command(0xD0);
 
-
+//			printf("X = %d\n", Odczyt_X());
+//			printf("Y = %d\n", Odczyt_Y());
 
 
 			setTimerChannelState(TIMER_100ms, false);
 		}
 
 		if (getTimerChannelState(TIMER_1s)) {
+
+
+
 
 
 
