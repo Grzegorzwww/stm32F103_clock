@@ -7,13 +7,20 @@
 
 #include "rtc.h"
 
-unsigned long int total_rtc_ticks = 0;
+volatile unsigned long int total_rtc_ticks = 0;
 
 volatile struct Time_s s_TimeStructVar;
 struct AlarmTime_s s_AlarmStructVar;
 struct Date_s s_DateStructVar;
 struct AlarmDate_s s_AlarmDateStructVar;
 
+static volatile bool clock_state_changed = false;
+static volatile bool alarm_state = false;
+
+
+bool getAlarmState(){
+	return alarm_state;
+}
 
 
 void rtc_init(void){
@@ -73,6 +80,26 @@ void RTC_Configuration(void)
   while (RCC_GetFlagStatus(RCC_FLAG_LSERDY) == RESET)
   {}
 
+
+  s_DateStructVar.u8_Month=DEFAULT_MONTH ;
+  s_DateStructVar.u8_Day=DEFAULT_DAY;
+  s_DateStructVar.u16_Year=DEFAULT_YEAR;
+//  u16_SummerTimeCorrect = OCTOBER_FLAG_SET;
+//  BKP_WriteBackupRegister(BKP_DR7,u16_SummerTimeCorrect);
+  BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
+  BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
+  BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
+  BKP_WriteBackupRegister(BKP_DR1, CONFIGURATION_DONE);
+
+
+
+  PWR_PVDCmd(ENABLE);
+  PWR_PVDLevelConfig(PWR_PVDLevel_2V5);
+  PWR_BackupAccessCmd(ENABLE);
+
+
+
+
   /* Select LSE as RTC Clock Source */
   RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
 
@@ -88,6 +115,8 @@ void RTC_Configuration(void)
   /* Enable the RTC Second */
   RTC_ITConfig(RTC_IT_SEC, ENABLE);
 
+  RTC_ITConfig(RTC_IT_ALR, ENABLE);
+
   /* Wait until last write operation on RTC registers has finished */
   RTC_WaitForLastTask();
 
@@ -96,6 +125,20 @@ void RTC_Configuration(void)
 
   /* Wait until last write operation on RTC registers has finished */
   RTC_WaitForLastTask();
+
+
+  check_for_days_elapsed();
+//  u8_ClockSource = BKP_ReadBackupRegister(BKP_DR6);
+//  u8_TamperNumber = BKP_ReadBackupRegister(BKP_DR5);
+  s_DateStructVar.u8_Month = BKP_ReadBackupRegister(BKP_DR2);
+  s_DateStructVar.u8_Day = BKP_ReadBackupRegister(BKP_DR3);
+  s_DateStructVar.u16_Year = BKP_ReadBackupRegister(BKP_DR4);
+//  u16_SummerTimeCorrect = BKP_ReadBackupRegister(BKP_DR7);
+  s_AlarmDateStructVar.u8_Month = BKP_ReadBackupRegister(BKP_DR8);
+  s_AlarmDateStructVar.u8_Day = BKP_ReadBackupRegister(BKP_DR9);
+  s_AlarmDateStructVar.u16_Year = BKP_ReadBackupRegister(BKP_DR10);
+
+
 }
 
 void NVIC_RTC_Configuration(void)
@@ -106,14 +149,72 @@ void NVIC_RTC_Configuration(void)
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 
   /* Enable the RTC Interrupt */
-  NVIC_InitStructure.NVIC_IRQChannel = RTC_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannel = RTC_IRQn;			//RTC 1 SEK IRQ
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
+
+
+//  NVIC_InitStructure.NVIC_IRQChannel =  RTCAlarm_IRQChannel;			//ALARM IRQ
+  NVIC_InitStructure.NVIC_IRQChannel = RTCAlarm_IRQn;			//ALARM IRQ
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+
+
+//
+//  //konfiguracja przerwań pochodzących od RTC Alarm
+//      EXTI_ClearITPendingBit(EXTI_Line17);
+//      EXTI_InitStructure.EXTI_Line = EXTI_Line17;
+//      EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+//      EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+//      EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+//      EXTI_Init(&amp;EXTI_InitStructure);
+//      //generowanie przerwania przez RTC Alarm
+//      RTC_ITConfig(RTC_IT_ALR, ENABLE);
+//      //odczekanie na zakończenie operacji
+//      RTC_WaitForLastTask();
+
+
+
+//  NVIC_InitStructure.NVIC_IRQChannel = PVD_IRQn;
+//   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+//   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+//   NVIC_Init(&NVIC_InitStructure);
+
+
+
+
+
 }
 
-bool x = false;
+
+
+
+
+void analize_clock_clendar_state(void)
+{
+
+	if(clock_state_changed){
+
+
+
+
+		check_next_day();
+
+
+		clock_state_changed = false;
+	}
+
+
+
+
+}
+
+volatile bool x = false;
+
 void RTC_IRQHandler(void)
 {
   if (RTC_GetITStatus(RTC_IT_SEC) != RESET)
@@ -126,14 +227,17 @@ void RTC_IRQHandler(void)
 
     total_rtc_ticks = RTC_GetCounter();
 
+    clock_state_changed = true;
+
+    //update_date();
 
     switch(x){
     case true:
-    	turnOnOffLed(true);
+    	//turnOnOffLed(true);
     	x = false;
     	break;
     case false:
-    	turnOnOffLed(false);
+    	//turnOnOffLed(false);
     	x = true;
     	break;
     }
@@ -147,7 +251,54 @@ void RTC_IRQHandler(void)
     RTC_WaitForLastTask();
 
   }
+
+  if (RTC_GetITStatus(RTC_IT_ALR) != RESET)
+	  {
+			 printf("ALARM 2!");
+		  RTC_WaitForLastTask();
+		          //wyczyszczenie flagi przerwania
+		   RTC_ClearITPendingBit(RTC_IT_ALR);
+		 	turnOnOffLed(true);
+		          //odczekanie na zakończenie operacji na RTC
+		   RTC_WaitForLastTask();
+
+	  }
+
+
+
+
 }
+
+
+void RTCAlarm_IRQHandler(void){
+
+
+//
+//	 printf("ALARM !");
+//
+//
+//	  if (RTC_GetITStatus(RTC_IT_ALR) != RESET)
+//	  {
+//			 printf("ALARM 2!");
+//		  RTC_WaitForLastTask();
+//		          //wyczyszczenie flagi przerwania
+//		   RTC_ClearITPendingBit(RTC_IT_ALR);
+//
+//		          //odczekanie na zakończenie operacji na RTC
+//		   RTC_WaitForLastTask();
+//
+//	  }
+
+
+}
+
+
+//void PVD_IRQHandler(void){
+//
+//
+//
+//
+//}
 
 
 int getTotalRtcTicks(){
@@ -156,7 +307,7 @@ int getTotalRtcTicks(){
 
 
 
-void read_timer(unsigned char *data_buff){
+void read_time(unsigned char *data_buff){
 	uint32_t timevar;
 	timevar = RTC_GetCounter();
 	timevar = timevar % 86400;
@@ -179,16 +330,216 @@ void read_date(unsigned char *data_buff){
 	s_DateStructVar.u8_Month = BKP_ReadBackupRegister(BKP_DR2);
 	s_DateStructVar.u8_Day = BKP_ReadBackupRegister(BKP_DR3);
 	s_DateStructVar.u16_Year = BKP_ReadBackupRegister(BKP_DR4);
+	sprintf(data_buff, "%d:%d:%d", s_DateStructVar.u8_Day,s_DateStructVar.u8_Month,s_DateStructVar.u16_Year);
+
 }
+
+
+
+
+
+
+void save_time(unsigned char hours, unsigned char minutes, unsigned short seconds){
+
+
+
+
+	  unsigned long int total_ticks_to_add = (hours * 3600) + (minutes * 60) +seconds;
+	  RTC_WaitForLastTask();
+	  RTC_SetCounter(total_ticks_to_add);
+	  RTC_WaitForLastTask();
+
+
+
+
+//	s_DateStructVar.u8_Day = day;
+//	s_DateStructVar.u8_Month =  month;
+//	s_DateStructVar.u16_Year = year;
+//	BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
+//	BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
+//	BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
+}
+
+
+void check_next_day(void){
+
+	uint32_t timevar = RTC_GetCounter();
+
+	//if(total_rtc_ticks % 86399 == 0){
+	if((timevar  % 86399) == 0){
+		update_date();
+	}
+}
+
+
+
+void update_date(void){
+
+	s_DateStructVar.u8_Month=BKP_ReadBackupRegister(BKP_DR2);
+	  s_DateStructVar.u16_Year=BKP_ReadBackupRegister(BKP_DR4);
+	  s_DateStructVar.u8_Day=BKP_ReadBackupRegister(BKP_DR3);
+
+	  if(s_DateStructVar.u8_Month == 1 || s_DateStructVar.u8_Month == 3 || \
+	    s_DateStructVar.u8_Month == 5 || s_DateStructVar.u8_Month == 7 ||\
+	     s_DateStructVar.u8_Month == 8 || s_DateStructVar.u8_Month == 10 \
+	       || s_DateStructVar.u8_Month == 12)
+	  {
+	    if(s_DateStructVar.u8_Day < 31)
+	    {
+	      s_DateStructVar.u8_Day++;
+	    }
+	    /* Date structure member: s_DateStructVar.u8_Day = 31 */
+	    else
+	    {
+	      if(s_DateStructVar.u8_Month != 12)
+	      {
+	        s_DateStructVar.u8_Month++;
+	        s_DateStructVar.u8_Day = 1;
+	      }
+	     /* Date structure member: s_DateStructVar.u8_Day = 31 & s_DateStructVar.u8_Month =12 */
+	      else
+	      {
+	        s_DateStructVar.u8_Month = 1;
+	        s_DateStructVar.u8_Day = 1;
+	        s_DateStructVar.u16_Year++;
+	      }
+	    }
+	  }
+	  else if(s_DateStructVar.u8_Month == 4 || s_DateStructVar.u8_Month == 6 \
+	            || s_DateStructVar.u8_Month == 9 ||s_DateStructVar.u8_Month == 11)
+	  {
+	    if(s_DateStructVar.u8_Day < 30)
+	    {
+	      s_DateStructVar.u8_Day++;
+	    }
+	    /* Date structure member: s_DateStructVar.u8_Day = 30 */
+	    else
+	    {
+	      s_DateStructVar.u8_Month++;
+	      s_DateStructVar.u8_Day = 1;
+	    }
+	  }
+	  else if(s_DateStructVar.u8_Month == 2)
+	  {
+	    if(s_DateStructVar.u8_Day < 28)
+	    {
+	      s_DateStructVar.u8_Day++;
+	    }
+	    else if(s_DateStructVar.u8_Day == 28)
+	    {
+	      /* Leap Year Correction */
+	      if(check_leap(s_DateStructVar.u16_Year))
+	      {
+	        s_DateStructVar.u8_Day++;
+	      }
+	      else
+	      {
+	        s_DateStructVar.u8_Month++;
+	        s_DateStructVar.u8_Day = 1;
+	      }
+	    }
+	    else if(s_DateStructVar.u8_Day == 29)
+	    {
+	      s_DateStructVar.u8_Month++;
+	      s_DateStructVar.u8_Day = 1;
+	    }
+	  }
+
+	  BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
+	  BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
+	  BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
+
+}
+
+u8 check_leap(u16 u16_Year)
+{
+  if((u16_Year%400)==0)
+  {
+    return LEAP;
+  }
+  else if((u16_Year%100)==0)
+  {
+    return NOT_LEAP;
+  }
+  else if((u16_Year%4)==0)
+  {
+    return LEAP;
+  }
+  else
+  {
+    return NOT_LEAP;
+  }
+}
+
+
+
 
 void save_date(unsigned char day, unsigned char month, unsigned short year){
 
-	s_DateStructVar.u8_Day = day;
-	s_DateStructVar.u8_Month =  month;
-	s_DateStructVar.u16_Year = year;
-	BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
-	BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
-	BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
+
+//	  RightLeftIntExtOnOffConfig(DISABLE);
+//	  UpDownIntOnOffConfig(DISABLE);
+
+	  if((( month ==4 || month ==6 || month ==9 || month==11) && day ==31) \
+	    || (month==2 && day ==31)|| (month==2 && day==30)|| \
+	      (month==2 && day ==29 && (check_leap(year)==0)))
+	  {
+
+	  }else{
+
+		  s_DateStructVar.u8_Day = day;
+		  	s_DateStructVar.u8_Month =  month;
+		  	s_DateStructVar.u16_Year = year;
+		  	BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
+		  	BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
+		  	BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
+
+		     s_AlarmDateStructVar.u8_Day = day;
+		     s_AlarmDateStructVar.u8_Month = month;
+		     s_AlarmDateStructVar.u16_Year = year;
+		     BKP_WriteBackupRegister(BKP_DR8,month);
+		     BKP_WriteBackupRegister(BKP_DR9,day);
+		     BKP_WriteBackupRegister(BKP_DR10,year);
+
+
+
+	  }
+
+
+}
+
+
+void set_alarm(u8 u8_Hour,u8 u8_Minute, u8 u8_Seconds)
+{
+  u32 u32_CounterValue;
+
+  u32_CounterValue=((u8_Hour * 3600)+ (u8_Minute * 60)+u8_Seconds);
+
+  if(u32_CounterValue == 0)
+  {
+    u32_CounterValue = SECONDS_IN_DAY;
+  }
+
+  RTC_WaitForLastTask();
+  RTC_SetAlarm(u32_CounterValue);
+  RTC_WaitForLastTask();
+}
+
+
+void check_for_days_elapsed(void)
+{
+  u8 u8_DaysElapsed;
+
+  if((RTC_GetCounter() / SECONDS_IN_DAY) != 0)
+  {
+    for(u8_DaysElapsed = 0; u8_DaysElapsed < (RTC_GetCounter() / SECONDS_IN_DAY)\
+         ;u8_DaysElapsed++)
+    {
+    	update_date();
+    }
+
+    RTC_SetCounter(RTC_GetCounter() % SECONDS_IN_DAY);
+  }
 }
 
 

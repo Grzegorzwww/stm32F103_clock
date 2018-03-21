@@ -108,8 +108,6 @@ void init_spi_2_dma(){
     touch_screen_cs_high();
 
 
-
-
 }
 
 inline static void spi2_dmaReceive8(u8 *data, u32 n) {
@@ -126,7 +124,6 @@ inline static void spi2_dmaReceive8(u8 *data, u32 n) {
 
     DMA_Init(DMA1_Channel5, &dmaStructure);
     DMA_Cmd(DMA1_Channel5, ENABLE);
-
 
 }
 
@@ -149,7 +146,6 @@ inline static void spi2_dmaSend8(u8 *data, u32 n) {
 }
 
 
-
 void touch_screen_transmit_dma_data_set(){
 	unsigned char cmd = TOUCH_SCREEN_GET_Z_VALUE_COMMAND;
 	u8 dummy = 0x00;
@@ -170,7 +166,6 @@ void touch_screen_receive_dma_data_set(){
 	while(SPI_I2S_GetFlagStatus(SPI2,SPI_I2S_FLAG_BSY) == SET);
 
 	printf("spi 2 data = %d\n", data);
-
 
 }
 
@@ -205,18 +200,13 @@ void DMA1_Channel5_IRQHandler(void) {
 
 
 
-
 void send_to_touch_screen(unsigned short command){
 
-
 }
-
 
 void init_touch_screen(){
 
 	init_spi_2();
-	//init_spi_2_dma();
-
 
 
 }
@@ -228,10 +218,6 @@ volatile unsigned char y_axis = 0;
 touch_screen_state_t touch_screen_state = ASK_TO_READ_Z_AXIS;
 
 void analize_data_from_touch_screen(bool on_off, unsigned char * str){
-
-
-	//save_index = 0;
-	//printf("1\n");
 
 
 	switch(touch_screen_state){
@@ -253,41 +239,9 @@ void analize_data_from_touch_screen(bool on_off, unsigned char * str){
 	}
 
 
-//	touch_screen_send_command(0x90);
-//	touch_screen_state = WAIT_TO_READ_X_AXIS;
-//	touch_screen_send_command(0x00);
-//	touch_screen_send_command(0xD0);
-//	touch_screen_send_command(0x00);
-
-
-
-
-//
-//		printf("z1 = %d, ",  touch_screeen_data_in[0]);
-//		printf("z2 = %d, ",  touch_screeen_data_in[1]);
-//		printf("z3 = %d, ",  touch_screeen_data_in[2]);
-//		printf("z4 = %d, ",  touch_screeen_data_in[3]);
-//		printf("z5 = %d, ",  touch_screeen_data_in[4]);
-//		printf("z6 = %d, ",  touch_screeen_data_in[5]);
-
-//		printf("z = %d, ",  touch_screeen_data_in[1]);
-//		printf("y = %d, ",  touch_screeen_data_in[5]);
-//		printf("x = %d, ",  touch_screeen_data_in[3]);
-
-//	int z = touch_screeen_data[1];
-////	printf("z  = %d\n", z);
-
-//
-//		printf("\n");
-
 		sprintf(str, "z = %d x = %d, y = %d\0", z_axis, x_axis, y_axis);
 
 }
-
-
-
-
-
 
 
 

@@ -36,6 +36,7 @@ unsigned char AddCRC(unsigned char crc,unsigned char b);
 //#endif
 
 volatile bool state = false;
+
 unsigned char temp_data[6];
 
 int main(void) {
@@ -51,19 +52,20 @@ int main(void) {
 	RCC_Conf();
 	device_init();
 
+  	turnOnOffLed(false);
 
     LCD_init();
     LCD_setOrientation(ORIENTATION_LANDSCAPE);
     LCD_fillScreen(BLACK);
     LCD_setTextBgColor(WHITE );
-    LCD_setTextSize(6);
-
-
+    LCD_setTextSize(5);
 
    init_touch_screen();
 
 
 	init_timer();
+
+	rtc_init();
 
 
 //	usart_dma_init();
@@ -73,7 +75,13 @@ int main(void) {
 
 
 	unsigned char tabilca[20];
+	unsigned char tabilca_date[20];
 	int index = 0;
+
+	save_time(23, 59, 30);
+	save_date(17,9,1988);
+
+	set_alarm(23, 59, 45);
 
 
 	while (1) {
@@ -93,48 +101,25 @@ int main(void) {
 
 
 
-			analize_data_from_touch_screen(true, tabilca);
-
-
-			LCD_setCursor(0, 0);
-			LCD_fillRect(0, 0, 100, 24, BLACK);
-
-			LCD_writeString(tabilca);
 
 
 
+			//analize_data_from_touch_screen(true, tabilca);
 
 
-
-
+//			LCD_setCursor(0, 0);
+//			LCD_fillRect(0, 0, 100, 24, BLACK);
+//			LCD_writeString(tabilca);
 
 //			int ticks = getTotalRtcTicks();
 //			int n = sprintf (tablica,"timer ticks = %d\n", ticks);
 			//read_timer(tablica);
-
-
-
 //			uart_dma_send_data(tablica, 9);
 			//analizeIncomingData();
-
-
 //			touch_screen_send_command(0xB3);
-
-
 //			touch_screen_transmit_dma_data_set();
-//
 //			 touch_screen_receive_dma_data_set();
-
-
-
-
-
-
 //			touch_screen_transmit_dma_data_set();
-
-
-
-
 
 
 
@@ -148,6 +133,23 @@ int main(void) {
 		}
 
 		if (getTimerChannelState(TIMER_1s)) {
+
+			read_time(tabilca);
+			read_date(tabilca_date);
+
+			analize_clock_clendar_state();
+
+
+			LCD_setCursor(0, 0);
+			LCD_fillRect(0, 0, 100, 24, BLACK);
+
+
+			LCD_writeString(tabilca);
+
+			LCD_setCursor(0, 50);
+			LCD_writeString(tabilca_date);
+//			LCD_setCursor(100, 100);
+//			LCD_fillRect(0, 50, 100, 24, BLACK);
 
 
 
