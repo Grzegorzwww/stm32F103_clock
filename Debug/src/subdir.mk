@@ -7,6 +7,7 @@ C_SRCS += \
 ../src/buffors.c \
 ../src/device_config.c \
 ../src/main.c \
+../src/menu.c \
 ../src/rtc.c \
 ../src/scan_timer.c \
 ../src/system_stm32f10x.c \
@@ -19,6 +20,7 @@ OBJS += \
 ./src/buffors.o \
 ./src/device_config.o \
 ./src/main.o \
+./src/menu.o \
 ./src/rtc.o \
 ./src/scan_timer.o \
 ./src/system_stm32f10x.o \
@@ -31,6 +33,7 @@ C_DEPS += \
 ./src/buffors.d \
 ./src/device_config.d \
 ./src/main.d \
+./src/menu.d \
 ./src/rtc.d \
 ./src/scan_timer.d \
 ./src/system_stm32f10x.d \

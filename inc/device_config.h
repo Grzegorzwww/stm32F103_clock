@@ -32,6 +32,7 @@ void init_nvic();
 void turnOnOffLed(bool state);
 void RCC_Conf(void);
 
+void standby_mode_init();
 
 
 

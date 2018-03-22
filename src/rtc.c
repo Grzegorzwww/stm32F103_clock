@@ -91,15 +91,6 @@ void RTC_Configuration(void)
   BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
   BKP_WriteBackupRegister(BKP_DR1, CONFIGURATION_DONE);
 
-
-
-  PWR_PVDCmd(ENABLE);
-  PWR_PVDLevelConfig(PWR_PVDLevel_2V5);
-  PWR_BackupAccessCmd(ENABLE);
-
-
-
-
   /* Select LSE as RTC Clock Source */
   RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
 
@@ -253,19 +244,20 @@ void RTC_IRQHandler(void)
   }
 
   if (RTC_GetITStatus(RTC_IT_ALR) != RESET)
-	  {
-			 printf("ALARM 2!");
-		  RTC_WaitForLastTask();
-		          //wyczyszczenie flagi przerwania
-		   RTC_ClearITPendingBit(RTC_IT_ALR);
-		 	turnOnOffLed(true);
-		          //odczekanie na zakończenie operacji na RTC
-		   RTC_WaitForLastTask();
+  {
+	  printf("ALARM 2!");
+	  RTC_WaitForLastTask();
+	  //wyczyszczenie flagi przerwania
+	  RTC_ClearITPendingBit(RTC_IT_ALR);
+	  turnOnOffLed(true);
 
-	  }
+//		NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, DISABLE);
 
 
+	  //odczekanie na zakończenie operacji na RTC
+	  RTC_WaitForLastTask();
 
+  }
 
 }
 

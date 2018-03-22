@@ -21,8 +21,8 @@
 #include "touch_screen.h"
 #include "rtc.h"
 
-
 #include "text.h"
+
 #include "itoa.h"
 
 
@@ -44,10 +44,10 @@ int main(void) {
 	//SystemInit();
 
 
-//#ifdef DEBUG
+#ifdef DEBUG
 	initialise_monitor_handles();
-	//printf("start\n");
-//#endif
+	printf("start\n");
+#endif
 
 	RCC_Conf();
 	device_init();
@@ -56,9 +56,8 @@ int main(void) {
 
     LCD_init();
     LCD_setOrientation(ORIENTATION_LANDSCAPE);
-    LCD_fillScreen(BLACK);
-    LCD_setTextBgColor(WHITE );
-    LCD_setTextSize(5);
+
+    create_menu();
 
    init_touch_screen();
 
@@ -67,9 +66,14 @@ int main(void) {
 
 	rtc_init();
 
+	sleep_mode_init();
+
+
+
+
 
 //	usart_dma_init();
-	//rtc_init();
+
 
 
 
@@ -86,8 +90,13 @@ int main(void) {
 
 	while (1) {
 
+
+		__WFI();
+
 		//controlUartTransfer();
 		//analizeIncomingDMAData();
+
+
 
 		if(getTimerChannelState(TIMER_10ms)){
 
@@ -107,19 +116,9 @@ int main(void) {
 			//analize_data_from_touch_screen(true, tabilca);
 
 
-//			LCD_setCursor(0, 0);
-//			LCD_fillRect(0, 0, 100, 24, BLACK);
-//			LCD_writeString(tabilca);
-
-//			int ticks = getTotalRtcTicks();
-//			int n = sprintf (tablica,"timer ticks = %d\n", ticks);
-			//read_timer(tablica);
-//			uart_dma_send_data(tablica, 9);
-			//analizeIncomingData();
-//			touch_screen_send_command(0xB3);
-//			touch_screen_transmit_dma_data_set();
-//			 touch_screen_receive_dma_data_set();
-//			touch_screen_transmit_dma_data_set();
+			LCD_setCursor(0, 0);
+			LCD_fillRect(0, 0, 100, 24, BLACK);
+			LCD_writeString(tabilca);
 
 
 
@@ -140,14 +139,18 @@ int main(void) {
 			analize_clock_clendar_state();
 
 
+			printf( " chodzi while \n");
+
+
 			LCD_setCursor(0, 0);
 			LCD_fillRect(0, 0, 100, 24, BLACK);
 
-
 			LCD_writeString(tabilca);
+
 
 			LCD_setCursor(0, 50);
 			LCD_writeString(tabilca_date);
+
 //			LCD_setCursor(100, 100);
 //			LCD_fillRect(0, 50, 100, 24, BLACK);
 
@@ -161,6 +164,7 @@ int main(void) {
 		}
 	}
 }
+
 
 
 unsigned char AddCRC(unsigned char crc,unsigned char b)

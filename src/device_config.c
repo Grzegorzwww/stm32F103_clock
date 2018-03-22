@@ -13,6 +13,60 @@ GPIO_InitTypeDef GPIO_InitStruct;
 
 NVIC_InitTypeDef nvic;
 
+static volatile bool sleep_mode_status = false;
+
+
+void set_sleep_mode() {
+	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, ENABLE);
+	sleep_mode_status = true;
+}
+void clr_sleep_mode() {
+	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, ENABLE);
+	sleep_mode_status = false;
+}
+
+
+void sleep_mode_init()
+{
+
+
+	DBGMCU_Config(DBGMCU_STANDBY, ENABLE);
+
+
+	NVIC_InitTypeDef NVIC_InitStructure;
+	NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+	EXTI_InitTypeDef EXTI_InitStructure;
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource0);
+	EXTI_InitStructure.EXTI_Line = EXTI_Line0;
+	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+	EXTI_Init(&EXTI_InitStructure);
+
+	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, DISABLE);
+
+}
+
+
+void EXTI0_IRQHandler(void)
+{
+
+	EXTI_ClearITPendingBit(EXTI_Line0);
+	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, DISABLE);
+	printf("EXTI4 \n");
+}
+
 
 
 
