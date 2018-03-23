@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/bmp180.c \
 ../src/buffors.c \
 ../src/device_config.c \
 ../src/main.c \
@@ -17,6 +18,7 @@ C_SRCS += \
 ../src/usart_dma.c 
 
 OBJS += \
+./src/bmp180.o \
 ./src/buffors.o \
 ./src/device_config.o \
 ./src/main.o \
@@ -30,6 +32,7 @@ OBJS += \
 ./src/usart_dma.o 
 
 C_DEPS += \
+./src/bmp180.d \
 ./src/buffors.d \
 ./src/device_config.d \
 ./src/main.d \

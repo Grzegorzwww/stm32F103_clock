@@ -7,6 +7,7 @@
 
 #include "touch_screen.h"
 
+
 SPI_InitTypeDef SPI_InitStructure;
 GPIO_InitTypeDef GPIO_InitStructure;
 DMA_InitTypeDef dmaStructure;
@@ -212,12 +213,12 @@ void init_touch_screen(){
 }
 
 volatile int save_index = 0;
-volatile unsigned char z_axis = 0;
-volatile unsigned char x_axis = 0;
-volatile unsigned char y_axis = 0;
-touch_screen_state_t touch_screen_state = ASK_TO_READ_Z_AXIS;
 
-void analize_data_from_touch_screen(bool on_off, unsigned char * str){
+touch_screen_state_t touch_screen_state = ASK_TO_READ_Z_AXIS;
+touch_data_t touch_data;
+
+
+void analize_data_from_touch_screen(bool on_off){
 
 
 	switch(touch_screen_state){
@@ -239,7 +240,52 @@ void analize_data_from_touch_screen(bool on_off, unsigned char * str){
 	}
 
 
-		sprintf(str, "z = %d x = %d, y = %d\0", z_axis, x_axis, y_axis);
+
+//		sprintf(str, "z = %d x = %d, y = %d\0", z_axis, x_axis, y_axis);
+
+
+
+}
+
+
+void control_touch_buttons()
+{
+	//printf("%d, %d\n", touch_data.x_axis, touch_data.y_axis);
+	if(touch_data.z_axis > 2){
+		//printf("%d, %d\n", touch_data.x_axis, touch_data.y_axis);
+		if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 100) && (touch_data.x_axis < 125))){
+			setMenuState(ZEGAR_MENU);
+//			printf("clk pushed\n");
+		}
+		if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 70)&& (touch_data.x_axis < 100))){
+//			printf("budzik pushed\n");
+			setMenuState(BUDZIK_MENU);
+		}
+		if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 44)&& (touch_data.x_axis < 70))){
+//			printf("ustawienia pushed\n");
+			setMenuState(USTAWIENIA_MENU);
+		}
+		if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 0)&& (touch_data.x_axis < 44))){
+//			printf("inne pushed\n");
+			setMenuState(INNE_MENU);
+		}
+
+
+
+//		if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 70)&& (touch_data.x_axis < 100))){
+//					printf("budzik pushed\n");
+//				}
+//		printf("%d, %d\n", touch_data.x_axis, touch_data.y_axis);
+
+
+
+
+
+
+
+
+	}
+
 
 }
 
@@ -247,10 +293,14 @@ void analize_data_from_touch_screen(bool on_off, unsigned char * str){
 
 
 
+touch_data_t getTouchData(){
+	return touch_data;
+}
+
+
 
 void SPI2_IRQHandler(void) {
 	if (SPI_I2S_GetITStatus(SPI2, SPI_I2S_IT_TXE) == SET) {
-		//Send from buffer
 		//printf("przerwanie SPI TXE\n");
 		SPI_I2S_ClearITPendingBit(SPI2, SPI_I2S_IT_TXE);
 	}
@@ -258,20 +308,19 @@ void SPI2_IRQHandler(void) {
 	if (SPI_I2S_GetITStatus(SPI2, SPI_I2S_IT_RXNE) == SET) {
 
 		unsigned char dummy_read;
-//			printf("save_index = %d - ", save_index++);
-//		unsigned char data_8  = (unsigned char)SPI_I2S_ReceiveData(SPI2);
+
 			//printf("3\n");
 			if(touch_screen_state == WAIT_TO_READ_Z_AXIS){
-				z_axis =  (unsigned char)SPI_I2S_ReceiveData(SPI2);
+				touch_data.z_axis = (unsigned char)SPI_I2S_ReceiveData(SPI2);
 				touch_screen_state = ASK_TO_READ_X_AXIS;
 				//printf("z_axis = %d ",z_axis );
 			}else if (touch_screen_state == WAIT_TO_READ_X_AXIS){
-				x_axis =  (unsigned char)SPI_I2S_ReceiveData(SPI2);
+				touch_data.x_axis = (unsigned char)SPI_I2S_ReceiveData(SPI2);
 				touch_screen_state = ASK_TO_READ_Y_AXIS;
 				//printf("x_axis = %d ",x_axis );
 
 			}else if (touch_screen_state == WAIT_TO_READ_Y_AXIS){
-				y_axis =  (unsigned char)SPI_I2S_ReceiveData(SPI2);
+				touch_data.y_axis = (unsigned char)SPI_I2S_ReceiveData(SPI2);
 				touch_screen_state = ASK_TO_READ_Z_AXIS;
 				//printf("y_axis = %d\n",y_axis );
 			}

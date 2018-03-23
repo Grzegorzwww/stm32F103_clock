@@ -10,6 +10,7 @@
 #include "stm32f10x_spi.h"
 #include "stm32f10x_it.h"
 #include "stdbool.h"
+#include "menu.h"
 
 
 #define TOUCH_SCREEN_BUFFER_SIZE 6
@@ -25,6 +26,12 @@ typedef enum {TS_NOP = 0, WAIT_TO_READ_Z_AXIS =1, ASK_TO_READ_Z_AXIS,
 	WAIT_TO_READ_Y_AXIS, ASK_TO_READ_Y_AXIS
 } touch_screen_state_t;
 
+
+typedef struct touch_data_s{
+	volatile unsigned char z_axis;
+	volatile unsigned char x_axis;
+	volatile unsigned char y_axis;
+} touch_data_t;
 
 #define TOUCH_SCREEN_GET_Z_VALUE_COMMAND 0xB3
 #define TOUCH_SCREEN_GET_X_VALUE_COMMAND 0x90
@@ -45,7 +52,8 @@ typedef enum {TS_NOP = 0, WAIT_TO_READ_Z_AXIS =1, ASK_TO_READ_Z_AXIS,
 void init_spi_2();
 void init_spi_2_dma();
 void init_touch_screen();
-void analize_data_from_touch_screen(bool on_off, unsigned char * str);
+void control_touch_buttons();
+void analize_data_from_touch_screen(bool on_off);
 
 void touch_screen_transmit_dma_data_set();
 void touch_screen_receive_dma_data_set();

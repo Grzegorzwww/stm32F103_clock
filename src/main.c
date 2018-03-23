@@ -20,10 +20,9 @@
 #include "scan_timer.h"
 #include "touch_screen.h"
 #include "rtc.h"
-
 #include "text.h"
-
 #include "itoa.h"
+#include "bmp180.h"
 
 
 extern void initialise_monitor_handles(void);
@@ -54,6 +53,21 @@ int main(void) {
 
   	turnOnOffLed(false);
 
+//
+//	BMP180_Init(400000);
+//	uint8_t ChipID = BMP180_ReadReg(BMP180_CHIP_ID_REG);
+//	uint8_t Version = BMP180_ReadReg(BMP180_VERSION_REG);
+//	printf("chip id = %x\n", ChipID);
+//	printf("version = %d\n", Version);
+//	BMP180_ReadCalibration();
+
+
+/*
+ *
+ *
+ */
+
+
     LCD_init();
     LCD_setOrientation(ORIENTATION_LANDSCAPE);
 
@@ -67,8 +81,6 @@ int main(void) {
 	rtc_init();
 
 	sleep_mode_init();
-
-
 
 
 
@@ -109,19 +121,18 @@ int main(void) {
 		if (getTimerChannelState(TIMER_100ms)) {
 
 
+			control_touch_buttons();
+			show_menu();
 
 
 
 
-			//analize_data_from_touch_screen(true, tabilca);
+			analize_data_from_touch_screen(true);
 
 
-			LCD_setCursor(0, 0);
-			LCD_fillRect(0, 0, 100, 24, BLACK);
-			LCD_writeString(tabilca);
-
-
-
+//			LCD_setCursor(0, 0);
+//			LCD_fillRect(0, 0, 100, 24, BLACK);
+//			LCD_writeString(tabilca);
 
 
 //			printf("X = %d\n", Odczyt_X());
@@ -133,23 +144,25 @@ int main(void) {
 
 		if (getTimerChannelState(TIMER_1s)) {
 
-			read_time(tabilca);
-			read_date(tabilca_date);
+//			read_time(tabilca);
+//			read_date(tabilca_date);
 
 			analize_clock_clendar_state();
 
 
-			printf( " chodzi while \n");
 
 
-			LCD_setCursor(0, 0);
-			LCD_fillRect(0, 0, 100, 24, BLACK);
+//			printf( " chodzi while \n");
 
-			LCD_writeString(tabilca);
-
-
-			LCD_setCursor(0, 50);
-			LCD_writeString(tabilca_date);
+//
+//			LCD_setCursor(0, 0);
+//			LCD_fillRect(0, 0, 100, 24, BLACK);
+//
+//			LCD_writeString(tabilca);
+//
+//
+//			LCD_setCursor(0, 50);
+//			LCD_writeString(tabilca_date);
 
 //			LCD_setCursor(100, 100);
 //			LCD_fillRect(0, 50, 100, 24, BLACK);
