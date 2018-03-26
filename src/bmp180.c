@@ -5,6 +5,50 @@
 #include <bmp180.h>
 
 
+	uint32_t u_temp,u_pres;
+	int32_t rt,rp;
+
+void init_bmp180(){
+
+
+	BMP180_Init(400000);
+	uint8_t ChipID = BMP180_ReadReg(BMP180_CHIP_ID_REG);
+	uint8_t Version = BMP180_ReadReg(BMP180_VERSION_REG);
+//	printf("chip id = %x\n", ChipID);
+//	printf("version = %d\n", Version);
+	BMP180_ReadCalibration();
+
+
+
+//	u_temp = BMP180_Read_UT();
+//	u_temp = 27898;
+//	rt = BMP180_Calc_RT(u_temp);
+//
+//
+//	u_pres = BMP180_Read_PT(0);
+//	//u_pres = 23843;
+//	rp = BMP180_Calc_RP(u_pres,0);
+
+	printf("inicjalizacja czujnika ok");
+
+}
+
+void read_temperature_str(unsigned char *str)
+{
+	u_temp = BMP180_Read_UT();
+	rt = BMP180_Calc_RT(u_temp);
+	sprintf(str, "%d.%d C", (rt/10), (rt%10));
+}
+
+
+void read_pressure_str(unsigned char *str)
+{
+	u_pres = BMP180_Read_PT(0);
+	rp = BMP180_Calc_RP(u_pres,0);
+	sprintf(str, "%ld.%ld hPa", (rp / 100),(rp % 100) /10);
+
+}
+
 uint8_t BMP180_Init(uint32_t SPI_Clock_Speed) {
 	GPIO_InitTypeDef PORT;
 
@@ -115,7 +159,10 @@ uint16_t BMP180_Read_UT(void) {
 	uint16_t UT;
 
 	BMP180_WriteReg(BMP180_CTRL_MEAS_REG,BMP180_T_MEASURE);
-	Delay_ms(6); // Wait for 4.5ms by datasheet
+
+	delay_ms(5);
+
+	//Delay_ms(6); // Wait for 4.5ms by datasheet
 
 	I2C_AcknowledgeConfig(I2C_PORT,ENABLE); // Enable I2C acknowledge
 	I2C_GenerateSTART(I2C_PORT,ENABLE); // Send START condition
@@ -159,12 +206,17 @@ uint32_t BMP180_Read_PT(uint8_t oss) {
 		cmd = BMP180_P3_MEASURE;
 		delay   = 27;
 		break;
+	default:
+		delay = 6;
 	}
 
 	BMP180_WriteReg(BMP180_CTRL_MEAS_REG,cmd);
-	Delay_ms(delay);
-//	BMP180_WriteReg(0xf4,0x34);
-//	Delay_ms(27);
+	//Delay_ms(delay);
+	delay_ms(delay + 10);
+
+//	BMP180_WriteReg(0xf4,0x34);//
+//	delay_ms(27);
+
 
 	I2C_AcknowledgeConfig(I2C_PORT,ENABLE); // Enable I2C acknowledge
 	I2C_GenerateSTART(I2C_PORT,ENABLE); // Send START condition

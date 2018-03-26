@@ -40,7 +40,8 @@ src/touch_screen.o: ../src/touch_screen.c \
  /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/config.h \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_dma.h \
  /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/fonts/glcdfont.h \
- /home/gwarchol/STMworkspace/clock_digital/lib/tinystd/itoa.h
+ /home/gwarchol/STMworkspace/clock_digital/lib/tinystd/itoa.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/bmp180.h
 
 /home/gwarchol/STMworkspace/clock_digital/inc/touch_screen.h:
 
@@ -125,3 +126,5 @@ src/touch_screen.o: ../src/touch_screen.c \
 /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/fonts/glcdfont.h:
 
 /home/gwarchol/STMworkspace/clock_digital/lib/tinystd/itoa.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/bmp180.h:

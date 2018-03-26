@@ -65,12 +65,25 @@ void setMenuState(menu_state_t state) {
 
 }
 
+unsigned char temp_str[10];
+unsigned char preassure_str[15];
+
+
+void read_environmental_parameters(){
+
+
+	read_temperature_str(temp_str);
+
+	read_pressure_str(preassure_str);
+}
+
 
 
 void show_menu(){
 
 	unsigned char timer_str[20];
 	unsigned char date_str[20];
+
 
 
 
@@ -86,6 +99,8 @@ void show_menu(){
 
 
 
+
+
 		LCD_setTextSize(6);
 	    LCD_setTextColor(WHITE);
 	    LCD_setTextBgColor(BLACK);
@@ -97,6 +112,16 @@ void show_menu(){
 		LCD_setTextSize(4);
 		LCD_setCursor(50, 75);
 		LCD_writeString(date_str);
+
+
+		LCD_setTextSize(2);
+		LCD_setCursor(65, 140);
+		LCD_writeString(temp_str);
+
+
+		LCD_setCursor(170, 140);
+		LCD_writeString(preassure_str);
+
 
 
 

@@ -76,3 +76,9 @@ int32_t BMP180_Calc_RP(uint32_t UP, uint8_t oss);
 
 int32_t BMP180_kpa_to_mmhg(int32_t Pa);
 
+void init_bmp180();
+void read_temperature_str(unsigned char *str);
+
+void read_pressure_str(unsigned char *str);
+
+

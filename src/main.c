@@ -22,7 +22,7 @@
 #include "rtc.h"
 #include "text.h"
 #include "itoa.h"
-#include "bmp180.h"
+
 
 
 extern void initialise_monitor_handles(void);
@@ -53,13 +53,10 @@ int main(void) {
 
   	turnOnOffLed(false);
 
-//
-//	BMP180_Init(400000);
-//	uint8_t ChipID = BMP180_ReadReg(BMP180_CHIP_ID_REG);
-//	uint8_t Version = BMP180_ReadReg(BMP180_VERSION_REG);
-//	printf("chip id = %x\n", ChipID);
-//	printf("version = %d\n", Version);
-//	BMP180_ReadCalibration();
+  	init_bmp180();
+
+
+
 
 
 /*
@@ -113,7 +110,7 @@ int main(void) {
 		if(getTimerChannelState(TIMER_10ms)){
 
 
-
+			control_touch_buttons();
 
 			setTimerChannelState(TIMER_10ms, false);
 		}
@@ -121,7 +118,7 @@ int main(void) {
 		if (getTimerChannelState(TIMER_100ms)) {
 
 
-			control_touch_buttons();
+
 			show_menu();
 
 
@@ -130,46 +127,22 @@ int main(void) {
 			analize_data_from_touch_screen(true);
 
 
-//			LCD_setCursor(0, 0);
-//			LCD_fillRect(0, 0, 100, 24, BLACK);
-//			LCD_writeString(tabilca);
-
-
-//			printf("X = %d\n", Odczyt_X());
-//			printf("Y = %d\n", Odczyt_Y());
-
 
 			setTimerChannelState(TIMER_100ms, false);
 		}
 
 		if (getTimerChannelState(TIMER_1s)) {
 
-//			read_time(tabilca);
-//			read_date(tabilca_date);
 
 			analize_clock_clendar_state();
 
 
 
-
-//			printf( " chodzi while \n");
-
+		//	printf(" mmHp = %ld \n", BMP180_kpa_to_mmhg(rp));
 //
-//			LCD_setCursor(0, 0);
-//			LCD_fillRect(0, 0, 100, 24, BLACK);
-//
-//			LCD_writeString(tabilca);
-//
-//
-//			LCD_setCursor(0, 50);
-//			LCD_writeString(tabilca_date);
-
-//			LCD_setCursor(100, 100);
-//			LCD_fillRect(0, 50, 100, 24, BLACK);
 
 
-
-
+			read_environmental_parameters();
 
 
 

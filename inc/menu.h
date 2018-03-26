@@ -11,7 +11,7 @@
 
 #include "text.h"
 #include "itoa.h"
-
+#include "bmp180.h"
 
 
 typedef enum {ZEGAR_MENU = 0, BUDZIK_MENU, USTAWIENIA_MENU, INNE_MENU } menu_state_t;
@@ -21,6 +21,5 @@ void create_menu();
 void show_menu();
 
 void create_firts_submenu(unsigned char *menu_title);
-
 
 #endif /* MENU_H_ */
