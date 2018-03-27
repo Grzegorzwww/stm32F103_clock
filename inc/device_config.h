@@ -33,6 +33,7 @@ void turnOnOffLed(bool state);
 void RCC_Conf(void);
 
 void standby_mode_init();
+void sleep_mode_init();
 
 
 

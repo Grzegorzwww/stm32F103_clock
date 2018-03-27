@@ -11,6 +11,29 @@
 
 static menu_state_t menu_state;
 
+static clk_set_state_t clk_set_state = NO_SET_CLK;
+static date_set_stete_t date_set_stete = NO_SET_DATE;
+
+
+menu_state_t get_menu_state() {return menu_state;}
+
+void increment_set_clk_state() {
+	if(clk_set_state >= 3){
+		clk_set_state = 0;
+	}else{
+		clk_set_state++;
+	}
+}
+void increment_set_date_state() {
+
+	if(date_set_stete >= 3){
+		date_set_stete = 0;
+	}else{
+		date_set_stete++;
+	}
+
+}
+
 
 
 void create_menu(){
@@ -77,6 +100,63 @@ void read_environmental_parameters(){
 	read_pressure_str(preassure_str);
 }
 
+void on_set_up(){
+
+	if(clk_set_state == SET_CLK_HOURS){
+		addHour();
+	}else  if (clk_set_state == SET_CLK_MINUTES){
+		addMin();
+	}
+	else  if (clk_set_state == SET_CLK_SEK){
+		addSec();
+	}
+
+
+
+	if(date_set_stete == SET_DATE_DAY){
+		printf("day up\n");
+	}
+	if(date_set_stete == SET_DATE_MONTH){
+			printf("month up\n");
+	}
+	if(date_set_stete == SET_DATE_YEAR){
+		printf("year up\n");
+	}
+
+
+
+}
+void on_set_down()
+{
+
+	if(clk_set_state == SET_CLK_HOURS){
+
+			removeHour();
+		}else  if (clk_set_state == SET_CLK_MINUTES){
+			removeMin();
+		}
+		else  if (clk_set_state == SET_CLK_SEK){
+			removeSec();
+		}
+
+
+
+		if(date_set_stete == SET_DATE_DAY){
+			printf("day down\n");
+		}
+		if(date_set_stete == SET_DATE_MONTH){
+				printf("month down\n");
+		}
+		if(date_set_stete == SET_DATE_YEAR){
+			printf("year down\n");
+		}
+
+
+
+}
+
+
+
 
 
 void show_menu(){
@@ -96,8 +176,6 @@ void show_menu(){
 
 		read_time(timer_str);
 		read_date(date_str);
-
-
 
 
 
@@ -124,10 +202,6 @@ void show_menu(){
 
 
 
-
-
-
-
 		break;
 
 	case BUDZIK_MENU:
@@ -141,12 +215,82 @@ void show_menu(){
 		break;
 
 	case USTAWIENIA_MENU:
-		LCD_setTextSize(5);
 
-	    LCD_setTextColor(WHITE);
+
+		read_time(timer_str);
+		read_date(date_str);
+
+
+		LCD_setTextSize(3);
+
+		if(clk_set_state == SET_CLK_HOURS){ LCD_setTextColor(RED); }
+		else if(clk_set_state == SET_CLK_MINUTES) { LCD_setTextColor(GREEN); }
+		else if(clk_set_state == SET_CLK_SEK) { LCD_setTextColor(YELLOW); }
+		else{ LCD_setTextColor(WHITE);}
+
+
 	    LCD_setTextBgColor(BLACK);
-	    LCD_setCursor(20, 0);
-		LCD_writeString("USTAWIENIA");
+		LCD_setCursor(10, 20);
+		LCD_writeString(timer_str);
+
+
+		if(date_set_stete == SET_DATE_DAY ){ LCD_setTextColor(RED); }
+		else if(date_set_stete == SET_DATE_MONTH) { LCD_setTextColor(GREEN); }
+		else if(date_set_stete ==  SET_DATE_YEAR) { LCD_setTextColor(YELLOW); }
+		else{ LCD_setTextColor(WHITE);}
+
+		LCD_setCursor(10, 70);
+		LCD_writeString(date_str);
+
+
+	   // LCD_fillRect(200, 20, 55, 30, WHITE);
+
+//	    LCD_setTextBgColor(WHITE);
+//	    LCD_setTextColor(BLACK);
+//	    LCD_setCursor(185, 20);
+//	    LCD_writeString("SET");
+//
+//
+//
+//	    //LCD_fillRect(200, 70, 55, 30, WHITE);
+//
+//	    LCD_setTextBgColor(WHITE);
+//	    LCD_setTextColor(BLACK);
+//	    LCD_setCursor(185, 70);
+//	    LCD_writeString("SET");
+
+
+		LCD_setTextSize(3);
+	    LCD_setTextBgColor(RED);
+	    LCD_setTextColor(BLACK);
+//	    LCD_setCursor(245, 20);
+	    LCD_setCursor(200, 20);
+	    LCD_writeString("  UP  ");
+
+	    LCD_setTextBgColor(RED);
+	    LCD_setTextColor(BLACK);
+//	    LCD_setCursor(245, 70);
+	    LCD_setCursor(200, 70);
+	    LCD_writeString(" DOWN ");
+
+
+
+
+//		LCD_setTextSize(2);
+//		LCD_setCursor(65, 140);
+//		LCD_writeString(temp_str);
+//
+//
+//		LCD_setCursor(170, 140);
+//		LCD_writeString(preassure_str);
+//
+
+//		LCD_setTextSize(5);
+//
+//	    LCD_setTextColor(WHITE);
+//	    LCD_setTextBgColor(BLACK);
+//	    LCD_setCursor(20, 0);
+//		LCD_writeString("USTAWIENIA");
 
 		break;
 	case INNE_MENU:

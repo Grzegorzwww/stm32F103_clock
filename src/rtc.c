@@ -23,6 +23,7 @@ bool getAlarmState(){
 }
 
 
+
 void rtc_init(void){
 
 
@@ -328,6 +329,64 @@ void read_date(unsigned char *data_buff){
 
 
 
+void addHour() {
+
+	RTC_WaitForLastTask();
+	unsigned long int total_ticks_to_add = RTC_GetCounter();
+	total_ticks_to_add +=  3600;
+	RTC_SetCounter(total_ticks_to_add);
+	RTC_WaitForLastTask();
+
+}
+void removeHour() {
+
+	RTC_WaitForLastTask();
+	unsigned long int total_ticks_to_add = RTC_GetCounter();
+	total_ticks_to_add -=  3600;
+	RTC_SetCounter(total_ticks_to_add);
+	RTC_WaitForLastTask();
+
+}
+
+void addMin() {
+
+	RTC_WaitForLastTask();
+	unsigned long int total_ticks_to_add = RTC_GetCounter();
+	total_ticks_to_add +=  60;
+	RTC_SetCounter(total_ticks_to_add);
+	RTC_WaitForLastTask();
+
+}
+void removeMin() {
+
+	RTC_WaitForLastTask();
+	unsigned long int total_ticks_to_add = RTC_GetCounter();
+	total_ticks_to_add -=  60;
+	RTC_SetCounter(total_ticks_to_add);
+	RTC_WaitForLastTask();
+
+}
+void addSec() {
+
+	RTC_WaitForLastTask();
+	unsigned long int total_ticks_to_add = RTC_GetCounter();
+	total_ticks_to_add +=  1;
+	RTC_SetCounter(total_ticks_to_add);
+	RTC_WaitForLastTask();
+
+}
+void removeSec() {
+
+	RTC_WaitForLastTask();
+	unsigned long int total_ticks_to_add = RTC_GetCounter();
+	total_ticks_to_add -=  1;
+	RTC_SetCounter(total_ticks_to_add);
+	RTC_WaitForLastTask();
+
+}
+
+
+
 
 
 
@@ -337,6 +396,7 @@ void save_time(unsigned char hours, unsigned char minutes, unsigned short second
 
 
 	  unsigned long int total_ticks_to_add = (hours * 3600) + (minutes * 60) +seconds;
+
 	  RTC_WaitForLastTask();
 	  RTC_SetCounter(total_ticks_to_add);
 	  RTC_WaitForLastTask();

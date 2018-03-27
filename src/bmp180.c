@@ -212,7 +212,7 @@ uint32_t BMP180_Read_PT(uint8_t oss) {
 
 	BMP180_WriteReg(BMP180_CTRL_MEAS_REG,cmd);
 	//Delay_ms(delay);
-	delay_ms(delay + 10);
+	delay_ms(delay + 3);
 
 //	BMP180_WriteReg(0xf4,0x34);//
 //	delay_ms(27);

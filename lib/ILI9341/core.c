@@ -125,6 +125,8 @@ void LCD_init() {
     LCD_configure();
 
     TFT_LED_SET;
+
+    LCD_setOrientation(ORIENTATION_LANDSCAPE);
 }
 
 //</editor-fold>

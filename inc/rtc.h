@@ -54,6 +54,15 @@ void set_alarm(u8 u8_Hour,u8 u8_Minute, u8 u8_Seconds);
 void check_for_days_elapsed(void);
 
 
+void addHour();
+void removeHour() ;
+void addMin();
+void removeMin();
+void addSec();
+void removeSec();
+
+
+
 
 
 struct Time_s

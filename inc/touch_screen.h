@@ -18,6 +18,9 @@
 
 #define Z_VALUE_INDEX 1
 #define X_VALUE_INDEX 3
+
+#define TOUCH_SCREEN_PUSH_SENS 2
+
 #define Y_VALUE_INDEX 4
 
 

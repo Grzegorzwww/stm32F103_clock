@@ -55,23 +55,11 @@ int main(void) {
 
   	init_bmp180();
 
-
-
-
-
-/*
- *
- *
- */
-
-
     LCD_init();
-    LCD_setOrientation(ORIENTATION_LANDSCAPE);
 
     create_menu();
 
-   init_touch_screen();
-
+    init_touch_screen();
 
 	init_timer();
 
@@ -86,14 +74,8 @@ int main(void) {
 
 
 
-
-	unsigned char tabilca[20];
-	unsigned char tabilca_date[20];
-	int index = 0;
-
 	save_time(23, 59, 30);
 	save_date(17,9,1988);
-
 	set_alarm(23, 59, 45);
 
 
@@ -110,7 +92,7 @@ int main(void) {
 		if(getTimerChannelState(TIMER_10ms)){
 
 
-			control_touch_buttons();
+
 
 			setTimerChannelState(TIMER_10ms, false);
 		}
@@ -118,13 +100,17 @@ int main(void) {
 		if (getTimerChannelState(TIMER_100ms)) {
 
 
+			analize_data_from_touch_screen(true);
+			control_touch_buttons();
+
+
+
+
 
 			show_menu();
 
 
 
-
-			analize_data_from_touch_screen(true);
 
 
 
@@ -137,9 +123,6 @@ int main(void) {
 			analize_clock_clendar_state();
 
 
-
-		//	printf(" mmHp = %ld \n", BMP180_kpa_to_mmhg(rp));
-//
 
 
 			read_environmental_parameters();
