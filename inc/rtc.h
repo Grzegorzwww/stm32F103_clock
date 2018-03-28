@@ -62,6 +62,12 @@ void addSec();
 void removeSec();
 
 
+void prev_date();
+void removeDay();
+void removeMonth();
+void removeYear();
+
+
 
 
 

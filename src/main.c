@@ -46,7 +46,7 @@ int main(void) {
 #ifdef DEBUG
 	initialise_monitor_handles();
 	printf("start\n");
-#endif
+#endif`
 
 	RCC_Conf();
 	device_init();
@@ -74,9 +74,9 @@ int main(void) {
 
 
 
-	save_time(23, 59, 30);
-	save_date(17,9,1988);
-	set_alarm(23, 59, 45);
+	save_time(8, 0,0);
+	save_date(28,3,2018);
+	set_alarm(10, 0, 0);
 
 
 	while (1) {

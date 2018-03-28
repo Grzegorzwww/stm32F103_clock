@@ -323,7 +323,25 @@ void read_date(unsigned char *data_buff){
 	s_DateStructVar.u8_Month = BKP_ReadBackupRegister(BKP_DR2);
 	s_DateStructVar.u8_Day = BKP_ReadBackupRegister(BKP_DR3);
 	s_DateStructVar.u16_Year = BKP_ReadBackupRegister(BKP_DR4);
-	sprintf(data_buff, "%d:%d:%d", s_DateStructVar.u8_Day,s_DateStructVar.u8_Month,s_DateStructVar.u16_Year);
+
+
+	unsigned char temp_day[2];
+	unsigned char temp_month[2];
+
+	if(s_DateStructVar.u8_Day < 10){
+		sprintf(temp_day, "0%d", s_DateStructVar.u8_Day);
+	}else{
+		sprintf(temp_day, "%d", s_DateStructVar.u8_Day);
+	}
+
+	if(s_DateStructVar.u8_Month < 10){
+		sprintf(temp_month, "0%d", s_DateStructVar.u8_Month);
+	}else{
+		sprintf(temp_month, "%d", s_DateStructVar.u8_Month);
+	}
+
+
+	sprintf(data_buff, "%s:%s:%d", temp_day, temp_month, s_DateStructVar.u16_Year);
 
 }
 
@@ -336,7 +354,6 @@ void addHour() {
 	total_ticks_to_add +=  3600;
 	RTC_SetCounter(total_ticks_to_add);
 	RTC_WaitForLastTask();
-
 }
 void removeHour() {
 
@@ -345,9 +362,7 @@ void removeHour() {
 	total_ticks_to_add -=  3600;
 	RTC_SetCounter(total_ticks_to_add);
 	RTC_WaitForLastTask();
-
 }
-
 void addMin() {
 
 	RTC_WaitForLastTask();
@@ -355,7 +370,6 @@ void addMin() {
 	total_ticks_to_add +=  60;
 	RTC_SetCounter(total_ticks_to_add);
 	RTC_WaitForLastTask();
-
 }
 void removeMin() {
 
@@ -364,7 +378,6 @@ void removeMin() {
 	total_ticks_to_add -=  60;
 	RTC_SetCounter(total_ticks_to_add);
 	RTC_WaitForLastTask();
-
 }
 void addSec() {
 
@@ -373,10 +386,8 @@ void addSec() {
 	total_ticks_to_add +=  1;
 	RTC_SetCounter(total_ticks_to_add);
 	RTC_WaitForLastTask();
-
 }
 void removeSec() {
-
 	RTC_WaitForLastTask();
 	unsigned long int total_ticks_to_add = RTC_GetCounter();
 	total_ticks_to_add -=  1;
@@ -424,6 +435,145 @@ void check_next_day(void){
 }
 
 
+void addDay(){
+	update_date();
+}
+void addMonth(){
+	int month = BKP_ReadBackupRegister(BKP_DR2);
+	int i = month;
+	if(month < 12){
+		while(i  != (month+1)){
+			update_date();
+			i = BKP_ReadBackupRegister(BKP_DR2);
+		}
+	}else if(month == 12){
+		i = BKP_ReadBackupRegister(BKP_DR2);
+		while(i != 1){
+					update_date();
+					i = BKP_ReadBackupRegister(BKP_DR2);
+		}
+	}
+
+}
+void addYear(){
+	int year = BKP_ReadBackupRegister(BKP_DR4);
+	int i = year;
+	while(i  != (year+1)){
+		update_date();
+		i = BKP_ReadBackupRegister(BKP_DR4);
+	}
+}
+
+
+void removeDay(){
+	prev_date();
+}
+
+void removeMonth(){
+	int month = BKP_ReadBackupRegister(BKP_DR2);
+	int i = month;
+	if(month > 1){
+		while(i  != (month - 1)){
+			prev_date();
+			i = BKP_ReadBackupRegister(BKP_DR2);
+		}
+	}else if(month == 1){
+		i = BKP_ReadBackupRegister(BKP_DR2);
+		while(i != 12){
+			prev_date();
+			i = BKP_ReadBackupRegister(BKP_DR2);
+		}
+	}
+}
+void removeYear(){
+	int year = BKP_ReadBackupRegister(BKP_DR4);
+		int i = year;
+		while(i  != (year - (1))){
+			prev_date();
+			i = BKP_ReadBackupRegister(BKP_DR4);
+		}
+}
+
+
+void prev_date(){
+
+	s_DateStructVar.u8_Month=BKP_ReadBackupRegister(BKP_DR2);
+	  s_DateStructVar.u16_Year=BKP_ReadBackupRegister(BKP_DR4);
+	  s_DateStructVar.u8_Day=BKP_ReadBackupRegister(BKP_DR3);
+
+	  if(s_DateStructVar.u8_Month == 1 || s_DateStructVar.u8_Month == 3 || \
+	    s_DateStructVar.u8_Month == 5 || s_DateStructVar.u8_Month == 7 ||\
+	     s_DateStructVar.u8_Month == 8 || s_DateStructVar.u8_Month == 10 \
+	       || s_DateStructVar.u8_Month == 12)
+	  {
+	    if(s_DateStructVar.u8_Day > 1)
+	    {
+	      s_DateStructVar.u8_Day--;
+	    }
+	    /* Date structure member: s_DateStructVar.u8_Day = 31 */
+	    else
+	    {
+	      if(s_DateStructVar.u8_Month != 1)
+	      {
+	        s_DateStructVar.u8_Month--;
+	        s_DateStructVar.u8_Day = 31;
+	      }
+	     /* Date structure member: s_DateStructVar.u8_Day = 31 & s_DateStructVar.u8_Month =12 */
+	      else
+	      {
+	        s_DateStructVar.u8_Month = 12;
+	        s_DateStructVar.u8_Day = 31;
+	        s_DateStructVar.u16_Year--;
+	      }
+	    }
+	  }
+	  else if(s_DateStructVar.u8_Month == 4 || s_DateStructVar.u8_Month == 6 \
+	            || s_DateStructVar.u8_Month == 9 ||s_DateStructVar.u8_Month == 11)
+	  {
+	    if(s_DateStructVar.u8_Day >1)
+	    {
+	      s_DateStructVar.u8_Day--;
+	    }
+	    /* Date structure member: s_DateStructVar.u8_Day = 30 */
+	    else
+	    {
+	      s_DateStructVar.u8_Month--;
+	      s_DateStructVar.u8_Day = 30;
+	    }
+	  }
+	  else if(s_DateStructVar.u8_Month == 2)
+	  {
+	    if(s_DateStructVar.u8_Day > 1)
+	    {
+	      s_DateStructVar.u8_Day--;
+	    }
+	    else if(s_DateStructVar.u8_Day == 28)
+	    {
+	      /* Leap Year Correction */
+	      if(check_leap(s_DateStructVar.u16_Year))
+	      {
+	        s_DateStructVar.u8_Day--;
+	      }
+	      else
+	      {
+	        s_DateStructVar.u8_Month--;
+	        s_DateStructVar.u8_Day = 28;
+	      }
+	    }
+	    else if(s_DateStructVar.u8_Day == 1)
+	    {
+	      s_DateStructVar.u8_Month--;
+	      s_DateStructVar.u8_Day = 29;
+	    }
+	  }
+
+	  BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
+	  BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
+	  BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
+
+
+
+}
 
 void update_date(void){
 
@@ -529,33 +679,33 @@ u8 check_leap(u16 u16_Year)
 void save_date(unsigned char day, unsigned char month, unsigned short year){
 
 
-//	  RightLeftIntExtOnOffConfig(DISABLE);
-//	  UpDownIntOnOffConfig(DISABLE);
+	//	  RightLeftIntExtOnOffConfig(DISABLE);
+	//	  UpDownIntOnOffConfig(DISABLE);
 
-	  if((( month ==4 || month ==6 || month ==9 || month==11) && day ==31) \
-	    || (month==2 && day ==31)|| (month==2 && day==30)|| \
-	      (month==2 && day ==29 && (check_leap(year)==0)))
-	  {
+	if((( month ==4 || month ==6 || month ==9 || month==11) && day ==31) \
+			|| (month==2 && day ==31)|| (month==2 && day==30)|| \
+			(month==2 && day ==29 && (check_leap(year)==0)))
+	{
 
-	  }else{
+	}else{
 
-		  s_DateStructVar.u8_Day = day;
-		  	s_DateStructVar.u8_Month =  month;
-		  	s_DateStructVar.u16_Year = year;
-		  	BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
-		  	BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
-		  	BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
+		s_DateStructVar.u8_Day = day;
+		s_DateStructVar.u8_Month =  month;
+		s_DateStructVar.u16_Year = year;
+		BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
+		BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
+		BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
 
-		     s_AlarmDateStructVar.u8_Day = day;
-		     s_AlarmDateStructVar.u8_Month = month;
-		     s_AlarmDateStructVar.u16_Year = year;
-		     BKP_WriteBackupRegister(BKP_DR8,month);
-		     BKP_WriteBackupRegister(BKP_DR9,day);
-		     BKP_WriteBackupRegister(BKP_DR10,year);
+		s_AlarmDateStructVar.u8_Day = day;
+		s_AlarmDateStructVar.u8_Month = month;
+		s_AlarmDateStructVar.u16_Year = year;
+		BKP_WriteBackupRegister(BKP_DR8,month);
+		BKP_WriteBackupRegister(BKP_DR9,day);
+		BKP_WriteBackupRegister(BKP_DR10,year);
 
 
 
-	  }
+	}
 
 
 }

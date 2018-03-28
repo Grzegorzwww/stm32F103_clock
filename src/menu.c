@@ -114,13 +114,16 @@ void on_set_up(){
 
 
 	if(date_set_stete == SET_DATE_DAY){
-		printf("day up\n");
+		//printf("day up\n");
+		addDay();
 	}
 	if(date_set_stete == SET_DATE_MONTH){
-			printf("month up\n");
+		//printf("month up\n");
+		addMonth();
 	}
 	if(date_set_stete == SET_DATE_YEAR){
-		printf("year up\n");
+		//printf("year up\n");
+		addYear();
 	}
 
 
@@ -130,26 +133,22 @@ void on_set_down()
 {
 
 	if(clk_set_state == SET_CLK_HOURS){
-
-			removeHour();
-		}else  if (clk_set_state == SET_CLK_MINUTES){
-			removeMin();
-		}
-		else  if (clk_set_state == SET_CLK_SEK){
-			removeSec();
-		}
-
-
-
-		if(date_set_stete == SET_DATE_DAY){
-			printf("day down\n");
-		}
-		if(date_set_stete == SET_DATE_MONTH){
-				printf("month down\n");
-		}
-		if(date_set_stete == SET_DATE_YEAR){
-			printf("year down\n");
-		}
+		removeHour();
+	}else  if (clk_set_state == SET_CLK_MINUTES){
+		removeMin();
+	}
+	else  if (clk_set_state == SET_CLK_SEK){
+		removeSec();
+	}
+	if(date_set_stete == SET_DATE_DAY){
+		removeDay();
+	}
+	if(date_set_stete == SET_DATE_MONTH){
+		removeMonth();
+	}
+	if(date_set_stete == SET_DATE_YEAR){
+		 removeYear();
+	}
 
 
 
