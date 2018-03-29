@@ -25,14 +25,15 @@
 
 
 
+#ifdef DEBUG
 extern void initialise_monitor_handles(void);
-
+#endif
 
 unsigned char AddCRC(unsigned char crc,unsigned char b);
-//
-//#ifdef DEBUG
 
-//#endif
+
+
+
 
 volatile bool state = false;
 
@@ -46,7 +47,7 @@ int main(void) {
 #ifdef DEBUG
 	initialise_monitor_handles();
 	printf("start\n");
-#endif`
+#endif
 
 	RCC_Conf();
 	device_init();
@@ -67,12 +68,7 @@ int main(void) {
 
 	sleep_mode_init();
 
-
-
 //	usart_dma_init();
-
-
-
 
 	save_time(8, 0,0);
 	save_date(28,3,2018);
@@ -93,7 +89,6 @@ int main(void) {
 
 
 
-
 			setTimerChannelState(TIMER_10ms, false);
 		}
 
@@ -104,12 +99,7 @@ int main(void) {
 			control_touch_buttons();
 
 
-
-
-
 			show_menu();
-
-
 
 
 

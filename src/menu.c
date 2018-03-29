@@ -35,7 +35,6 @@ void increment_set_date_state() {
 }
 
 
-
 void create_menu(){
 
 
@@ -125,10 +124,24 @@ void on_set_up(){
 		//printf("year up\n");
 		addYear();
 	}
+}
 
+static bool saver = false;
 
+void on_set_saver(){
+
+	if(saver){
+		saver = false;
+	}else{
+		saver = true;
+	}
 
 }
+
+
+
+
+
 void on_set_down()
 {
 
@@ -211,6 +224,9 @@ void show_menu(){
 	    LCD_setCursor(20, 0);
 		LCD_writeString("BUDZIK");
 
+
+
+
 		break;
 
 	case USTAWIENIA_MENU:
@@ -218,7 +234,6 @@ void show_menu(){
 
 		read_time(timer_str);
 		read_date(date_str);
-
 
 		LCD_setTextSize(3);
 
@@ -242,36 +257,37 @@ void show_menu(){
 		LCD_writeString(date_str);
 
 
-	   // LCD_fillRect(200, 20, 55, 30, WHITE);
-
-//	    LCD_setTextBgColor(WHITE);
-//	    LCD_setTextColor(BLACK);
-//	    LCD_setCursor(185, 20);
-//	    LCD_writeString("SET");
-//
-//
-//
-//	    //LCD_fillRect(200, 70, 55, 30, WHITE);
-//
-//	    LCD_setTextBgColor(WHITE);
-//	    LCD_setTextColor(BLACK);
-//	    LCD_setCursor(185, 70);
-//	    LCD_writeString("SET");
-
 
 		LCD_setTextSize(3);
 	    LCD_setTextBgColor(RED);
 	    LCD_setTextColor(BLACK);
-//	    LCD_setCursor(245, 20);
 	    LCD_setCursor(200, 20);
 	    LCD_writeString("  UP  ");
 
 	    LCD_setTextBgColor(RED);
 	    LCD_setTextColor(BLACK);
-//	    LCD_setCursor(245, 70);
 	    LCD_setCursor(200, 70);
 	    LCD_writeString(" DOWN ");
 
+
+		LCD_setTextSize(3);
+	    LCD_setTextBgColor(BLACK);
+	    LCD_setTextColor(WHITE);
+	    LCD_setCursor(10, 135);
+	    LCD_writeString("Wygaszacz:");
+
+		LCD_setTextSize(3);
+	    LCD_setTextBgColor(GREEN);
+	    LCD_setTextColor(BLACK);
+	    LCD_setCursor(200, 135);
+
+	    if(saver){
+	        LCD_setTextBgColor(GREEN);
+	    	LCD_writeString(" ON  ");
+	    }else{
+	        LCD_setTextBgColor(RED);
+	    	LCD_writeString(" OFF ");
+	    }
 
 
 

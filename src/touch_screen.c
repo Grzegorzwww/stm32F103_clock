@@ -28,10 +28,17 @@ DMA_InitTypeDef DMA_InitStructure;
 
 int counting_period_filter_index = 0;
 
-volatile void set_pushed_filter() {counting_period_filter_index = 5;}
-inline int check_pushed_filter(){ return counting_period_filter_index; }
+void set_pushed_filter() {counting_period_filter_index = 5;}
+inline int check_pushed_filter(){
+//	if(counting_period_filter_index < 0)
+//			counting_period_filter_index = 0;
+
+	return counting_period_filter_index;
+}
 inline void actualice_pushed_filter(){
-	if((counting_period_filter_index) > 0) counting_period_filter_index-- ;}
+	if((counting_period_filter_index) > 0) counting_period_filter_index-- ;
+
+}
 
 void init_spi_2(){
 
@@ -249,8 +256,6 @@ void analize_data_from_touch_screen(bool on_off){
 
 	//		sprintf(str, "z = %d x = %d, y = %d\0", z_axis, x_axis, y_axis);
 
-
-
 }
 
 
@@ -258,79 +263,71 @@ void control_touch_buttons()
 {
 	//printf("z = %d, x = %d, y = %d\n",touch_data.z_axis,  touch_data.x_axis, touch_data.y_axis);
 
+	if(check_pushed_filter() == 0){
 
-	if(touch_data.z_axis > TOUCH_SCREEN_PUSH_SENS /*&& touch_data.x_axis > 0 && touch_data.y_axis > 0*/){
+		if(touch_data.z_axis > TOUCH_SCREEN_PUSH_SENS /*&& touch_data.x_axis > 0 && touch_data.y_axis > 0*/){
 
-		//printf("%d, %d\n", touch_data.x_axis, touch_data.y_axis);
-		if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 100) && (touch_data.x_axis < 125))){
-			setMenuState(ZEGAR_MENU);
-			//			printf("clk pushed\n");
-		}
-		if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 70)&& (touch_data.x_axis < 100))){
-			//			printf("budzik pushed\n");
-			setMenuState(BUDZIK_MENU);
-		}
-		if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 44)&& (touch_data.x_axis < 70))){
-			//			printf("ustawienia pushed\n");
-			setMenuState(USTAWIENIA_MENU);
-		}
-		if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 0)&& (touch_data.x_axis < 44))){
-			//			printf("inne pushed\n");
-			setMenuState(INNE_MENU);
-		}
-
-
-
-
-		if(get_menu_state() == USTAWIENIA_MENU){
-			actualice_pushed_filter();
+			//printf("%d, %d\n", touch_data.x_axis, touch_data.y_axis);
+			if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 100) && (touch_data.x_axis < 125))){
+				setMenuState(ZEGAR_MENU);
+				set_pushed_filter();
+				//			printf("clk pushed\n");
+			}
+			if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 70)&& (touch_data.x_axis < 100))){
+				//			printf("budzik pushed\n");
+				setMenuState(BUDZIK_MENU);
+				set_pushed_filter();
+			}
+			if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 44)&& (touch_data.x_axis < 70))){
+				//			printf("ustawienia pushed\n");
+				setMenuState(USTAWIENIA_MENU);
+				set_pushed_filter();
+			}
+			if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 0)&& (touch_data.x_axis < 44))){
+				//			printf("inne pushed\n");
+				setMenuState(INNE_MENU);
+				set_pushed_filter();
+			}
 
 
-//			if(((touch_data.y_axis > 14) && (touch_data.y_axis < 27)) && ((touch_data.x_axis > 44)&& (touch_data.x_axis < 61))){
+
+			if(get_menu_state() == USTAWIENIA_MENU){
+
 				if(((touch_data.y_axis > 14) && (touch_data.y_axis < 27)) && ((touch_data.x_axis > 65)&& (touch_data.x_axis < 115)) ){
-				//printf("set clk\n");
-				//setMenuState(INNE_MENU);
-				if(check_pushed_filter() == 0){
+					set_pushed_filter();
 					increment_set_clk_state();
-					set_pushed_filter();
+
 				}
 			}
-
-
-//			if(((touch_data.y_axis > 45) && (touch_data.y_axis < 54)) && ((touch_data.x_axis > 44)&& (touch_data.x_axis < 61))){
 			if(((touch_data.y_axis > 45) && (touch_data.y_axis < 54)) && ((touch_data.x_axis > 65)&& (touch_data.x_axis < 115)) ){
-				//printf("set date\n");
-				if(check_pushed_filter() == 0){
-					increment_set_date_state();
 					set_pushed_filter();
+					increment_set_date_state();
+
 				}
 			}
 
-
-			if(((touch_data.y_axis > 14) && (touch_data.y_axis < 28)) && ((touch_data.x_axis > 22)&& (touch_data.x_axis < 38))){
-				//printf("set up\n");
-//				if(check_pushed_filter() == 0){
+			if(((touch_data.y_axis > 14) && (touch_data.y_axis < 28)) && ((touch_data.x_axis > 22)&& (touch_data.x_axis < 45))){
 				on_set_up();
-//				set_pushed_filter();
-//				}
-
+				set_pushed_filter();
 			}
 
-			if(((touch_data.y_axis > 44) && (touch_data.y_axis < 54)) && ((touch_data.x_axis > 22)&& (touch_data.x_axis < 38))){
-				printf("set down\n");
-//				if(check_pushed_filter() == 0){
+			if(((touch_data.y_axis > 44) && (touch_data.y_axis < 54)) && ((touch_data.x_axis > 22)&& (touch_data.x_axis < 45))){
+
 				on_set_down();
-//				set_pushed_filter();
-//						}
-			}
-		}
+				set_pushed_filter();
 
-	}else{
-		if(touch_data.z_axis == 0){
-//			touch_data.x_axis = 0;
-//			touch_data.y_axis = 0;
+			}
+
+			if(((touch_data.y_axis > 76) && (touch_data.y_axis < 89)) && ((touch_data.x_axis > 22)&& (touch_data.x_axis < 54))){
+
+				on_set_saver();
+				set_pushed_filter();
+
+			}
+
+		}else{
+			actualice_pushed_filter();
 		}
-	}
 
 }
 
@@ -365,10 +362,10 @@ void SPI2_IRQHandler(void) {
 		}else if (touch_screen_state == WAIT_TO_READ_Y_AXIS){
 			touch_data.y_axis = (unsigned char)SPI_I2S_ReceiveData(SPI2);
 			touch_screen_state = ASK_TO_READ_Z_AXIS;
-//			if(touch_data.z_axis == 0){
-//						touch_data.x_axis = 0;
-//						touch_data.y_axis = 0;
-//			}
+			//			if(touch_data.z_axis == 0){
+			//						touch_data.x_axis = 0;
+			//						touch_data.y_axis = 0;
+			//			}
 
 			//printf("y_axis = %d\n",y_axis );
 		}

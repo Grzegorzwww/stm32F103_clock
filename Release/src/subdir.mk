@@ -4,9 +4,11 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/bmp180.c \
 ../src/buffors.c \
 ../src/device_config.c \
 ../src/main.c \
+../src/menu.c \
 ../src/rtc.c \
 ../src/scan_timer.c \
 ../src/syscalls.c \
@@ -17,9 +19,11 @@ C_SRCS += \
 ../src/usart_dma.c 
 
 OBJS += \
+./src/bmp180.o \
 ./src/buffors.o \
 ./src/device_config.o \
 ./src/main.o \
+./src/menu.o \
 ./src/rtc.o \
 ./src/scan_timer.o \
 ./src/syscalls.o \
@@ -30,9 +34,11 @@ OBJS += \
 ./src/usart_dma.o 
 
 C_DEPS += \
+./src/bmp180.d \
 ./src/buffors.d \
 ./src/device_config.d \
 ./src/main.d \
+./src/menu.d \
 ./src/rtc.d \
 ./src/scan_timer.d \
 ./src/syscalls.d \
@@ -48,7 +54,7 @@ src/%.o: ../src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU GCC Compiler'
 	@echo $(PWD)
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -DSTM32 -DSTM32F1 -DSTM32F103RBTx -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -I"/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc" -I"/home/gwarchol/STMworkspace/clock_digital/inc" -I"/home/gwarchol/STMworkspace/clock_digital/CMSIS/device" -I"/home/gwarchol/STMworkspace/clock_digital/CMSIS/core" -O3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -DSTM32 -DSTM32F1 -DSTM32F103RBTx -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -I"/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc" -I"/home/gwarchol/STMworkspace/clock_digital/lib/tinystd" -I"/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341" -I"/home/gwarchol/STMworkspace/clock_digital/inc" -I"/home/gwarchol/STMworkspace/clock_digital/CMSIS/device" -I"/home/gwarchol/STMworkspace/clock_digital/CMSIS/core" -O3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

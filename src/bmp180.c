@@ -29,7 +29,7 @@ void init_bmp180(){
 //	//u_pres = 23843;
 //	rp = BMP180_Calc_RP(u_pres,0);
 
-	printf("inicjalizacja czujnika ok");
+//	printf("inicjalizacja czujnika ok");
 
 }
 

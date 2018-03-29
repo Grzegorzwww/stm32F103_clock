@@ -11,6 +11,7 @@
 
 #include "text.h"
 #include "itoa.h"
+#include "stdbool.h"
 #include "bmp180.h"
 
 
@@ -35,6 +36,7 @@ void on_set_down();
 
 
 menu_state_t get_menu_state();
+void on_set_saver();
 
 
 void create_firts_submenu(unsigned char *menu_title);

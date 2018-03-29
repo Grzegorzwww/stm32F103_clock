@@ -10,6 +10,8 @@ RM := rm -rf
 -include sources.mk
 -include startup/subdir.mk
 -include src/subdir.mk
+-include lib/tinystd/subdir.mk
+-include lib/ILI9341/subdir.mk
 -include StdPeriph_Driver/src/subdir.mk
 -include CMSIS/core/subdir.mk
 -include subdir.mk
