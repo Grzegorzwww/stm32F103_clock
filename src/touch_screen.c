@@ -28,7 +28,9 @@ DMA_InitTypeDef DMA_InitStructure;
 
 int counting_period_filter_index = 0;
 
-void set_pushed_filter() {counting_period_filter_index = 5;}
+void set_pushed_filter() {
+	counting_period_filter_index = 5;
+}
 inline int check_pushed_filter(){
 //	if(counting_period_filter_index < 0)
 //			counting_period_filter_index = 0;
@@ -258,12 +260,50 @@ void analize_data_from_touch_screen(bool on_off){
 
 }
 
+void SPI2_IRQHandler(void) {
+	if (SPI_I2S_GetITStatus(SPI2, SPI_I2S_IT_TXE) == SET) {
+		SPI_I2S_ClearITPendingBit(SPI2, SPI_I2S_IT_TXE);
+	}
+
+	if (SPI_I2S_GetITStatus(SPI2, SPI_I2S_IT_RXNE) == SET) {
+
+		unsigned char dummy_read;
+		//printf("3\n");
+		if(touch_screen_state == WAIT_TO_READ_Z_AXIS){
+			touch_data.z_axis = (unsigned char)SPI_I2S_ReceiveData(SPI2);
+			touch_screen_state = ASK_TO_READ_X_AXIS;
+
+			if(touch_data.z_axis > 0){
+				touch_screen_state = ASK_TO_READ_X_AXIS;
+			}else{
+				touch_screen_state = ASK_TO_READ_Z_AXIS;
+			}
+			//printf("z_axis = %d ",z_axis );
+		}else if (touch_screen_state == WAIT_TO_READ_X_AXIS){
+			touch_data.x_axis = (unsigned char)SPI_I2S_ReceiveData(SPI2);
+			touch_screen_state = ASK_TO_READ_Y_AXIS;
+			//printf("x_axis = %d ",x_axis );
+
+		}else if (touch_screen_state == WAIT_TO_READ_Y_AXIS){
+			touch_data.y_axis = (unsigned char)SPI_I2S_ReceiveData(SPI2);
+			touch_screen_state = ASK_TO_READ_Z_AXIS;
+		}
+		else{
+			dummy_read = (unsigned char)SPI_I2S_ReceiveData(SPI2);
+		}
+
+
+
+		SPI_I2S_ClearITPendingBit(SPI2, SPI_I2S_IT_RXNE);
+	}
+}
+
 
 void control_touch_buttons()
 {
 	//printf("z = %d, x = %d, y = %d\n",touch_data.z_axis,  touch_data.x_axis, touch_data.y_axis);
 
-	if(check_pushed_filter() == 0){
+//	if(check_pushed_filter() == 0){
 
 		if(touch_data.z_axis > TOUCH_SCREEN_PUSH_SENS /*&& touch_data.x_axis > 0 && touch_data.y_axis > 0*/){
 
@@ -294,13 +334,13 @@ void control_touch_buttons()
 			if(get_menu_state() == USTAWIENIA_MENU){
 
 				if(((touch_data.y_axis > 14) && (touch_data.y_axis < 27)) && ((touch_data.x_axis > 65)&& (touch_data.x_axis < 115)) ){
-					set_pushed_filter();
+					//set_pushed_filter();
 					increment_set_clk_state();
 
 				}
 			}
 			if(((touch_data.y_axis > 45) && (touch_data.y_axis < 54)) && ((touch_data.x_axis > 65)&& (touch_data.x_axis < 115)) ){
-					set_pushed_filter();
+				//	set_pushed_filter();
 					increment_set_date_state();
 
 				}
@@ -308,26 +348,26 @@ void control_touch_buttons()
 
 			if(((touch_data.y_axis > 14) && (touch_data.y_axis < 28)) && ((touch_data.x_axis > 22)&& (touch_data.x_axis < 45))){
 				on_set_up();
-				set_pushed_filter();
+				//set_pushed_filter();
 			}
 
 			if(((touch_data.y_axis > 44) && (touch_data.y_axis < 54)) && ((touch_data.x_axis > 22)&& (touch_data.x_axis < 45))){
 
 				on_set_down();
-				set_pushed_filter();
+				//set_pushed_filter();
 
 			}
 
 			if(((touch_data.y_axis > 76) && (touch_data.y_axis < 89)) && ((touch_data.x_axis > 22)&& (touch_data.x_axis < 54))){
 
 				on_set_saver();
-				set_pushed_filter();
+				//set_pushed_filter();
 
 			}
 
-		}else{
-			actualice_pushed_filter();
-		}
+//		}else{
+//			//actualice_pushed_filter();
+//		}
 
 }
 
@@ -338,47 +378,7 @@ touch_data_t getTouchData(){
 
 
 
-void SPI2_IRQHandler(void) {
-	if (SPI_I2S_GetITStatus(SPI2, SPI_I2S_IT_TXE) == SET) {
-		//printf("przerwanie SPI TXE\n");
-		SPI_I2S_ClearITPendingBit(SPI2, SPI_I2S_IT_TXE);
-	}
 
-	if (SPI_I2S_GetITStatus(SPI2, SPI_I2S_IT_RXNE) == SET) {
-
-		unsigned char dummy_read;
-
-		//printf("3\n");
-		if(touch_screen_state == WAIT_TO_READ_Z_AXIS){
-			touch_data.z_axis = (unsigned char)SPI_I2S_ReceiveData(SPI2);
-			touch_screen_state = ASK_TO_READ_X_AXIS;
-
-			//printf("z_axis = %d ",z_axis );
-		}else if (touch_screen_state == WAIT_TO_READ_X_AXIS){
-			touch_data.x_axis = (unsigned char)SPI_I2S_ReceiveData(SPI2);
-			touch_screen_state = ASK_TO_READ_Y_AXIS;
-			//printf("x_axis = %d ",x_axis );
-
-		}else if (touch_screen_state == WAIT_TO_READ_Y_AXIS){
-			touch_data.y_axis = (unsigned char)SPI_I2S_ReceiveData(SPI2);
-			touch_screen_state = ASK_TO_READ_Z_AXIS;
-			//			if(touch_data.z_axis == 0){
-			//						touch_data.x_axis = 0;
-			//						touch_data.y_axis = 0;
-			//			}
-
-			//printf("y_axis = %d\n",y_axis );
-		}
-		else{
-			dummy_read = (unsigned char)SPI_I2S_ReceiveData(SPI2);
-			//printf("dummy_read  = %d",dummy_read  );
-		}
-
-
-
-		SPI_I2S_ClearITPendingBit(SPI2, SPI_I2S_IT_RXNE);
-	}
-}
 
 void touch_screen_send_command(unsigned short command){
 

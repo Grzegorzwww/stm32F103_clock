@@ -51,23 +51,16 @@ int main(void) {
 
 	RCC_Conf();
 	device_init();
-
   	turnOnOffLed(false);
-
   	init_bmp180();
-
     LCD_init();
-
     create_menu();
-
     init_touch_screen();
-
 	init_timer();
+	init_signle_shot_timer();
 
 	rtc_init();
-
 	sleep_mode_init();
-
 //	usart_dma_init();
 
 	save_time(8, 0,0);
@@ -79,13 +72,12 @@ int main(void) {
 
 
 		__WFI();
-
 		//controlUartTransfer();
 		//analizeIncomingDMAData();
 
-
-
 		if(getTimerChannelState(TIMER_10ms)){
+
+			analize_data_from_touch_screen(true);
 
 
 
@@ -95,11 +87,14 @@ int main(void) {
 		if (getTimerChannelState(TIMER_100ms)) {
 
 
-			analize_data_from_touch_screen(true);
+
+
 			control_touch_buttons();
-
-
 			show_menu();
+
+
+
+
 
 
 
