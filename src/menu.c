@@ -26,10 +26,10 @@ void increment_set_clk_state() {
 }
 void increment_set_date_state() {
 
-	if(date_set_stete >= 3){
-		date_set_stete = 0;
+	if(date_set_stete == 0){
+		date_set_stete = 3;
 	}else{
-		date_set_stete++;
+		date_set_stete--;
 	}
 
 }
@@ -81,21 +81,21 @@ void create_menu(){
 }
 
 void setMenuState(menu_state_t state) {
-	LCD_fillRect(0, 0, 310, 200, BLACK);
+	LCD_fillRect(0, 0, 320, 200, BLACK);
 	//LCD_fillScreen(BLACK);
 	menu_state = state;
 
 
 }
 
-unsigned char temp_str[10];
+unsigned char temperature_str[10];
 unsigned char preassure_str[15];
 
 
 void read_environmental_parameters(){
 
 
-	read_temperature_str(temp_str);
+	read_temperature_str(temperature_str);
 
 	read_pressure_str(preassure_str);
 }
@@ -164,8 +164,6 @@ void on_set_down()
 		 removeYear();
 	}
 
-
-
 }
 
 
@@ -176,6 +174,7 @@ void show_menu(){
 
 	unsigned char timer_str[20];
 	unsigned char date_str[20];
+	unsigned char alarm_str[20];
 
 
 
@@ -189,6 +188,7 @@ void show_menu(){
 
 		read_time(timer_str);
 		read_date(date_str);
+
 
 
 
@@ -207,7 +207,7 @@ void show_menu(){
 
 		LCD_setTextSize(2);
 		LCD_setCursor(65, 140);
-		LCD_writeString(temp_str);
+		LCD_writeString(temperature_str);
 
 
 		LCD_setCursor(170, 140);
@@ -218,13 +218,31 @@ void show_menu(){
 		break;
 
 	case BUDZIK_MENU:
-		LCD_setTextSize(5);
+		LCD_setTextSize(3);
 
-	    LCD_setTextColor(WHITE);
+		read_alarm(alarm_str);
+
 	    LCD_setTextBgColor(BLACK);
-	    LCD_setCursor(20, 0);
-		LCD_writeString("BUDZIK");
+		LCD_setCursor(10, 5);
+		LCD_writeString("Alarm: ");
 
+		LCD_setCursor(140, 5);
+		LCD_writeString(alarm_str);
+
+
+
+
+		LCD_setTextSize(3);
+		LCD_drawRect(30, 130, 110, 42, WHITE);
+		LCD_setTextColor(WHITE);
+		LCD_setCursor(31, 141);
+		LCD_writeString("  UP  ");
+
+		LCD_setTextSize(3);
+		LCD_drawRect(170, 130, 110, 42, WHITE);
+		LCD_setTextColor(WHITE);
+		LCD_setCursor(171, 141);
+		LCD_writeString(" DOWN ");
 
 
 
@@ -243,10 +261,14 @@ void show_menu(){
 		else if(clk_set_state == SET_CLK_SEK) { LCD_setTextColor(YELLOW); }
 		else{ LCD_setTextColor(WHITE);}
 
-
 	    LCD_setTextBgColor(BLACK);
-		LCD_setCursor(10, 20);
+		LCD_setCursor(10, 5);
+		LCD_writeString("Godz: ");
+
+		LCD_setCursor(120, 5);
 		LCD_writeString(timer_str);
+
+
 
 
 		if(date_set_stete == SET_DATE_DAY ){ LCD_setTextColor(RED); }
@@ -255,40 +277,57 @@ void show_menu(){
 		else{ LCD_setTextColor(WHITE);}
 
 		LCD_setCursor(10, 70);
+
+
+		LCD_writeString("Data: ");
+		LCD_setCursor(120, 70);
 		LCD_writeString(date_str);
 
 
 
+
+
 		LCD_setTextSize(3);
-	    LCD_setTextBgColor(RED);
-	    LCD_setTextColor(BLACK);
-	    LCD_setCursor(200, 20);
+		LCD_drawRect(30, 130, 110, 42, WHITE);
+	    LCD_setTextColor(WHITE);
+	    LCD_setCursor(31, 141);
 	    LCD_writeString("  UP  ");
 
-	    LCD_setTextBgColor(RED);
-	    LCD_setTextColor(BLACK);
-	    LCD_setCursor(200, 70);
-	    LCD_writeString(" DOWN ");
 
-
-		LCD_setTextSize(3);
-	    LCD_setTextBgColor(BLACK);
+	    LCD_setTextSize(3);
+	    LCD_drawRect(170, 130, 110, 42, WHITE);
 	    LCD_setTextColor(WHITE);
-	    LCD_setCursor(10, 135);
-	    LCD_writeString("Wygaszacz:");
+	    LCD_setCursor(171, 141);
+	    LCD_writeString(" DOWN ");
+//
+//	    LCD_setTextBgColor(RED);
+//	    LCD_setTextColor(BLACK);
+//	    LCD_setCursor(200, 70);
+//	    LCD_writeString(" DOWN ");
 
-		LCD_setTextSize(3);
-	    LCD_setTextBgColor(GREEN);
-	    LCD_setTextColor(BLACK);
-	    LCD_setCursor(200, 135);
 
-	    if(saver){
-	        LCD_setTextBgColor(GREEN);
-	    	LCD_writeString(" ON  ");
-	    }else{
-	        LCD_setTextBgColor(RED);
-	    	LCD_writeString(" OFF ");
-	    }
+
+
+
+
+
+//		LCD_setTextSize(3);
+//	    LCD_setTextBgColor(BLACK);
+//	    LCD_setTextColor(WHITE);
+//	    LCD_setCursor(10, 135);
+//	    LCD_writeString("Wygaszacz:");
+//
+//		LCD_setTextSize(3);
+//	    LCD_setTextColor(BLACK);
+//	    LCD_setCursor(200, 135);
+//
+//	    if(saver){
+//	        LCD_setTextBgColor(GREEN);
+//	    	LCD_writeString(" ON  ");
+//	    }else{
+//	        LCD_setTextBgColor(RED);
+//	    	LCD_writeString(" OFF ");
+//	    }
 
 
 

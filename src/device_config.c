@@ -11,15 +11,15 @@
 GPIO_InitTypeDef GPIO_InitStruct;
 
 
-NVIC_InitTypeDef nvic;
+
 
 static volatile bool sleep_mode_status = false;
-
 
 void set_sleep_mode() {
 	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, ENABLE);
 	sleep_mode_status = true;
 }
+
 void clr_sleep_mode() {
 	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, ENABLE);
 	sleep_mode_status = false;
@@ -29,9 +29,7 @@ void clr_sleep_mode() {
 void sleep_mode_init()
 {
 
-
 	DBGMCU_Config(DBGMCU_STANDBY, ENABLE);
-
 
 	NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
@@ -82,11 +80,13 @@ void device_init(){
 	    GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 
-	    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-	    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_6;
-	    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-	    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
-	    GPIO_Init(GPIOB, &GPIO_InitStruct);
+//	    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+//	    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_6;
+//	    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+//	    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
+//	    GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+
 
 //	    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_1;
 //	    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;
@@ -96,13 +96,7 @@ void device_init(){
 }
 void init_nvic(){
 
-	 nvic.NVIC_IRQChannel = TIM2_IRQn;
-	 nvic.NVIC_IRQChannelPreemptionPriority = 0;
-	 nvic.NVIC_IRQChannelSubPriority = 1;
-	 nvic.NVIC_IRQChannelCmd = ENABLE;
-	 NVIC_Init(&nvic);
 
-	 NVIC_EnableIRQ(TIM2_IRQn);
 
 }
 

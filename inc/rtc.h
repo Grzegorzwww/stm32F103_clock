@@ -37,7 +37,7 @@ int getTotalRtcTicks();
 
 void rtc_init(void);
 void analize_clock_clendar_state(void);
-
+void read_alarm(unsigned char *data_buff);
 void read_time(unsigned char *data_buff);
 void save_time(unsigned char hours, unsigned char minutes, unsigned short seconds);
 void read_date(unsigned char *data_buff);

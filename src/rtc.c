@@ -297,7 +297,27 @@ void RTCAlarm_IRQHandler(void){
 int getTotalRtcTicks(){
 	return total_rtc_ticks;
 }
+void read_alarm(unsigned char *data_buff){
+	uint32_t alarmvar;
+		alarmvar = RTC_GetAlarm();
+		alarmvar = alarmvar % 86400;
+		s_AlarmStructVar.u8_HourHigh = (uint8_t)(alarmvar / 3600 ) / 10;
+		s_AlarmStructVar.u8_HourLow = (uint8_t)(alarmvar / 3600 ) % 10;
+		s_AlarmStructVar.u8_MinHigh = (uint8_t)((alarmvar % 3600 ) / 60) / 10;
+		s_AlarmStructVar.u8_MinLow = (uint8_t)((alarmvar % 3600 ) / 60) % 10;
+		s_AlarmStructVar.u8_SecHigh = ((uint8_t)(alarmvar % 60 ) % 60) / 10;
+		s_AlarmStructVar.u8_SecLow = ((uint8_t)(alarmvar % 60 ) % 60) % 10;
+		sprintf(data_buff, "%d%d:%d%d:%d%d",
+				s_AlarmStructVar.u8_HourHigh,
+				s_AlarmStructVar.u8_HourLow,
+				s_AlarmStructVar.u8_MinHigh,
+				s_AlarmStructVar.u8_MinLow,
+				s_AlarmStructVar.u8_SecHigh,
+				s_AlarmStructVar.u8_SecLow);
 
+
+
+}
 
 
 void read_time(unsigned char *data_buff){
@@ -413,14 +433,6 @@ void save_time(unsigned char hours, unsigned char minutes, unsigned short second
 	  RTC_WaitForLastTask();
 
 
-
-
-//	s_DateStructVar.u8_Day = day;
-//	s_DateStructVar.u8_Month =  month;
-//	s_DateStructVar.u16_Year = year;
-//	BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
-//	BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
-//	BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
 }
 
 

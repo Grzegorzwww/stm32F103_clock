@@ -185,6 +185,15 @@ void RTC_SetAlarm(uint32_t AlarmValue)
   RTC_ExitConfigMode();
 }
 
+
+uint16_t RTC_GetAlarm() // moja funkcja
+{
+  uint16_t tmp = 0;
+  tmp = RTC->ALRL;
+  return (((uint32_t)RTC->ALRH << 16 ) | tmp) ;
+}
+
+
 /**
   * @brief  Gets the RTC divider value.
   * @param  None

@@ -57,7 +57,8 @@ int main(void) {
     create_menu();
     init_touch_screen();
 	init_timer();
-	init_signle_shot_timer();
+
+	//timer_2_init();
 
 	rtc_init();
 	sleep_mode_init();
@@ -66,6 +67,8 @@ int main(void) {
 	save_time(8, 0,0);
 	save_date(28,3,2018);
 	set_alarm(10, 0, 0);
+
+	int counter  =0;
 
 
 	while (1) {
@@ -77,23 +80,22 @@ int main(void) {
 
 		if(getTimerChannelState(TIMER_10ms)){
 
-			analize_data_from_touch_screen(true);
 
 
+			if(counter++ == 5){
+				counter = 0;
+
+			}
 
 			setTimerChannelState(TIMER_10ms, false);
 		}
 
 		if (getTimerChannelState(TIMER_100ms)) {
 
-
-
-
+			analize_data_from_touch_screen(true);
 			control_touch_buttons();
+
 			show_menu();
-
-
-
 
 
 
@@ -103,6 +105,7 @@ int main(void) {
 		}
 
 		if (getTimerChannelState(TIMER_1s)) {
+
 
 
 			analize_clock_clendar_state();

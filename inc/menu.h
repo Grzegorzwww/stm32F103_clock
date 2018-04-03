@@ -13,6 +13,7 @@
 #include "itoa.h"
 #include "stdbool.h"
 #include "bmp180.h"
+#include "string.h"
 
 
 typedef enum {ZEGAR_MENU = 0, BUDZIK_MENU, USTAWIENIA_MENU, INNE_MENU } menu_state_t;
@@ -30,6 +31,8 @@ void show_menu();
 
 void increment_set_clk_state();
 void increment_set_date_state();
+
+void setMenuState(menu_state_t state);
 
 void on_set_up();
 void on_set_down();

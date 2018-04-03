@@ -127,66 +127,13 @@ void init_timer(){
 
 void init_signle_shot_timer(){
 
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
 
-
-	TIM_TimeBaseInitTypeDef tim;
-	TIM_TimeBaseStructInit(&tim);
-	tim.TIM_CounterMode = TIM_CounterMode_Up;
-	tim.TIM_Prescaler = 3;
-	tim.TIM_Period = 59;
-
-
-	//tim.TIM_RepetitionCounter = 0;
-	tim.TIM_ClockDivision = TIM_CKD_DIV1;
-	TIM_TimeBaseInit(TIM1, &tim);
-
-
-//	TIM_ClearFlag( TIM3, TIM_FLAG_Update );
-	TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
-
-
-
-
-
-	NVIC_InitTypeDef nvic;
-
-	 nvic.NVIC_IRQChannel = TIM3_IRQn;
-	 nvic.NVIC_IRQChannelPreemptionPriority = 0;
-	 nvic.NVIC_IRQChannelSubPriority = 0;
-	 nvic.NVIC_IRQChannelCmd = ENABLE;
-	 NVIC_Init(&nvic);
-
-	 NVIC_EnableIRQ(TIM3_IRQn);
-
-
-
-	TIM_Cmd(TIM3, ENABLE);
 
 }
 
 volatile static bool x = false;
 
-void TIM3_IRQHandler(void){
-	if(TIM_GetITStatus(TIM3, TIM_IT_Update) == SET){
 
-//		switch(x){
-//			case true :
-//				GPIO_WriteBit(GPIOB, GPIO_Pin_6,Bit_SET);
-////			  	turnOnOffLed(false);
-//				x = false;
-//				break;
-//			case false :
-//				GPIO_WriteBit(GPIOB, GPIO_Pin_6,Bit_RESET);
-////			  	turnOnOffLed(true);
-//				x = true;
-//				break;
-//
-//			}
-
-		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
-	}
-}
 
 
 void TIM1_CC_IRQHandler(void)

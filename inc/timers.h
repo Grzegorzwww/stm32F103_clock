@@ -15,6 +15,7 @@
 
 
 void init_timers();
+void timer_2_init();
 
 
 
