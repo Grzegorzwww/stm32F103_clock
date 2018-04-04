@@ -365,6 +365,42 @@ void read_date(unsigned char *data_buff){
 
 }
 
+void addAlarmHour(){
+	unsigned long int total_alarm_ticks_to_add = RTC_GetAlarm();
+	total_alarm_ticks_to_add +=  3600;
+	RTC_SetAlarm(total_alarm_ticks_to_add);
+}
+void removeAlarmHour(){
+	unsigned long int total_alarm_ticks_to_add = RTC_GetAlarm();
+	total_alarm_ticks_to_add -=  3600;
+	RTC_SetAlarm(total_alarm_ticks_to_add);
+}
+void addAlarmMinute(){
+	unsigned long int total_alarm_ticks_to_add = RTC_GetAlarm();
+	total_alarm_ticks_to_add +=  60;
+	RTC_SetAlarm(total_alarm_ticks_to_add);
+}
+void removeAlarmMinute(){
+	unsigned long int total_alarm_ticks_to_add = RTC_GetAlarm();
+	total_alarm_ticks_to_add -=  60;
+	RTC_SetAlarm(total_alarm_ticks_to_add);
+}
+void addAlarmSec(){
+	unsigned long int total_alarm_ticks_to_add = RTC_GetAlarm();
+	total_alarm_ticks_to_add +=  1;
+	RTC_SetAlarm(total_alarm_ticks_to_add);
+}
+void removeAlarmSec(){
+	unsigned long int total_alarm_ticks_to_add = RTC_GetAlarm();
+	total_alarm_ticks_to_add -=  1;
+	RTC_SetAlarm(total_alarm_ticks_to_add);
+}
+
+
+
+
+
+
 
 
 void addHour() {

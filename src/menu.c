@@ -11,11 +11,31 @@
 
 static menu_state_t menu_state;
 
+static bool is_button_pushed_up = false;
+static bool is_button_pushed_down = false;
+static bool is_switch_alarm = false;
+static bool is_switch_days = false;
+
+
+
 static clk_set_state_t clk_set_state = NO_SET_CLK;
+static clk_set_state_t alarm_set_state = NO_SET_CLK;
+
 static date_set_stete_t date_set_stete = NO_SET_DATE;
+
+static bool working_days_alarm_flag = false;
+static bool on_off_alarm_flag = false;
 
 
 menu_state_t get_menu_state() {return menu_state;}
+
+
+void on_button_released(){
+	is_button_pushed_up = false;
+	is_button_pushed_down = false;
+	is_switch_alarm = false;
+	is_switch_days = false;
+}
 
 void increment_set_clk_state() {
 	if(clk_set_state >= 3){
@@ -32,6 +52,14 @@ void increment_set_date_state() {
 		date_set_stete--;
 	}
 
+}
+
+void increment_set_alarm_state() {
+	if(alarm_set_state >= 3){
+		alarm_set_state = 0;
+	}else{
+		alarm_set_state++;
+	}
 }
 
 
@@ -100,8 +128,63 @@ void read_environmental_parameters(){
 	read_pressure_str(preassure_str);
 }
 
-void on_set_up(){
+void on_set_working_day(){
+	is_switch_days = true;
+	if(!working_days_alarm_flag)
+		working_days_alarm_flag = true;
+	else{
+		working_days_alarm_flag = false;
+	}
+}
 
+
+void on_set_alarm(){
+	is_switch_alarm = true;
+	if(!on_off_alarm_flag)
+		on_off_alarm_flag = true;
+	else{
+		on_off_alarm_flag = false;
+	}
+}
+
+//void on_set_working_day_off(){
+//	working_days_alarm_flag = false;
+//}
+//
+
+void on_set_alarm_up(){
+
+	is_button_pushed_up = true;
+	if(alarm_set_state == SET_CLK_HOURS){
+		addAlarmHour();
+	}else  if (alarm_set_state == SET_CLK_MINUTES){
+		addAlarmMinute();
+	}
+	else  if (alarm_set_state == SET_CLK_SEK){
+		addAlarmSec();
+	}
+}
+
+void on_set_alarm_down(){
+
+	is_button_pushed_down = true;
+	if(alarm_set_state == SET_CLK_HOURS){
+		removeAlarmHour();
+	}else  if (alarm_set_state == SET_CLK_MINUTES){
+		removeAlarmMinute();
+	}
+	else  if (alarm_set_state == SET_CLK_SEK){
+		removeAlarmSec();
+	}
+
+}
+
+
+
+
+
+void on_set_up(){
+	 is_button_pushed_up = true;
 	if(clk_set_state == SET_CLK_HOURS){
 		addHour();
 	}else  if (clk_set_state == SET_CLK_MINUTES){
@@ -110,7 +193,6 @@ void on_set_up(){
 	else  if (clk_set_state == SET_CLK_SEK){
 		addSec();
 	}
-
 
 
 	if(date_set_stete == SET_DATE_DAY){
@@ -145,7 +227,7 @@ void on_set_saver(){
 
 void on_set_down()
 {
-
+	is_button_pushed_down = true;
 	if(clk_set_state == SET_CLK_HOURS){
 		removeHour();
 	}else  if (clk_set_state == SET_CLK_MINUTES){
@@ -154,6 +236,7 @@ void on_set_down()
 	else  if (clk_set_state == SET_CLK_SEK){
 		removeSec();
 	}
+
 	if(date_set_stete == SET_DATE_DAY){
 		removeDay();
 	}
@@ -226,20 +309,70 @@ void show_menu(){
 		LCD_setCursor(10, 5);
 		LCD_writeString("Alarm: ");
 
+
+
+		if(alarm_set_state == SET_CLK_HOURS){ LCD_setTextColor(RED); }
+		else if(alarm_set_state== SET_CLK_MINUTES) { LCD_setTextColor(GREEN); }
+		else if(alarm_set_state == SET_CLK_SEK) { LCD_setTextColor(YELLOW); }
+		else{ LCD_setTextColor(WHITE);}
+
 		LCD_setCursor(140, 5);
 		LCD_writeString(alarm_str);
 
 
 
 
+		LCD_setTextColor(WHITE);
+		LCD_setCursor(10, 46);
+		LCD_writeString("Alarm:");
+		if( is_switch_alarm){LCD_drawRect(230, 42, 80, 31, BLUE);}
+		else {LCD_drawRect(230, 42, 80, 31, WHITE);}
+
+		LCD_setTextColor(WHITE);
+		LCD_setCursor(233,48);
+		if(on_off_alarm_flag){
+			LCD_setTextColor(GREEN);
+			LCD_writeString("ON  ");
+
+		}else{
+			LCD_setTextColor(RED);
+			LCD_writeString(" OFF");
+		}
+
+
+
+
+		LCD_setTextColor(WHITE);
+		LCD_setCursor(10, 87);
+		LCD_writeString("Dni robocze:");
+		if(is_switch_days){LCD_drawRect(230, 85, 80, 31, BLUE);}
+		else{LCD_drawRect(230, 85, 80, 31, WHITE);}
+
+		LCD_setTextColor(WHITE);
+		LCD_setCursor(233, 91);
+		if(working_days_alarm_flag){
+			LCD_setTextColor(GREEN);
+			LCD_writeString("ON  ");
+
+		}else{
+			LCD_setTextColor(RED);
+			LCD_writeString(" OFF");
+		}
+
+
+
+
+
 		LCD_setTextSize(3);
-		LCD_drawRect(30, 130, 110, 42, WHITE);
+		if(is_button_pushed_up){LCD_drawRect(30, 130, 110, 42, BLUE);}
+			else {LCD_drawRect(30, 130, 110, 42, WHITE);}
 		LCD_setTextColor(WHITE);
 		LCD_setCursor(31, 141);
 		LCD_writeString("  UP  ");
 
 		LCD_setTextSize(3);
-		LCD_drawRect(170, 130, 110, 42, WHITE);
+		if(is_button_pushed_down){LCD_drawRect(170, 130, 110, 42, BLUE);}
+			else {LCD_drawRect(170, 130, 110, 42, WHITE);}
 		LCD_setTextColor(WHITE);
 		LCD_setCursor(171, 141);
 		LCD_writeString(" DOWN ");
@@ -285,17 +418,17 @@ void show_menu(){
 
 
 
-
-
 		LCD_setTextSize(3);
-		LCD_drawRect(30, 130, 110, 42, WHITE);
+		if(is_button_pushed_up){LCD_drawRect(30, 130, 110, 42, BLUE);}
+		else {LCD_drawRect(30, 130, 110, 42, WHITE);}
 	    LCD_setTextColor(WHITE);
 	    LCD_setCursor(31, 141);
 	    LCD_writeString("  UP  ");
 
 
 	    LCD_setTextSize(3);
-	    LCD_drawRect(170, 130, 110, 42, WHITE);
+		if(is_button_pushed_down){LCD_drawRect(170, 130, 110, 42, BLUE);}
+			else {LCD_drawRect(170, 130, 110, 42, WHITE);}
 	    LCD_setTextColor(WHITE);
 	    LCD_setCursor(171, 141);
 	    LCD_writeString(" DOWN ");

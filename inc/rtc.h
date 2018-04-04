@@ -60,7 +60,12 @@ void addMin();
 void removeMin();
 void addSec();
 void removeSec();
-
+void addAlarmHour();
+void removeAlarmHour();
+void addAlarmMinute();
+void removeAlarmMinute();
+void addAlarmSec();
+void removeAlarmSec();
 
 void prev_date();
 void removeDay();

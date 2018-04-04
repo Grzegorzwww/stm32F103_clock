@@ -29,7 +29,7 @@ DMA_InitTypeDef DMA_InitStructure;
 int counting_period_filter_index = 0;
 
 void set_pushed_filter() {
-	counting_period_filter_index = 5;
+	counting_period_filter_index = 4;
 }
 inline int check_pushed_filter(){
 	if(counting_period_filter_index < 0)
@@ -298,82 +298,32 @@ void SPI2_IRQHandler(void) {
 
 void control_touch_buttons()
 {
-	//printf("z = %d, x = %d, y = %d\n",touch_data.z_axis,  touch_data.x_axis, touch_data.y_axis);
+	printf("z = %d, x = %d, y = %d\n",touch_data.z_axis,  touch_data.x_axis, touch_data.y_axis);
+
+	if(touch_data.z_axis ==0 ){
+		on_button_released();
+	}
 
 	if(check_pushed_filter() == 0){
-
 		if(touch_data.z_axis > TOUCH_SCREEN_PUSH_SENS /*&& touch_data.x_axis > 0 && touch_data.y_axis > 0*/){
-
 			//printf("%d, %d\n", touch_data.x_axis, touch_data.y_axis);
 			run_command_parameter(103, 125 ,100, 125,  setMenuState, ZEGAR_MENU);
 			run_command_parameter( 70, 100,100, 125, setMenuState, BUDZIK_MENU);
 			run_command_parameter( 44, 70,100, 125, setMenuState, USTAWIENIA_MENU);
 			run_command_parameter( 0, 44, 100, 125, setMenuState, INNE_MENU);
 
-
-//			if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 100) && (touch_data.x_axis < 125))){
-//
-//				setMenuState(ZEGAR_MENU);
-//				set_pushed_filter();
-//			}
-//			if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 70)&& (touch_data.x_axis < 100))){
-//				setMenuState(BUDZIK_MENU);
-//				set_pushed_filter();
-//			}
-//			if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 44)&& (touch_data.x_axis < 70))){
-//				setMenuState(USTAWIENIA_MENU);
-//				set_pushed_filter();
-//			}
-//			if(((touch_data.y_axis > 103) && (touch_data.y_axis < 125)) && ((touch_data.x_axis > 0)&& (touch_data.x_axis < 44))){
-//				setMenuState(INNE_MENU);
-//				set_pushed_filter();
-//			}
-
-
-
 			if(get_menu_state() == USTAWIENIA_MENU){
-
-				if(((touch_data.y_axis > 0) && (touch_data.y_axis < 24)) && ((touch_data.x_axis > 0)&& (touch_data.x_axis < 86)) ){
-					increment_set_clk_state();
-					set_pushed_filter();
-				}
-//
-				if(((touch_data.y_axis > 37) && (touch_data.y_axis < 64)) && ((touch_data.x_axis > 0)&& (touch_data.x_axis < 86)) ){
-					increment_set_date_state();
-					set_pushed_filter();
-				}
-
-				if(((touch_data.y_axis > 70) && (touch_data.y_axis < 93)) && ((touch_data.x_axis > 82)&& (touch_data.x_axis < 116))){
-					on_set_up();
-					set_pushed_filter();
-				}
-
-				if(((touch_data.y_axis > 70) && (touch_data.y_axis < 93)) && ((touch_data.x_axis > 28)&& (touch_data.x_axis < 68))){
-					on_set_down();
-					set_pushed_filter();
-				}
-
-
+				run_command(0, 86, 0, 24, increment_set_clk_state);
+				run_command(0, 86, 37, 64, increment_set_date_state);
+				run_command(82, 116, 70, 93, on_set_up);
+				run_command(28, 68, 70, 93, on_set_down);
 			}
 			if(get_menu_state() == BUDZIK_MENU){
-
-
-				if(((touch_data.y_axis > 0) && (touch_data.y_axis < 24)) && ((touch_data.x_axis > 0)&& (touch_data.x_axis < 86)) ){
-					//								increment_set_clk_state();
-					//	TODO:
-					set_pushed_filter();
-				}
-
-
-				if(((touch_data.y_axis > 70) && (touch_data.y_axis < 93)) && ((touch_data.x_axis > 82)&& (touch_data.x_axis < 116))){
-					//TODO:
-					set_pushed_filter();
-				}
-
-				if(((touch_data.y_axis > 70) && (touch_data.y_axis < 93)) && ((touch_data.x_axis > 28)&& (touch_data.x_axis < 68))){
-					//TODO:
-					set_pushed_filter();
-				}
+				run_command(0, 86, 0, 24, increment_set_alarm_state);
+				run_command(82, 116, 70, 93, on_set_alarm_up);
+				run_command(28, 68, 70, 93, on_set_alarm_down);
+				run_command(12, 45, 52, 68, on_set_working_day);
+				run_command(12, 45, 28, 44, on_set_alarm);
 
 
 			}
@@ -387,31 +337,23 @@ void control_touch_buttons()
 
 
 void run_command(uint8_t x_min_limit, uint8_t x_max_limit, uint8_t y_min_limit, uint8_t y_max_limit, void (*fun)(void)){
-
 	if(((touch_data.y_axis > y_min_limit) && (touch_data.y_axis < y_max_limit)) && ((touch_data.x_axis > x_min_limit) && (touch_data.x_axis < x_max_limit))){
 			fun();
 			set_pushed_filter();
 		}
-
 }
 
 void run_command_parameter(uint8_t x_min_limit, uint8_t x_max_limit, uint8_t y_min_limit, uint8_t y_max_limit, void (*fun)(menu_state_t), menu_state_t param){
 	if(((touch_data.y_axis > y_min_limit) && (touch_data.y_axis < y_max_limit)) && ((touch_data.x_axis > x_min_limit) && (touch_data.x_axis < x_max_limit))){
 		fun(param);
 		set_pushed_filter();
-
 	}
-
-
 }
-
 
 
 touch_data_t getTouchData(){
 	return touch_data;
 }
-
-
 
 
 

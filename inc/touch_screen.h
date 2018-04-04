@@ -67,7 +67,7 @@ void touch_screen_cs_high(void);
 void run_command(uint8_t x_min_limit, uint8_t x_max_limit, uint8_t y_min_limit, uint8_t y_max_limit, void (*fun)(void));
 void run_command_parameter(uint8_t x_min_limit, uint8_t x_max_limit, uint8_t y_min_limit, uint8_t y_max_limit, void (*fun)(menu_state_t), menu_state_t param);
 
-//void touch_screen_send_command(unsigned short command);
+void on_button_released();
 
 int Odczytaj_Pomiar(void);
 int Odczyt_X(void);

@@ -68,7 +68,7 @@ int main(void) {
 	save_date(28,3,2018);
 	set_alarm(10, 0, 0);
 
-	int counter  =0;
+	int counter  = 0;
 
 
 	while (1) {
@@ -79,8 +79,6 @@ int main(void) {
 		//analizeIncomingDMAData();
 
 		if(getTimerChannelState(TIMER_10ms)){
-
-
 
 			if(counter++ == 5){
 				counter = 0;
