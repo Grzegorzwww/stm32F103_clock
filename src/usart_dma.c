@@ -61,7 +61,6 @@ void usart_dma_init()
 
 	  USART_Cmd(USARTy, ENABLE);
 
-
 	  initBuffor(&_TX_USART_BUFFOR);
 	  initBuffor(&_RX_USART_BUFFOR);
 

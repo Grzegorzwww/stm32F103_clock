@@ -26,9 +26,12 @@ src/main.o: ../src/main.c \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_usart.h \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_wwdg.h \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/misc.h \
- /home/gwarchol/STMworkspace/clock_digital/inc/device_config.h \
- /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_rcc.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/DFPPlayer.h \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_gpio.h \
+ /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_rcc.h \
+ /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_usart.h \
+ /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/misc.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/device_config.h \
  /home/gwarchol/STMworkspace/clock_digital/inc/timers.h \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_tim.h \
  /home/gwarchol/STMworkspace/clock_digital/inc/usart_dma.h \
@@ -107,11 +110,17 @@ src/main.o: ../src/main.c \
 
 /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/misc.h:
 
-/home/gwarchol/STMworkspace/clock_digital/inc/device_config.h:
+/home/gwarchol/STMworkspace/clock_digital/inc/DFPPlayer.h:
+
+/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_gpio.h:
 
 /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_rcc.h:
 
-/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_gpio.h:
+/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_usart.h:
+
+/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/misc.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/device_config.h:
 
 /home/gwarchol/STMworkspace/clock_digital/inc/timers.h:
 

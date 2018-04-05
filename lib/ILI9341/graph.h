@@ -9,7 +9,7 @@
 #endif
 
 #ifndef abs
-#define abs(a) ((a)<0?-(a):a)
+#define abs(a) ((a)< 0 ? -(a):a)
 #endif
 
 #define ILI9341_COLOR(r, g, b)\

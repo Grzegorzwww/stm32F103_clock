@@ -91,28 +91,28 @@ void uart_send_data(unsigned char *data, unsigned int data_size){
 
 
 
-void USARTy_IRQHandler(void)
-{
-  if(USART_GetITStatus(USARTy, USART_IT_RXNE) != RESET)
-  {
-	  addToBuffor(&_RX_USART_BUFFOR, USART_ReceiveData(USARTy));
-      USART_ITConfig(USARTy, USART_IT_RXNE, DISABLE);
-   }
-
-  if(USART_GetITStatus(USARTy, USART_IT_TXE) != RESET)
-  {
-    /* Write one byte to the transmit data register */
-	volatile unsigned char data_byte = 0x00;
-	if(getFromBuffor(&_TX_USART_BUFFOR, &data_byte))
-		USART_SendData(USARTy, data_byte);
-
-    if(isBufforEmpty(&_TX_USART_BUFFOR))
-    {
-      /* Disable the USARTy Transmit interrupt */
-      USART_ITConfig(USARTy, USART_IT_TXE, DISABLE);
-    }
-  }
-}
+//void USARTy_IRQHandler(void)
+//{
+//  if(USART_GetITStatus(USARTy, USART_IT_RXNE) != RESET)
+//  {
+//	  addToBuffor(&_RX_USART_BUFFOR, USART_ReceiveData(USARTy));
+//      USART_ITConfig(USARTy, USART_IT_RXNE, DISABLE);
+//   }
+//
+//  if(USART_GetITStatus(USARTy, USART_IT_TXE) != RESET)
+//  {
+//    /* Write one byte to the transmit data register */
+//	volatile unsigned char data_byte = 0x00;
+//	if(getFromBuffor(&_TX_USART_BUFFOR, &data_byte))
+//		USART_SendData(USARTy, data_byte);
+//
+//    if(isBufforEmpty(&_TX_USART_BUFFOR))
+//    {
+//      /* Disable the USARTy Transmit interrupt */
+//      USART_ITConfig(USARTy, USART_IT_TXE, DISABLE);
+//    }
+//  }
+//}
 
 
 void init_uart2_polling(){

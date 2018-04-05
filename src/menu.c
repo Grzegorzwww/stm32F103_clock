@@ -27,6 +27,17 @@ static bool working_days_alarm_flag = false;
 static bool on_off_alarm_flag = false;
 
 
+bool working_day_checked(){return working_days_alarm_flag;}
+bool alarm_on_checked(){return on_off_alarm_flag;}
+
+
+unsigned char *days[7] = {"Poniedzialek", "Wtorek ", "Sroda ", "Czwartek", "Piątek", "Sobota", "Niedziela" };
+
+
+
+
+
+
 menu_state_t get_menu_state() {return menu_state;}
 
 
@@ -287,13 +298,21 @@ void show_menu(){
 		LCD_setCursor(50, 75);
 		LCD_writeString(date_str);
 
+		LCD_setTextSize(2);
+		LCD_setCursor(125, 120);
+
+
+
+		LCD_writeString(days[day_of_week()]);
+//		printf("dzien = %d\n", day_of_week());
+
 
 		LCD_setTextSize(2);
-		LCD_setCursor(65, 140);
+		LCD_setCursor(55, 165);
 		LCD_writeString(temperature_str);
 
 
-		LCD_setCursor(170, 140);
+		LCD_setCursor(170, 165);
 		LCD_writeString(preassure_str);
 
 
@@ -432,53 +451,7 @@ void show_menu(){
 	    LCD_setTextColor(WHITE);
 	    LCD_setCursor(171, 141);
 	    LCD_writeString(" DOWN ");
-//
-//	    LCD_setTextBgColor(RED);
-//	    LCD_setTextColor(BLACK);
-//	    LCD_setCursor(200, 70);
-//	    LCD_writeString(" DOWN ");
 
-
-
-
-
-
-
-//		LCD_setTextSize(3);
-//	    LCD_setTextBgColor(BLACK);
-//	    LCD_setTextColor(WHITE);
-//	    LCD_setCursor(10, 135);
-//	    LCD_writeString("Wygaszacz:");
-//
-//		LCD_setTextSize(3);
-//	    LCD_setTextColor(BLACK);
-//	    LCD_setCursor(200, 135);
-//
-//	    if(saver){
-//	        LCD_setTextBgColor(GREEN);
-//	    	LCD_writeString(" ON  ");
-//	    }else{
-//	        LCD_setTextBgColor(RED);
-//	    	LCD_writeString(" OFF ");
-//	    }
-
-
-
-//		LCD_setTextSize(2);
-//		LCD_setCursor(65, 140);
-//		LCD_writeString(temp_str);
-//
-//
-//		LCD_setCursor(170, 140);
-//		LCD_writeString(preassure_str);
-//
-
-//		LCD_setTextSize(5);
-//
-//	    LCD_setTextColor(WHITE);
-//	    LCD_setTextBgColor(BLACK);
-//	    LCD_setCursor(20, 0);
-//		LCD_writeString("USTAWIENIA");
 
 		break;
 	case INNE_MENU:

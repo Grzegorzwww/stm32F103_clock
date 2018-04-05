@@ -13,12 +13,14 @@
 
 
 #include "stm32f10x.h"
+#include "DFPPlayer.h"
 #include "device_config.h"
 #include "timers.h"
 #include "usart_dma.h"
 #include "uart_interrupt.h"
 #include "scan_timer.h"
 #include "touch_screen.h"
+
 #include "rtc.h"
 #include "text.h"
 #include "itoa.h"
@@ -30,8 +32,6 @@ extern void initialise_monitor_handles(void);
 #endif
 
 unsigned char AddCRC(unsigned char crc,unsigned char b);
-
-
 
 
 
@@ -62,7 +62,15 @@ int main(void) {
 
 	rtc_init();
 	sleep_mode_init();
-//	usart_dma_init();
+
+
+	MP3_init();
+	MP3_send_cmd(MP3_VOLUME, 0, 20); // Volume 0-30
+	delay_ms(25);
+	MP3_set_folder(1);
+
+	//usart_dma_init();
+	//uart_interrup_init();
 
 	save_time(8, 0,0);
 	save_date(28,3,2018);
@@ -75,8 +83,8 @@ int main(void) {
 
 
 		__WFI();
-		//controlUartTransfer();
-		//analizeIncomingDMAData();
+//		controlUartTransfer();
+//		analizeIncomingDMAData();
 
 		if(getTimerChannelState(TIMER_10ms)){
 
@@ -84,7 +92,6 @@ int main(void) {
 				counter = 0;
 
 			}
-
 			setTimerChannelState(TIMER_10ms, false);
 		}
 
@@ -96,6 +103,10 @@ int main(void) {
 			show_menu();
 
 
+//			unsigned char uart__data[10] = {1,2,3,4,5,6,7,8,9,0};
+//			uart_dma_send_data(uart__data, 10);
+//			uart_send_data(uart__data, 10);
+
 
 
 
@@ -105,7 +116,7 @@ int main(void) {
 		if (getTimerChannelState(TIMER_1s)) {
 
 
-
+			MP3_queue_processing();
 			analize_clock_clendar_state();
 
 

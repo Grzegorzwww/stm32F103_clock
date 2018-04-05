@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/DFPPlayer.c \
 ../src/bmp180.c \
 ../src/buffors.c \
 ../src/device_config.c \
@@ -18,6 +19,7 @@ C_SRCS += \
 ../src/usart_dma.c 
 
 OBJS += \
+./src/DFPPlayer.o \
 ./src/bmp180.o \
 ./src/buffors.o \
 ./src/device_config.o \
@@ -32,6 +34,7 @@ OBJS += \
 ./src/usart_dma.o 
 
 C_DEPS += \
+./src/DFPPlayer.d \
 ./src/bmp180.d \
 ./src/buffors.d \
 ./src/device_config.d \

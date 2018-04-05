@@ -52,6 +52,7 @@ u8 check_leap(u16 u16_Year);
 void set_alarm(u8 u8_Hour,u8 u8_Minute, u8 u8_Seconds);
 
 void check_for_days_elapsed(void);
+unsigned char day_of_week();
 
 
 void addHour();

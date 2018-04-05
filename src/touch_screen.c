@@ -298,7 +298,7 @@ void SPI2_IRQHandler(void) {
 
 void control_touch_buttons()
 {
-	printf("z = %d, x = %d, y = %d\n",touch_data.z_axis,  touch_data.x_axis, touch_data.y_axis);
+	//printf("z = %d, x = %d, y = %d\n",touch_data.z_axis,  touch_data.x_axis, touch_data.y_axis);
 
 	if(touch_data.z_axis ==0 ){
 		on_button_released();
