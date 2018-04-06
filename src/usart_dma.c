@@ -159,13 +159,14 @@ void controlUartTransfer(){
 void analizeIncomingDMAData()
 {
 	unsigned char temp_byte;
-	if(getFromBuffor(&_RX_USART_BUFFOR, &temp_byte) == true){
-		if(temp_byte == 0xAA){
-			turnOnOffLed(true);
-		}else if(temp_byte == 0xBB){
-			turnOnOffLed(false);
+
+	if(!isBufforEmpty(&_RX_USART_BUFFOR) ){
+		if(getFromBuffor(&_RX_USART_BUFFOR, &temp_byte) == true){
+			printf("%x ", temp_byte);
+
 		}
 	}
+	printf("\n");
 
 }
 

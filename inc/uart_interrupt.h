@@ -47,6 +47,7 @@ void uart2_send_char(char c);
 
 
 void analizeIncomingData();
+data_buffor_t *get_usart_tx_buffor_ptr();
 
 
 

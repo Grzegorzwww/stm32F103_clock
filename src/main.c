@@ -60,71 +60,64 @@ int main(void) {
 
 	//timer_2_init();
 
+
 	rtc_init();
+
 	sleep_mode_init();
-
-
-	MP3_init();
-	MP3_send_cmd(MP3_VOLUME, 0, 20); // Volume 0-30
-	delay_ms(25);
-	MP3_set_folder(1);
+	uart_interrup_init();
 
 	//usart_dma_init();
-	//uart_interrup_init();
+
+	delay_ms(500);
+
+//	MP3_init();
+//	MP3_send_cmd(MP3_VOLUME, 0, 25); // Volume 0-30
+//	delay_ms(100);
+//	MP3_set_folder(1);
+
+	//MP3_say(MP3_NO_VALUE, 3148, MP3_NO_VALUE);
+
+
 
 	save_time(8, 0,0);
 	save_date(28,3,2018);
 	set_alarm(10, 0, 0);
 
 	int counter  = 0;
+//	delay_ms(100);
+//	MP3_play_sound(1);
+
 
 
 	while (1) {
-
-
 		__WFI();
+
 //		controlUartTransfer();
 //		analizeIncomingDMAData();
 
+
+
 		if(getTimerChannelState(TIMER_10ms)){
 
-			if(counter++ == 5){
-				counter = 0;
-
-			}
+//			 analizeIncomingData();
 			setTimerChannelState(TIMER_10ms, false);
 		}
 
 		if (getTimerChannelState(TIMER_100ms)) {
 
+
 			analize_data_from_touch_screen(true);
 			control_touch_buttons();
-
 			show_menu();
-
-
-//			unsigned char uart__data[10] = {1,2,3,4,5,6,7,8,9,0};
-//			uart_dma_send_data(uart__data, 10);
-//			uart_send_data(uart__data, 10);
-
-
-
 
 			setTimerChannelState(TIMER_100ms, false);
 		}
 
 		if (getTimerChannelState(TIMER_1s)) {
 
-
-			MP3_queue_processing();
+			//MP3_queue_processing();
 			analize_clock_clendar_state();
-
-
-
-
 			read_environmental_parameters();
-
-
 
 			setTimerChannelState(TIMER_1s, false);
 		}

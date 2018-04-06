@@ -41,73 +41,75 @@ volatile uint8_t mp3_flag = 0;
 void MP3_init(void)
 {
 	/* Enable USART3 and GPIOA clock */
-	RCC_APB1PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+//	RCC_APB1PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+//
+//	/* NVIC Configuration */
+//	NVIC_InitTypeDef NVIC_InitStructure;
+//	/* Enable the USARTx Interrupt */
+//	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
+//	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+//	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+//	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+//	NVIC_Init(&NVIC_InitStructure);
+//
+//	/* Configure the GPIOs */
+//	GPIO_InitTypeDef GPIO_InitStructure;
+//
+//	/* Configure USART3 Tx (PB10) as alternate function push-pull */
+//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+//
+//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//	GPIO_Init(GPIOA, &GPIO_InitStructure);
+//
+//
+//	/* Configure USART3 Rx (PB11) as input floating */
+//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+//	GPIO_Init(GPIOA, &GPIO_InitStructure);
+//
+//	/* Configure the USART3 */
+//	USART_InitTypeDef USART_InitStructure;
+//
+//	/* USART3 configuration ------------------------------------------------------*/
+//	/* USART configured as follow:
+//		          - BaudRate = 9600 baud
+//		          - Word Length = 8 Bits
+//		          - One Stop Bit
+//		          - No parity
+//		          - Hardware flow control disabled (RTS and CTS signals)
+//		          - Receive and transmit enabled
+//		          - USART Clock disabled
+//		          - USART CPOL: Clock is active low
+//		          - USART CPHA: Data is captured on the middle
+//		          - USART LastBit: The clock pulse of the last data bit is not output to
+//		                           the SCLK pin
+//	 */
+//	USART_InitStructure.USART_BaudRate = 9600;
+//	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+//	USART_InitStructure.USART_StopBits = USART_StopBits_1;
+//	USART_InitStructure.USART_Parity = USART_Parity_No;
+//	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+//	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+//
+//	USART_Init(USART1, &USART_InitStructure);
+//
+//	/* Enable USART3 */
+//	USART_Cmd(USART1, ENABLE);
+//
+//	/* Enable the USART3 Receive interrupt: this interrupt is generated when the
+//		USART3 receive data register is not empty */
+//	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+//
+//    // Send first byte. First byte may be dropped.
+////	USART_puts(USART1, ' ');
+//	USART_SendData(USART1, ' ');
+//    while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET)
+//    {
+//    }
 
-	/* NVIC Configuration */
-	NVIC_InitTypeDef NVIC_InitStructure;
-	/* Enable the USARTx Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&NVIC_InitStructure);
-
-	/* Configure the GPIOs */
-	GPIO_InitTypeDef GPIO_InitStructure;
-
-	/* Configure USART3 Tx (PB10) as alternate function push-pull */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-
-	/* Configure USART3 Rx (PB11) as input floating */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-	/* Configure the USART3 */
-	USART_InitTypeDef USART_InitStructure;
-
-	/* USART3 configuration ------------------------------------------------------*/
-	/* USART configured as follow:
-		          - BaudRate = 9600 baud
-		          - Word Length = 8 Bits
-		          - One Stop Bit
-		          - No parity
-		          - Hardware flow control disabled (RTS and CTS signals)
-		          - Receive and transmit enabled
-		          - USART Clock disabled
-		          - USART CPOL: Clock is active low
-		          - USART CPHA: Data is captured on the middle
-		          - USART LastBit: The clock pulse of the last data bit is not output to
-		                           the SCLK pin
-	 */
-	USART_InitStructure.USART_BaudRate = 9600;
-	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-	USART_InitStructure.USART_StopBits = USART_StopBits_1;
-	USART_InitStructure.USART_Parity = USART_Parity_No;
-	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-
-	USART_Init(USART1, &USART_InitStructure);
-
-	/* Enable USART3 */
-	USART_Cmd(USART1, ENABLE);
-
-	/* Enable the USART3 Receive interrupt: this interrupt is generated when the
-		USART3 receive data register is not empty */
-	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
-
-    // Send first byte. First byte may be dropped.
-//	USART_puts(USART1, ' ');
-	USART_SendData(USART1, ' ');
-    while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET)
-    {
-    }
+	uart_send_data(" ", 1);
 }
 
 //void USART_puts(USART_TypeDef* USARTx, volatile char *s){
@@ -134,29 +136,81 @@ void MP3_clear_RXBuffer(void) {
  * Sets a flag when message received and the end of track playing is detected.
  * Other messages are ignored.
  */
-void USART1_IRQHandler(void)
-{
-    if ((USART1->SR & USART_FLAG_RXNE) != (u16)RESET)
-	{
-    	mp3_RXc = USART_ReceiveData(USART1);
-    	mp3_RX_Buf[mp3_RXi] = mp3_RXc;
-    	mp3_RXi++;
 
-    		if (mp3_RXc != 0xEF) { // End of DFPlayer message
-    			if (mp3_RXi > mp3_RX_Buf_SIZE-1) {
-    				MP3_clear_RXBuffer();
-    			}
-    		}
-    		else {
-    			//if (RX_BUF[3] == 0x3C) { // U-DISK finished playing tracks
-    			//if (RX_BUF[3] == 0x3E) { // FLASH finished playing tracks
-    			if (mp3_RX_Buf[3] == 0x3D) { // TF card finished playing tracks
-    				mp3_flag = 1;
-    			}
-    			MP3_clear_RXBuffer();
-    		}
+
+void analizeDataFromMP3(unsigned char data ){
+
+	mp3_RXc = data;
+		printf("%x\n", mp3_RXc);
+	mp3_RX_Buf[mp3_RXi] = mp3_RXc;
+	mp3_RXi++;
+
+	if (mp3_RXc != 0xEF) { // End of DFPlayer message
+		if (mp3_RXi > mp3_RX_Buf_SIZE-1) {
+			MP3_clear_RXBuffer();
+		}
+	}
+	else {
+		//if (RX_BUF[3] == 0x3C) { // U-DISK finished playing tracks
+		//if (RX_BUF[3] == 0x3E) { // FLASH finished playing tracks
+		if (mp3_RX_Buf[3] == 0x3D) { // TF card finished playing tracks
+			mp3_flag = 1;
+
+		}
+		MP3_clear_RXBuffer();
+
+
 	}
 }
+
+
+
+
+//void USART1_IRQHandler(void)
+//{
+//	if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
+//	{
+//
+//		printf("Przychodzace dane \n");
+//
+//		mp3_RXc = USART_ReceiveData(USART1);
+//		printf("%x\n", mp3_RXc);
+//		mp3_RX_Buf[mp3_RXi] = mp3_RXc;
+//		mp3_RXi++;
+//
+//		if (mp3_RXc != 0xEF) { // End of DFPlayer message
+//			if (mp3_RXi > mp3_RX_Buf_SIZE-1) {
+//				MP3_clear_RXBuffer();
+//			}
+//		}
+//		else {
+//			//if (RX_BUF[3] == 0x3C) { // U-DISK finished playing tracks
+//			//if (RX_BUF[3] == 0x3E) { // FLASH finished playing tracks
+//			if (mp3_RX_Buf[3] == 0x3D) { // TF card finished playing tracks
+//				mp3_flag = 1;
+//			}
+//			MP3_clear_RXBuffer();
+//		}
+//		USART_ITConfig(USART1, USART_IT_RXNE, DISABLE);
+//	}
+//      if(USART_GetITStatus(USART1, USART_IT_TXE) != RESET)
+//      {
+//
+//    	volatile data_buffor_t *temp_ptr = get_usart_tx_buffor_ptr();
+//        /* Write one byte to the transmit data register */
+//    	volatile unsigned char data_byte = 0x00;
+//    	if(getFromBuffor(temp_ptr, &data_byte))
+//    		USART_SendData(USART1, data_byte);
+//
+//        if(isBufforEmpty(temp_ptr))
+//        {
+//          /* Disable the USARTy Transmit interrupt */
+//          USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
+//        }
+//      }
+//
+//
+//}
 
 /* Calculate checksum
  */
@@ -185,13 +239,16 @@ void MP3_send_cmd (uint8_t cmd, uint16_t high_arg, uint16_t low_arg) {
 	mp3_cmd_buf[8] = (uint8_t) (checksum & 0x00FF);
 
 	// Send command to UART3
-	for (i=0; i<10; i++) {
-//		USART_puts(USART1, mp3_cmd_buf[i]);
-        USART_SendData(USART1, mp3_cmd_buf[i]);
-        while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET)
-        {
-        }
-    }
+
+	uart_send_data(mp3_cmd_buf,10 );
+
+
+//	for (i=0; i<10; i++) {
+//        USART_SendData(USART1, mp3_cmd_buf[i]);
+//        while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET)
+//        {
+//        }
+//    }
 
 }
 
@@ -264,11 +321,23 @@ void MP3_say(uint8_t prefix, int value, uint8_t suffix) {
 /* QUEUE Processing.
  * This function handles the queue and starts playing the next file after the finish of file playing.
  */
+
+void MP3_play_sound(unsigned char no)
+{
+//	if (mp3_flag == 1) {
+		MP3_send_cmd(MP3_PLAY_FOLDER_FILE, mp3_folder, mp3_queue[no]);
+		MP3_clear_RXBuffer();
+//		mp3_flag = 0;
+//	}
+}
+
+
 void MP3_queue_processing(void) {
 	// MP3 QUEUE Processing
 	if ( (mp3_queue[mp3_queue_id] != MP3_NO_VALUE) & (mp3_queue_id < MP3_QUEUE_LEN) ) {
 		if (mp3_flag == 1) {
 			MP3_send_cmd(MP3_PLAY_FOLDER_FILE, mp3_folder, mp3_queue[mp3_queue_id]);
+			//printf("folder = %d, %d\n", mp3_folder, mp3_queue_id);
 			mp3_queue_id++;
 			MP3_clear_RXBuffer();
 			mp3_flag = 0;

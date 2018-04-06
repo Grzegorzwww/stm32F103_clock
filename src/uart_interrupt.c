@@ -9,6 +9,13 @@
 volatile data_buffor_t _TX_USART_BUFFOR;
 volatile data_buffor_t _RX_USART_BUFFOR;
 
+data_buffor_t *get_usart_tx_buffor_ptr()
+{
+
+	return &_TX_USART_BUFFOR;
+}
+
+
 
 void uart_interrup_init(){
 
@@ -21,7 +28,7 @@ void uart_interrup_init(){
 	initBuffor(&_RX_USART_BUFFOR);
 
 
-	USART_InitStructure.USART_BaudRate = 115200;
+	USART_InitStructure.USART_BaudRate = 9600;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_Parity = USART_Parity_No;
@@ -68,7 +75,7 @@ void NVIC_Configuration(void)
 	/* Configure the NVIC Preemption Priority Bits */
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
 	/* Enable the USARTy Interrupt */
-	NVIC_InitStructure.NVIC_IRQChannel = USARTy_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
@@ -91,28 +98,32 @@ void uart_send_data(unsigned char *data, unsigned int data_size){
 
 
 
-//void USARTy_IRQHandler(void)
-//{
-//  if(USART_GetITStatus(USARTy, USART_IT_RXNE) != RESET)
-//  {
-//	  addToBuffor(&_RX_USART_BUFFOR, USART_ReceiveData(USARTy));
-//      USART_ITConfig(USARTy, USART_IT_RXNE, DISABLE);
-//   }
-//
-//  if(USART_GetITStatus(USARTy, USART_IT_TXE) != RESET)
-//  {
-//    /* Write one byte to the transmit data register */
-//	volatile unsigned char data_byte = 0x00;
-//	if(getFromBuffor(&_TX_USART_BUFFOR, &data_byte))
-//		USART_SendData(USARTy, data_byte);
-//
-//    if(isBufforEmpty(&_TX_USART_BUFFOR))
-//    {
-//      /* Disable the USARTy Transmit interrupt */
-//      USART_ITConfig(USARTy, USART_IT_TXE, DISABLE);
-//    }
-//  }
-//}
+void USARTy_IRQHandler(void)
+{
+  if(USART_GetITStatus(USARTy, USART_IT_RXNE) != RESET)
+  {
+	  //analizeDataFromMP3(USART_ReceiveData(USARTy));
+
+	  addToBuffor(&_RX_USART_BUFFOR, USART_ReceiveData(USARTy));
+      USART_ITConfig(USARTy, USART_IT_RXNE, ENABLE);
+
+  	//USART_ITConfig(USARTy, USART_IT_RXNE, ENABLE);
+   }
+
+  if(USART_GetITStatus(USARTy, USART_IT_TXE) != RESET)
+  {
+    /* Write one byte to the transmit data register */
+	volatile unsigned char data_byte = 0x00;
+	if(getFromBuffor(&_TX_USART_BUFFOR, &data_byte))
+		USART_SendData(USARTy, data_byte);
+
+    if(isBufforEmpty(&_TX_USART_BUFFOR))
+    {
+      /* Disable the USARTy Transmit interrupt */
+      USART_ITConfig(USARTy, USART_IT_TXE, DISABLE);
+    }
+  }
+}
 
 
 void init_uart2_polling(){
@@ -158,11 +169,18 @@ void analizeIncomingData()
 {
 	unsigned char temp_byte;
 	if(getFromBuffor(&_RX_USART_BUFFOR, &temp_byte) == true){
-		if(temp_byte == 0xAA){
-			turnOnOffLed(true);
-		}else if(temp_byte == 0xBB){
-			turnOnOffLed(false);
-		}
+
+	analizeDataFromMP3(temp_byte);
+
+
+	//printf("data = %x \n", temp_byte);
+
+//		if(temp_byte == 0xAA){
+//			printf("AA\n");
+//		}else if(temp_byte == 0xBB){
+//			printf("BB\n");
+//		}
+
 	}
 
 }

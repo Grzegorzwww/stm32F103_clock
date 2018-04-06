@@ -12,6 +12,8 @@
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_usart.h"
 #include "misc.h"
+//#include "uart_interrupt.h"
+#include "usart_dma.h"
 //#include "stdlib.h"
 
 
@@ -83,6 +85,9 @@ void MP3_say(uint8_t prefix, int value, uint8_t suffix);
 void MP3_queue_processing(void);
 void MP3_set_folder (uint8_t folder);
 void USART_puts(USART_TypeDef* USARTx, volatile char *s);
+
+void analizeDataFromMP3(unsigned char data);
+void MP3_play_sound(unsigned char no);
 
 
 #endif /* DFPPLAYER_H_ */
