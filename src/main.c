@@ -118,6 +118,7 @@ int main(void) {
 			//MP3_queue_processing();
 			analize_clock_clendar_state();
 			read_environmental_parameters();
+			control__goto_sleep_mode();
 
 			setTimerChannelState(TIMER_1s, false);
 		}

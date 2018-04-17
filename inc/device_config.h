@@ -34,6 +34,7 @@ void RCC_Conf(void);
 
 void standby_mode_init();
 void sleep_mode_init();
+void control__goto_sleep_mode();
 
 
 

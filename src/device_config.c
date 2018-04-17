@@ -56,12 +56,21 @@ void sleep_mode_init()
 
 }
 
+static int goto_sleep_counter = 0;
+void control__goto_sleep_mode(){
+	if(goto_sleep_counter++ >= 5){
+		NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, ENABLE);
+		goto_sleep_counter = 0;
+
+	}
+}
 
 void EXTI0_IRQHandler(void)
 {
 
 	EXTI_ClearITPendingBit(EXTI_Line0);
 	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, DISABLE);
+	goto_sleep_counter = 0;
 	printf("EXTI4 \n");
 }
 
@@ -99,6 +108,8 @@ void init_nvic(){
 
 
 }
+
+
 
 
 

@@ -28,6 +28,7 @@
 "lib/ILI9341/graph.o"
 "lib/ILI9341/text.o"
 "lib/tinystd/itoa.o"
+"src/DFPPlayer.o"
 "src/bmp180.o"
 "src/buffors.o"
 "src/device_config.o"
