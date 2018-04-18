@@ -45,6 +45,8 @@ int main(void) {
 
 
 #ifdef DEBUG
+
+
 	initialise_monitor_handles();
 	printf("start\n");
 #endif
@@ -53,7 +55,9 @@ int main(void) {
 	device_init();
   	turnOnOffLed(false);
   	init_bmp180();
+
     LCD_init();
+
     create_menu();
     init_touch_screen();
 	init_timer();
@@ -62,7 +66,6 @@ int main(void) {
 
 
 	rtc_init();
-
 	sleep_mode_init();
 	uart_interrup_init();
 
@@ -70,11 +73,11 @@ int main(void) {
 
 	delay_ms(500);
 
-//	MP3_init();
-//	MP3_send_cmd(MP3_VOLUME, 0, 25); // Volume 0-30
-//	delay_ms(100);
-//	MP3_set_folder(1);
 
+	delay_ms(2);
+	//MP3_send_cmd(MP3_VOLUME, 0, 25); // Volume 0-30
+	delay_ms(100);
+	MP3_set_folder(1);
 	//MP3_say(MP3_NO_VALUE, 3148, MP3_NO_VALUE);
 
 
@@ -98,6 +101,10 @@ int main(void) {
 
 
 		if(getTimerChannelState(TIMER_10ms)){
+//
+//			if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_8)){
+//				printf("przer\n");
+//			}
 
 //			 analizeIncomingData();
 			setTimerChannelState(TIMER_10ms, false);
@@ -114,6 +121,8 @@ int main(void) {
 		}
 
 		if (getTimerChannelState(TIMER_1s)) {
+
+			MP3_play_sound(1);
 
 			//MP3_queue_processing();
 			analize_clock_clendar_state();

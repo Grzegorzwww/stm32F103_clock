@@ -261,9 +261,12 @@ void analize_data_from_touch_screen(bool on_off){
 void SPI2_IRQHandler(void) {
 	if (SPI_I2S_GetITStatus(SPI2, SPI_I2S_IT_TXE) == SET) {
 		SPI_I2S_ClearITPendingBit(SPI2, SPI_I2S_IT_TXE);
+
 	}
 
 	if (SPI_I2S_GetITStatus(SPI2, SPI_I2S_IT_RXNE) == SET) {
+
+
 
 		unsigned char dummy_read;
 		if(touch_screen_state == WAIT_TO_READ_Z_AXIS){
@@ -272,6 +275,9 @@ void SPI2_IRQHandler(void) {
 
 			if(touch_data.z_axis > 0){
 				touch_screen_state = ASK_TO_READ_X_AXIS;
+				if(getStandByModeState()){
+					clr_sleep_mode();
+				}
 			}else{
 				touch_screen_state = ASK_TO_READ_Z_AXIS;
 				touch_data.z_axis = 0;
@@ -295,6 +301,9 @@ void SPI2_IRQHandler(void) {
 	}
 }
 
+volatile unsigned char get_touch_force(){
+	return touch_data.z_axis;
+}
 
 void control_touch_buttons()
 {

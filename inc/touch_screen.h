@@ -73,4 +73,8 @@ int Odczytaj_Pomiar(void);
 int Odczyt_X(void);
 int Odczyt_Y(void);
 
+
+volatile unsigned char get_touch_force();
+
+
 #endif /* TOUCH_SCREEN_H_ */

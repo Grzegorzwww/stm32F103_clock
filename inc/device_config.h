@@ -22,6 +22,11 @@
 
 #include "stm32f10x_gpio.h"
 #include "stdbool.h"
+#include "control.h"
+#include "touch_screen.h"
+
+
+#define SPEEP_TIMEOUT_SEK 90
 
 
 
@@ -35,7 +40,11 @@ void RCC_Conf(void);
 void standby_mode_init();
 void sleep_mode_init();
 void control__goto_sleep_mode();
+bool getStandByModeState();
 
+
+void set_sleep_mode() ;
+void clr_sleep_mode() ;
 
 
 #endif /* DEVICE_CONFIG_H_ */

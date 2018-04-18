@@ -14,15 +14,31 @@ GPIO_InitTypeDef GPIO_InitStruct;
 
 
 static volatile bool sleep_mode_status = false;
+static volatile bool exit_standby_mode = false;
+
+
+bool getStandByModeState(){
+	return sleep_mode_status;
+}
 
 void set_sleep_mode() {
+	TFT_LED_RESET;
 	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, ENABLE);
 	sleep_mode_status = true;
+
+#ifdef DEBUG
+	printf("uspienie \n");
+#endif
+
 }
 
 void clr_sleep_mode() {
-	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, ENABLE);
+	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, DISABLE);
+	TFT_LED_SET
 	sleep_mode_status = false;
+#ifdef DEBUG
+	printf("wybudzenie \n");
+#endif
 }
 
 
@@ -33,16 +49,42 @@ void sleep_mode_init()
 
 	NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
+	NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+
+	NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+
+
+
 
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode =  GPIO_Mode_IN_FLOATING;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
 
 	EXTI_InitTypeDef EXTI_InitStructure;
 	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource0);
@@ -52,26 +94,84 @@ void sleep_mode_init()
 	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
 	EXTI_Init(&EXTI_InitStructure);
 
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource1);
+	EXTI_InitStructure.EXTI_Line = EXTI_Line1;
+	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+	EXTI_Init(&EXTI_InitStructure);
+
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource4);
+		EXTI_InitStructure.EXTI_Line = EXTI_Line4;
+		EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+		EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+		EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+		EXTI_Init(&EXTI_InitStructure);
+
+	//  PWR_WakeUpPinCmd(ENABLE);
+
+
+
 	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, DISABLE);
 
 }
 
 static int goto_sleep_counter = 0;
 void control__goto_sleep_mode(){
-	if(goto_sleep_counter++ >= 5){
-		NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, ENABLE);
+	if(goto_sleep_counter++ >= SPEEP_TIMEOUT_SEK){
+		if(!sleep_mode_status){
+			set_sleep_mode();
+		}
 		goto_sleep_counter = 0;
 
 	}
+
+
+
 }
 
 void EXTI0_IRQHandler(void)
 {
-
 	EXTI_ClearITPendingBit(EXTI_Line0);
-	NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, DISABLE);
+	if(sleep_mode_status){
+		clr_sleep_mode();
+	}
+}
+void EXTI1_IRQHandler(void)
+{
+	EXTI_ClearITPendingBit(EXTI_Line1);
+
+		if(sleep_mode_status){
+			clr_sleep_mode();
+		}
+
 	goto_sleep_counter = 0;
-	printf("EXTI4 \n");
+//	printf("Touch irq\n");
+
+}
+
+void EXTI4_IRQHandler(void)
+{
+	EXTI_ClearITPendingBit(EXTI_Line4);
+//	printf("Przerwanie linia 3\n");
+	if(get_touch_force() > 0){
+		if(sleep_mode_status){
+			clr_sleep_mode();
+		}
+	goto_sleep_counter = 0;
+//	printf("Touch irq\n");
+//
+	}
+
+//		if(get_touch_force() > 0){
+//			if(sleep_mode_status){
+//				clr_sleep_mode();
+//			}
+//		goto_sleep_counter = 0;
+//		printf("Touch irq\n");
+//
+//}
+
 }
 
 
