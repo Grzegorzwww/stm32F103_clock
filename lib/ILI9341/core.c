@@ -91,13 +91,14 @@ void LCD_reset() {
     delay_ms(10);
     TFT_RST_SET;
     delay_ms(50);
+
 }
 
 void LCD_enterStandby() {
 
     dmaSendCmd(LCD_SPLIN );
-//    delay_ms(150);
-//    dmaSendCmd(LCD_DISPLAY_OFF);
+    delay_ms(150);
+    dmaSendCmd(LCD_DISPLAY_OFF);
 }
 
 void LCD_exitStandby() {

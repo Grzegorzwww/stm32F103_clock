@@ -42,4 +42,5 @@
 "src/touch_screen.o"
 "src/uart_interrupt.o"
 "src/usart_dma.o"
+"src/flash/flash.o"
 "startup/startup_stm32.o"

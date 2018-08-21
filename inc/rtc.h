@@ -29,6 +29,8 @@
 #define LEAP 1
 #define NOT_LEAP 0
 
+#define ALARM_REPEATER 2
+
 
 
 void RTC_Configuration(void);
@@ -53,6 +55,7 @@ void set_alarm(u8 u8_Hour,u8 u8_Minute, u8 u8_Seconds);
 
 void check_for_days_elapsed(void);
 unsigned char day_of_week();
+void update_last_date_on_start();
 
 
 void addHour();

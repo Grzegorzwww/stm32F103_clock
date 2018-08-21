@@ -31,6 +31,7 @@ void show_menu();
 void increment_set_clk_state();
 void increment_set_date_state();
 void increment_set_alarm_state();
+void control_alarm_off_state();
 
 void setMenuState(menu_state_t state);
 

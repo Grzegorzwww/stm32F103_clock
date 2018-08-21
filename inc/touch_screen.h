@@ -58,6 +58,8 @@ void init_touch_screen();
 void control_touch_buttons();
 void analize_data_from_touch_screen(bool on_off);
 
+void touch_screen_send_command(unsigned short command);
+
 void touch_screen_transmit_dma_data_set();
 void touch_screen_receive_dma_data_set();
 
@@ -72,6 +74,8 @@ void on_button_released();
 int Odczytaj_Pomiar(void);
 int Odczyt_X(void);
 int Odczyt_Y(void);
+
+touch_data_t * getTouchData();
 
 
 volatile unsigned char get_touch_force();

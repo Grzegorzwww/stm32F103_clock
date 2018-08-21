@@ -9,6 +9,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include startup/subdir.mk
+-include src/flash/subdir.mk
 -include src/subdir.mk
 -include lib/tinystd/subdir.mk
 -include lib/ILI9341/subdir.mk

@@ -30,6 +30,23 @@ src/usart_dma.o: ../src/usart_dma.c \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/misc.h \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_rcc.h \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_gpio.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/control.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/config.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/commands.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/touch_screen.h \
+ /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_spi.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/stm32f10x_it.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/menu.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/text.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/graph.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/core.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/delay.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/dma.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/control.h \
+ /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_dma.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/fonts/glcdfont.h \
+ /home/gwarchol/STMworkspace/clock_digital/lib/tinystd/itoa.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/bmp180.h \
  /home/gwarchol/STMworkspace/clock_digital/inc/buffors.h
 
 /home/gwarchol/STMworkspace/clock_digital/inc/usart_dma.h:
@@ -93,5 +110,39 @@ src/usart_dma.o: ../src/usart_dma.c \
 /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_rcc.h:
 
 /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_gpio.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/control.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/config.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/commands.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/touch_screen.h:
+
+/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_spi.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/stm32f10x_it.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/menu.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/text.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/graph.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/core.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/delay.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/dma.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/control.h:
+
+/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_dma.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/fonts/glcdfont.h:
+
+/home/gwarchol/STMworkspace/clock_digital/lib/tinystd/itoa.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/bmp180.h:
 
 /home/gwarchol/STMworkspace/clock_digital/inc/buffors.h:

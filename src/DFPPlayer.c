@@ -7,22 +7,20 @@
 
 
 #include "DFPPlayer.h"
+#include "uart_interrupt.h"
 
 /* MP3 LIB
  * V 0.1, Andrey Koryagin, Kremenchuk, Ukraine, 2016
-* Simple library to use the DFPlayer.
-* It's can say a numbers from -9999 to 9999.
-* Before using need to copy specially prepared mp3-files to SD-card.
-* You can find a sample of this files in folder "SD_CARD_FILES"
-* You can make same folders for different languages and choose language for playing.
-* To choose a language (folder), please use MP3_set_folder function.
-* You can free use and modify this lib as you like. Good luck.
-*
-*
+ * Simple library to use the DFPlayer.
+ * It's can say a numbers from -9999 to 9999.
+ * Before using need to copy specially prepared mp3-files to SD-card.
+ * You can find a sample of this files in folder "SD_CARD_FILES"
+ * You can make same folders for different languages and choose language for playing.
+ * To choose a language (folder), please use MP3_set_folder function.
+ * You can free use and modify this lib as you like. Good luck.
+ *
+ *
  */
-
-#include "DFPPlayer.h"
-
 
 
 
@@ -33,31 +31,36 @@ volatile uint8_t mp3_folder = 1;
 volatile uint8_t mp3_cmd_buf[10] = {0x7E, 0xFF, 0x06, 0x00, 0x01, 0x0, 0x0, 0x00, 0x00, 0xEF};
 volatile uint8_t mp3_queue[MP3_QUEUE_LEN] = {MP3_NO_VALUE, MP3_NO_VALUE, MP3_NO_VALUE, MP3_NO_VALUE, MP3_NO_VALUE, MP3_NO_VALUE, MP3_NO_VALUE, MP3_NO_VALUE, MP3_NO_VALUE, MP3_NO_VALUE};
 volatile int8_t mp3_queue_id = 0;
-volatile uint8_t mp3_flag = 1;
+volatile uint8_t mp3_track_playing_finished = 0;
+
+volatile int play_alarm_couner = 0;
+volatile int play_alarm_id = 1;
+volatile bool alarm_is_working = false;
+
+
+bool get_alarm_is_working() {return alarm_is_working;}
 
 /* UART3 Initialization for DFPlayer using
  * Communication Standard: 9600 bps
-*/
-void MP3_init(void)
+ */
+void mp3_init(void)
 {
 
+	uart_interrup_init();
+	//uart_send_data(" ", 1);
 
-	uart_send_data(" ", 1);
+	mp3_send_cmd(MP3_VOLUME, 0, 30); // Volume 0-30
+	delay_ms(10);
+
+
+	MP3_clear_RXBuffer();
+
+	//MP3_set_folder(5);
+	//delay_ms(10);
+
 }
 
-//void USART_puts(USART_TypeDef* USARTx, volatile char *s){
-//    while(*s)
-//    {
-//      while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);// Wait the set of TXE
-//      USART_SendData(USART1, *(s++));
-//      while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);// Wait the end of transmit
-//    }
-//}
 
-/* Clear receive data buffer.
- * DFPlayer sends messages when certain events.
- * This buffer is used to receive messages from the player.
-*/
 void MP3_clear_RXBuffer(void) {
 	for (mp3_RXi=0; mp3_RXi<mp3_RX_Buf_SIZE; mp3_RXi++)
 		mp3_RX_Buf[mp3_RXi] = '\0';
@@ -74,7 +77,7 @@ void MP3_clear_RXBuffer(void) {
 void analizeDataFromMP3(unsigned char data ){
 
 	mp3_RXc = data;
-//		printf("%x\n", mp3_RXc);
+	//	printf("%x\n", mp3_RXc);
 	mp3_RX_Buf[mp3_RXi] = mp3_RXc;
 	mp3_RXi++;
 
@@ -84,15 +87,18 @@ void analizeDataFromMP3(unsigned char data ){
 		}
 	}
 	else {
-		//if (RX_BUF[3] == 0x3C) { // U-DISK finished playing tracks
-		//if (RX_BUF[3] == 0x3E) { // FLASH finished playing tracks
-		if (mp3_RX_Buf[3] == 0x3D) { // TF card finished playing tracks
-			mp3_flag = 1;
+		//printf("%x\n", mp3_RX_Buf[3]);
+		switch(mp3_RX_Buf[3]){
 
+		case MP3_Q_STAY2:
+			mp3_track_playing_finished = 1;
+			break;
+
+		case MP3_Q_ERROR:
+			//ERROR
+			break;
 		}
 		MP3_clear_RXBuffer();
-
-
 	}
 }
 
@@ -108,7 +114,7 @@ uint16_t MP3_checksum (void) {
 
 /* Send command to DFPlayer
  */
-void MP3_send_cmd (uint8_t cmd, uint16_t high_arg, uint16_t low_arg) {
+void mp3_send_cmd (uint8_t cmd, uint16_t high_arg, uint16_t low_arg) {
 	uint8_t i;
 	uint16_t checksum;
 
@@ -121,14 +127,9 @@ void MP3_send_cmd (uint8_t cmd, uint16_t high_arg, uint16_t low_arg) {
 	mp3_cmd_buf[7] = (uint8_t) ((checksum >> 8) & 0x00FF);
 	mp3_cmd_buf[8] = (uint8_t) (checksum & 0x00FF);
 
-	uart_send_data(mp3_cmd_buf,10 );
+	// Send command to UART3
+	uart_send_data(mp3_cmd_buf, 10);
 
-//	for (i=0; i<10; i++) {
-//        USART_SendData(USART1, mp3_cmd_buf[i]);
-//        while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET)
-//        {
-//        }
-//    }
 
 }
 
@@ -195,37 +196,60 @@ void MP3_say(uint8_t prefix, int value, uint8_t suffix) {
 	}
 
 	mp3_queue_id = 0;
-	mp3_flag = 1; // Ready to play
+	mp3_track_playing_finished = 1; // Ready to play
 }
 
-/* QUEUE Processing.
- * This function handles the queue and starts playing the next file after the finish of file playing.
- */
+
 
 void MP3_play_sound(unsigned char no)
 {
-	if (mp3_flag == 1) {
-		MP3_send_cmd(MP3_PLAY_FOLDER_FILE, mp3_folder, mp3_queue[no]);
+	if (mp3_track_playing_finished == 1) {
+		mp3_send_cmd(MP3_PLAY_FOLDER_FILE, mp3_folder, mp3_queue[no]);
 		MP3_clear_RXBuffer();
-		mp3_flag = 0;
+		mp3_track_playing_finished = 0;
 	}
 }
 
 
-void MP3_queue_processing(void) {
-	// MP3 QUEUE Processing
-	if ( (mp3_queue[mp3_queue_id] != MP3_NO_VALUE) & (mp3_queue_id < MP3_QUEUE_LEN) ) {
-		if (mp3_flag == 1) {
-			MP3_send_cmd(MP3_PLAY_FOLDER_FILE, mp3_folder, mp3_queue[mp3_queue_id]);
-			//printf("folder = %d, %d\n", mp3_folder, mp3_queue_id);
-			mp3_queue_id++;
-			MP3_clear_RXBuffer();
-			mp3_flag = 0;
-		}
-	}
-}
+
 
 void MP3_set_folder (uint8_t folder) {
 	mp3_folder = folder;
 }
+
+
+void play_alarm(int alarm_no, int num_of_repet ){
+
+	mp3_track_playing_finished = 1;
+	play_alarm_couner = num_of_repet;
+	play_alarm_id = alarm_no;
+	alarm_is_working = true;
+
+	control_sound_play();
+}
+
+
+void alarm_stop(){
+	mp3_track_playing_finished = 0;
+	play_alarm_couner = 0;
+	alarm_is_working = false;
+	mp3_send_cmd(MP3_RESET, 0, 0);
+
+//	printf("alarm stop\n");
+}
+
+
+void control_sound_play(){
+	if(mp3_track_playing_finished == 1){
+		if(play_alarm_couner > 0){
+			mp3_send_cmd(MP3_PLAY_FOLDER_FILE, 5, play_alarm_id);
+			play_alarm_couner--;
+		}else{
+			alarm_is_working = false;
+		}
+		mp3_track_playing_finished = 0;
+	}
+}
+
+
 

@@ -78,8 +78,8 @@ void init_spi_2(){
 	SPI_I2S_ITConfig(SPI_2, SPI_I2S_IT_RXNE, ENABLE);
 	NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = SPI2_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 10;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 10;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 
@@ -180,7 +180,7 @@ void touch_screen_receive_dma_data_set(){
 
 	while(SPI_I2S_GetFlagStatus(SPI2,SPI_I2S_FLAG_BSY) == SET);
 
-	printf("spi 2 data = %d\n", data);
+	//printf("spi 2 data = %d\n", data);
 
 }
 
@@ -200,7 +200,7 @@ void DMA1_Channel4_IRQHandler(void) {
 
 	if (DMA_GetITStatus(DMA1_IT_TC4) == SET) {
 		DMA_Cmd(DMA1_Channel4, DISABLE);
-		printf("!");
+		//printf("!");
 		DMA_ClearITPendingBit(DMA1_IT_TC4);
 	}
 }
@@ -208,7 +208,7 @@ void DMA1_Channel4_IRQHandler(void) {
 void DMA1_Channel5_IRQHandler(void) {
 	if (DMA_GetITStatus(DMA1_IT_TC5) == SET) {
 		DMA_Cmd(DMA1_Channel5, DISABLE);
-		printf("?");
+		//printf("?");
 		DMA_ClearITPendingBit(DMA1_IT_TC5);
 	}
 }
@@ -222,7 +222,6 @@ void send_to_touch_screen(unsigned short command){
 void init_touch_screen(){
 
 	init_spi_2();
-
 
 }
 
@@ -252,8 +251,6 @@ void analize_data_from_touch_screen(bool on_off){
 		break;
 	}
 
-
-
 	//		sprintf(str, "z = %d x = %d, y = %d\0", z_axis, x_axis, y_axis);
 
 }
@@ -261,11 +258,8 @@ void analize_data_from_touch_screen(bool on_off){
 void SPI2_IRQHandler(void) {
 	if (SPI_I2S_GetITStatus(SPI2, SPI_I2S_IT_TXE) == SET) {
 		SPI_I2S_ClearITPendingBit(SPI2, SPI_I2S_IT_TXE);
-
 	}
-
 	if (SPI_I2S_GetITStatus(SPI2, SPI_I2S_IT_RXNE) == SET) {
-
 
 
 		unsigned char dummy_read;
@@ -321,6 +315,10 @@ void control_touch_buttons()
 			run_command_parameter( 44, 70,100, 125, setMenuState, USTAWIENIA_MENU);
 			run_command_parameter( 0, 44, 100, 125, setMenuState, INNE_MENU);
 
+			run_command(0, 124, 0, 124, control_alarm_off_state);
+
+
+
 			if(get_menu_state() == USTAWIENIA_MENU){
 				run_command(0, 86, 0, 24, increment_set_clk_state);
 				run_command(0, 86, 37, 64, increment_set_date_state);
@@ -360,8 +358,8 @@ void run_command_parameter(uint8_t x_min_limit, uint8_t x_max_limit, uint8_t y_m
 }
 
 
-touch_data_t getTouchData(){
-	return touch_data;
+touch_data_t * getTouchData(){
+	return &touch_data;
 }
 
 

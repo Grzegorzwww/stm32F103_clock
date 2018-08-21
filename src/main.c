@@ -24,29 +24,21 @@
 #include "rtc.h"
 #include "text.h"
 #include "itoa.h"
-
+#include "flash/flash.h"
 
 
 #ifdef DEBUG
 extern void initialise_monitor_handles(void);
 #endif
 
-unsigned char AddCRC(unsigned char crc,unsigned char b);
-
-
-
 volatile bool state = false;
 
-unsigned char temp_data[6];
+//unsigned char temp_data[6];
 
 int main(void) {
 
-	//SystemInit();
-
 
 #ifdef DEBUG
-
-
 	initialise_monitor_handles();
 	printf("start\n");
 #endif
@@ -57,99 +49,55 @@ int main(void) {
   	init_bmp180();
 
     LCD_init();
-
     create_menu();
     init_touch_screen();
 	init_timer();
 
-	//timer_2_init();
-
-
 	rtc_init();
 	sleep_mode_init();
-	uart_interrup_init();
-
-	//usart_dma_init();
 
 	delay_ms(500);
 
+	save_time(23, 59, 45);
+	save_date(17,9,1988);
+	set_alarm(0, 0, 30);
 
-	delay_ms(2);
-	//MP3_send_cmd(MP3_VOLUME, 0, 25); // Volume 0-30
+	//FLASH_Init();
+
 	delay_ms(100);
-	MP3_set_folder(1);
-	//MP3_say(MP3_NO_VALUE, 3148, MP3_NO_VALUE);
 
-
-
-	save_time(8, 0,0);
-	save_date(28,3,2018);
-	set_alarm(10, 0, 0);
-
-	int counter  = 0;
-//	delay_ms(100);
-//	MP3_play_sound(1);
+	mp3_init();
 
 
 
 	while (1) {
 		__WFI();
 
-//		controlUartTransfer();
-//		analizeIncomingDMAData();
 
+		analizeIncomingMp3Data();
 
 
 		if(getTimerChannelState(TIMER_10ms)){
-//
-//			if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_8)){
-//				printf("przer\n");
-//			}
-
-//			 analizeIncomingData();
 			setTimerChannelState(TIMER_10ms, false);
 		}
 
+
 		if (getTimerChannelState(TIMER_100ms)) {
-
-
 			analize_data_from_touch_screen(true);
 			control_touch_buttons();
 			show_menu();
-
 			setTimerChannelState(TIMER_100ms, false);
 		}
 
+
 		if (getTimerChannelState(TIMER_1s)) {
-
-			MP3_play_sound(1);
-
-			//MP3_queue_processing();
+			control_sound_play();
 			analize_clock_clendar_state();
 			read_environmental_parameters();
 			control__goto_sleep_mode();
-
 			setTimerChannelState(TIMER_1s, false);
 		}
 	}
-}
-
-
-
-unsigned char AddCRC(unsigned char crc,unsigned char b)
-{
-	unsigned char i;
-	unsigned char c;
-	i = 0;
-	do
-	{
-		c = crc ^ b;
-		crc = crc >> 1;
-		if((c & 0x01) != 0 )
-			crc = crc ^ 0x8C;
-		b = b >> 1;
-	}while(++i < 8);
-	return crc;
 }
 
 

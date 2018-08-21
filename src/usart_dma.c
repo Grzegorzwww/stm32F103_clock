@@ -35,14 +35,12 @@ void usart_dma_init()
 {
 
 
-
-
 	 RCC_DMA_Configuration();
 	 GPIO_DMA_Configuration();
 	 DMA_Configuration();
 
 	  //USART_InitStructure.USART_BaudRate = 230400;
-	  USART_InitStructure.USART_BaudRate = 115200;
+	  USART_InitStructure.USART_BaudRate = 9600;
 	  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	  USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	  USART_InitStructure.USART_Parity = USART_Parity_No;

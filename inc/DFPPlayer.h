@@ -53,6 +53,9 @@
 #define MP3_Q_CURRENT_TRACK_TF		0x4B
 #define MP3_Q_CURRENT_TRACK_U_DISK	0x4C
 #define MP3_Q_CURRENT_TRACK_FLASH	0x4D
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 //Commands parameters
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,15 +82,17 @@
 #define MP3_NO_VALUE	0xFF // !!! Please not use file with this name (255.mp3)
 ////////////////////////////////////////////////////////////////////////////////
 
-void MP3_init(void);
-void MP3_send_cmd (uint8_t cmd, uint16_t high_arg, uint16_t low_arg);
+void mp3_init(void);
+void mp3_send_cmd (uint8_t cmd, uint16_t high_arg, uint16_t low_arg);
 void MP3_say(uint8_t prefix, int value, uint8_t suffix);
-void MP3_queue_processing(void);
 void MP3_set_folder (uint8_t folder);
-void USART_puts(USART_TypeDef* USARTx, volatile char *s);
 
 void analizeDataFromMP3(unsigned char data);
 void MP3_play_sound(unsigned char no);
+
+void play_alarm(int alarm_no, int num_of_repet);
+void control_sound_play();
+bool get_alarm_is_working();
 
 
 #endif /* DFPPLAYER_H_ */

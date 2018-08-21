@@ -46,7 +46,13 @@ src/rtc.o: ../src/rtc.c \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_dma.h \
  /home/gwarchol/STMworkspace/clock_digital/lib/ILI9341/fonts/glcdfont.h \
  /home/gwarchol/STMworkspace/clock_digital/lib/tinystd/itoa.h \
- /home/gwarchol/STMworkspace/clock_digital/inc/bmp180.h
+ /home/gwarchol/STMworkspace/clock_digital/inc/bmp180.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/DFPPlayer.h \
+ /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_usart.h \
+ /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/misc.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/usart_dma.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/buffors.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/menu.h
 
 /home/gwarchol/STMworkspace/clock_digital/inc/rtc.h:
 
@@ -143,3 +149,15 @@ src/rtc.o: ../src/rtc.c \
 /home/gwarchol/STMworkspace/clock_digital/lib/tinystd/itoa.h:
 
 /home/gwarchol/STMworkspace/clock_digital/inc/bmp180.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/DFPPlayer.h:
+
+/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_usart.h:
+
+/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/misc.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/usart_dma.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/buffors.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/menu.h:

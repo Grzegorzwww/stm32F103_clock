@@ -6,6 +6,10 @@
  */
 
 #include "rtc.h"
+#include "DFPPlayer.h"
+#include "menu.h"
+#include "flash/flash.h"
+
 
 volatile unsigned long int total_rtc_ticks = 0;
 
@@ -16,6 +20,9 @@ struct AlarmDate_s s_AlarmDateStructVar;
 
 static volatile bool clock_state_changed = false;
 static volatile bool alarm_state = false;
+
+static uint8_t prev_day = 1;
+
 
 
 bool getAlarmState(){
@@ -66,6 +73,7 @@ void rtc_init(void){
 
 void RTC_Configuration(void)
 {
+
 	/* Enable PWR and BKP clocks */
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE);
 
@@ -191,11 +199,7 @@ void analize_clock_clendar_state(void)
 
 	if(clock_state_changed){
 
-
-
-
 		check_next_day();
-
 
 		clock_state_changed = false;
 	}
@@ -213,16 +217,10 @@ void RTC_IRQHandler(void)
 	{
 		/* Clear the RTC Second interrupt */
 		RTC_ClearITPendingBit(RTC_IT_SEC);
-
 		/* Toggle LED1 */
-		//STM_EVAL_LEDToggle(LED1);
-
 		total_rtc_ticks = RTC_GetCounter();
-
 		clock_state_changed = true;
-
 		//update_date();
-
 		switch(x){
 		case true:
 			//turnOnOffLed(true);
@@ -233,44 +231,38 @@ void RTC_IRQHandler(void)
 			x = true;
 			break;
 		}
-
-
-
-		/* Enable time update */
-		//TimeDisplay = 1;
-
 		/* Wait until last write operation on RTC registers has finished */
 		RTC_WaitForLastTask();
-
 	}
+
 
 	if (RTC_GetITStatus(RTC_IT_ALR) != RESET)
 	{
-
 		RTC_ClearITPendingBit(RTC_IT_ALR);	//wyczyszczenie flagi przerwania
 
+
 		if(alarm_on_checked()){
-			printf("ALARM Alarm przerwanie ");
+			int rand_alarm = (total_rtc_ticks % 6) + 1 ;// 1-5
+			printf("alarm tutaj %d\n", rand_alarm);
+			//printf("ALARM Alarm przerwanie \n");
 			RTC_WaitForLastTask();
 			unsigned char current_day = day_of_week();
+
 			if(working_day_checked()){
 				if(current_day != 5 && current_day != 6){
-					//TODO: make alarm
-
-
+					play_alarm(rand_alarm, 4);
+					turnOnOffLed(true);
 				}
 			}
+			else {
+				play_alarm(rand_alarm, 4);
 				turnOnOffLed(true);
+			}
+
 		}
-
-		//		NVIC_SystemLPConfig(NVIC_LP_SLEEPONEXIT, DISABLE);
-
-
 		//odczekanie na zakończenie operacji na RTC
 		RTC_WaitForLastTask();
-
 	}
-
 }
 
 
@@ -278,31 +270,27 @@ void RTCAlarm_IRQHandler(void){
 
 
 	//
-	//	 printf("ALARM !");
-	//
-	//
-	//	  if (RTC_GetITStatus(RTC_IT_ALR) != RESET)
-	//	  {
-	//			 printf("ALARM 2!");
-	//		  RTC_WaitForLastTask();
-	//		          //wyczyszczenie flagi przerwania
-	//		   RTC_ClearITPendingBit(RTC_IT_ALR);
-	//
-	//		          //odczekanie na zakończenie operacji na RTC
-	//		   RTC_WaitForLastTask();
-	//
-	//	  }
+		 printf("ALARM !");
+
+
+
+		  if (RTC_GetITStatus(RTC_IT_ALR) != RESET)
+		  {
+
+				 printf("ALARM 2!");
+			  RTC_WaitForLastTask();
+			          //wyczyszczenie flagi przerwania
+			   RTC_ClearITPendingBit(RTC_IT_ALR);
+			          //odczekanie na zakończenie operacji na RTC
+			   RTC_WaitForLastTask();
+
+		  }
 
 
 }
 
 
-//void PVD_IRQHandler(void){
-//
-//
-//
-//
-//}
+
 
 
 int getTotalRtcTicks(){
@@ -495,6 +483,46 @@ void check_next_day(void){
 
 void addDay(){
 	update_date();
+
+	if(prev_day == 6 && day_of_week() == 7){
+
+		uint8_t month = BKP_ReadBackupRegister(BKP_DR2);
+		uint16_t year = BKP_ReadBackupRegister(BKP_DR4);
+		uint8_t day = BKP_ReadBackupRegister(BKP_DR3);
+
+		flash_set_date_storage(day, month, year);
+	}
+	prev_day = day_of_week();
+
+
+
+
+}
+
+bool read_date_was_modyfied(){
+	FLASH_ReadSettings();
+	if(settings.write_param == SETTEINGS_MODYFIED){
+		return true;
+	}else if(settings.write_param == SETTEINGS_NOT_MODYFIED) {
+		return false;
+	}else{
+		return false;
+	}
+	return false;
+}
+void  write_date_was_modyfied(){
+	settings.write_param = SETTEINGS_MODYFIED;
+
+}
+
+
+void update_last_date_on_start(){
+	if(read_date_was_modyfied()){
+
+	}
+
+
+
 }
 void addMonth(){
 	int month = BKP_ReadBackupRegister(BKP_DR2);
@@ -763,6 +791,7 @@ void save_date(unsigned char day, unsigned char month, unsigned short year){
 
 
 
+
 	}
 
 
@@ -807,12 +836,9 @@ void check_for_days_elapsed(void)
 unsigned char day_of_week()
 {
 
-
 	u16 u16_CurrentYear =  BKP_ReadBackupRegister(BKP_DR4);
 	u8 u8_CurrentMonth = BKP_ReadBackupRegister(BKP_DR2);
 	u8 u8_CurrentDay =  BKP_ReadBackupRegister(BKP_DR3);
-
-
 
 	unsigned char  u16_Temp1,u16_Temp2,u16_Temp3,u16_Temp4,u16_CurrentWeekDay;
 

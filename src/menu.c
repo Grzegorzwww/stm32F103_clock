@@ -7,6 +7,9 @@
 
 
 #include "menu.h"
+#include "rtc.h"
+#include "touch_screen.h"
+
 
 
 static menu_state_t menu_state;
@@ -25,6 +28,7 @@ static date_set_stete_t date_set_stete = NO_SET_DATE;
 
 static bool working_days_alarm_flag = false;
 static bool on_off_alarm_flag = false;
+
 
 
 bool working_day_checked(){return working_days_alarm_flag;}
@@ -55,6 +59,15 @@ void increment_set_clk_state() {
 		clk_set_state++;
 	}
 }
+
+void control_alarm_off_state() {
+	if(get_alarm_is_working()){
+		alarm_stop();
+	}
+
+}
+
+
 void increment_set_date_state() {
 
 	if(date_set_stete == 0){
@@ -133,9 +146,7 @@ unsigned char preassure_str[15];
 
 void read_environmental_parameters(){
 
-
 	read_temperature_str(temperature_str);
-
 	read_pressure_str(preassure_str);
 }
 
@@ -270,7 +281,7 @@ void show_menu(){
 	unsigned char date_str[20];
 	unsigned char alarm_str[20];
 
-
+	touch_data_t *temp_data_touch = getTouchData();
 
 
 //	getTouchData()
@@ -339,8 +350,6 @@ void show_menu(){
 		LCD_writeString(alarm_str);
 
 
-
-
 		LCD_setTextColor(WHITE);
 		LCD_setCursor(10, 46);
 		LCD_writeString("Alarm:");
@@ -359,8 +368,6 @@ void show_menu(){
 		}
 
 
-
-
 		LCD_setTextColor(WHITE);
 		LCD_setCursor(10, 87);
 		LCD_writeString("Dni robocze:");
@@ -377,10 +384,6 @@ void show_menu(){
 			LCD_setTextColor(RED);
 			LCD_writeString(" OFF");
 		}
-
-
-
-
 
 		LCD_setTextSize(3);
 		if(is_button_pushed_up){LCD_drawRect(30, 130, 110, 42, BLUE);}
@@ -455,12 +458,22 @@ void show_menu(){
 
 		break;
 	case INNE_MENU:
+
+
+
 		LCD_setTextSize(5);
 
 	    LCD_setTextColor(WHITE);
 	    LCD_setTextBgColor(BLACK);
-	    LCD_setCursor(20, 0);
-		LCD_writeString("INNE MENU");
+//	    LCD_setCursor(20, 0);
+	    if(temp_data_touch->y_axis < 105){
+	    	LCD_drawCircle((int)((float)(310 -  temp_data_touch->x_axis ) * 2.8) , (temp_data_touch->y_axis * 1.90), 3 , WHITE);
+	    }
+	    //LCD_putPixel((int)((float)(310 -  temp_data_touch->x_axis ) * 2.8) , (temp_data_touch->y_axis * 1.90), WHITE);
+	   //LCD_putPixel(310, 210,WHITE);
+
+	   // printf("%d, %d\n", temp_data_touch->x_axis, temp_data_touch->y_axis);
+//		LCD_writeString("INNE MENU");
 
 		break;
 

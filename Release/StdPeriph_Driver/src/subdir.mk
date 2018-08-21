@@ -84,7 +84,7 @@ StdPeriph_Driver/src/%.o: ../StdPeriph_Driver/src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU GCC Compiler'
 	@echo $(PWD)
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -DSTM32 -DSTM32F1 -DSTM32F103RBTx -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -I"/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc" -I"/home/gwarchol/STMworkspace/clock_digital/lib/tinystd" -I"/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341" -I"/home/gwarchol/STMworkspace/clock_digital/inc" -I"/home/gwarchol/STMworkspace/clock_digital/CMSIS/device" -I"/home/gwarchol/STMworkspace/clock_digital/CMSIS/core" -O3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -DSTM32 -DSTM32F1 -DSTM32F103RBTx -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -I"/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc" -I"/home/gwarchol/STMworkspace/clock_digital/lib/tinystd" -I"/home/gwarchol/STMworkspace/clock_digital/lib/ILI9341" -I"/home/gwarchol/STMworkspace/clock_digital/inc" -I"/home/gwarchol/STMworkspace/clock_digital/CMSIS/device" -I"/home/gwarchol/STMworkspace/clock_digital/CMSIS/core" -O1 -g -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

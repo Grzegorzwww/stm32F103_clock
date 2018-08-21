@@ -26,7 +26,7 @@
 #include "touch_screen.h"
 
 
-#define SPEEP_TIMEOUT_SEK 90
+#define SPEEP_TIMEOUT_SEK 120
 
 
 
