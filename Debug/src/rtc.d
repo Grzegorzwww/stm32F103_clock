@@ -52,7 +52,9 @@ src/rtc.o: ../src/rtc.c \
  /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/misc.h \
  /home/gwarchol/STMworkspace/clock_digital/inc/usart_dma.h \
  /home/gwarchol/STMworkspace/clock_digital/inc/buffors.h \
- /home/gwarchol/STMworkspace/clock_digital/inc/menu.h
+ /home/gwarchol/STMworkspace/clock_digital/inc/menu.h \
+ /home/gwarchol/STMworkspace/clock_digital/inc/flash/flash.h \
+ /home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_flash.h
 
 /home/gwarchol/STMworkspace/clock_digital/inc/rtc.h:
 
@@ -161,3 +163,7 @@ src/rtc.o: ../src/rtc.c \
 /home/gwarchol/STMworkspace/clock_digital/inc/buffors.h:
 
 /home/gwarchol/STMworkspace/clock_digital/inc/menu.h:
+
+/home/gwarchol/STMworkspace/clock_digital/inc/flash/flash.h:
+
+/home/gwarchol/STMworkspace/clock_digital/StdPeriph_Driver/inc/stm32f10x_flash.h:

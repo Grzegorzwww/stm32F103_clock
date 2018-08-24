@@ -53,11 +53,13 @@ void sleep_mode_init()
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
+
 //	NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;
 //	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
 //	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
 //	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 //	NVIC_Init(&NVIC_InitStructure);
+
 	NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
@@ -72,10 +74,12 @@ void sleep_mode_init()
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-	//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
-	//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-	//	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+
 
 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
@@ -92,12 +96,12 @@ void sleep_mode_init()
 	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
 	EXTI_Init(&EXTI_InitStructure);
 
-	//	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource1);
-	//	EXTI_InitStructure.EXTI_Line = EXTI_Line1;
-	//	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-	//	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-	//	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-	//	EXTI_Init(&EXTI_InitStructure);
+//	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource1);
+//	EXTI_InitStructure.EXTI_Line = EXTI_Line1;
+//	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+//	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+//	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+//	EXTI_Init(&EXTI_InitStructure);
 
 	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource4);
 	EXTI_InitStructure.EXTI_Line = EXTI_Line4;
@@ -113,6 +117,15 @@ void sleep_mode_init()
 }
 
 
+void analize_button(){
+
+	if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1)== Bit_SET){
+		printf("buton presed\n");
+	}else {
+		printf("buton released\n");
+	}
+
+}
 
 void control__goto_sleep_mode(){
 	if(goto_sleep_counter++ >= SPEEP_TIMEOUT_SEK){
@@ -130,7 +143,7 @@ void control__goto_sleep_mode(){
 void EXTI0_IRQHandler(void)
 {
 	EXTI_ClearITPendingBit(EXTI_Line0);
-//	printf("EXTI0_IRQHandler\n");
+	//	printf("EXTI0_IRQHandler\n");
 	goto_sleep_counter = 0;
 	if(sleep_mode_status){
 		clr_sleep_mode();
@@ -139,14 +152,11 @@ void EXTI0_IRQHandler(void)
 }
 void EXTI1_IRQHandler(void)
 {
-//	//printf("EXTI1_IRQHandler\n");
-//	EXTI_ClearITPendingBit(EXTI_Line1);
-//
-//		if(sleep_mode_status){
-//			clr_sleep_mode();
-//		}
-//	goto_sleep_counter = 0;
-////	printf("Touch irq\n");
+	//printf("EXTI1_IRQHandler\n");
+	EXTI_ClearITPendingBit(EXTI_Line1);
+
+
+
 
 }
 
@@ -179,16 +189,14 @@ void device_init(){
 	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-	//	    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-	//	    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_6;
-	//	    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-	//	    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
-	//	    GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-	//	    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_1;
-	//	    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;
-	//	    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPU;
-	//	    GPIO_Init(GPIOA, &GPIO_InitStruct);
+	//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	//	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_10;
+	//	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	//	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	//	GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+
 
 }
 void init_nvic(){

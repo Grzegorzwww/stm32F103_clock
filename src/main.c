@@ -20,6 +20,7 @@
 #include "uart_interrupt.h"
 #include "scan_timer.h"
 #include "touch_screen.h"
+#include "buttons/buttons.h"
 
 #include "rtc.h"
 #include "text.h"
@@ -45,6 +46,8 @@ int main(void) {
 
 	RCC_Conf();
 	device_init();
+	init_buttons();
+
   	turnOnOffLed(false);
   	init_bmp180();
 
@@ -76,9 +79,11 @@ int main(void) {
 
 		analizeIncomingMp3Data();
 
+		 scanButtonsPins();
 
 		if(getTimerChannelState(TIMER_10ms)){
 			setTimerChannelState(TIMER_10ms, false);
+
 		}
 
 
@@ -91,6 +96,10 @@ int main(void) {
 
 
 		if (getTimerChannelState(TIMER_1s)) {
+
+				//analize_button();
+
+
 			control_sound_play();
 			analize_clock_clendar_state();
 			read_environmental_parameters();

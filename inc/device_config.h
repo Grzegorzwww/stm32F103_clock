@@ -33,6 +33,7 @@
 
 
 void device_init();
+void analize_button();
 void init_nvic();
 void turnOnOffLed(bool state);
 void RCC_Conf(void);
