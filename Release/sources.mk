@@ -20,6 +20,7 @@ StdPeriph_Driver/src \
 lib/ILI9341 \
 lib/tinystd \
 src \
+src/buttons \
 src/flash \
 startup \
 

@@ -10,6 +10,7 @@ RM := rm -rf
 -include sources.mk
 -include startup/subdir.mk
 -include src/flash/subdir.mk
+-include src/buttons/subdir.mk
 -include src/subdir.mk
 -include lib/tinystd/subdir.mk
 -include lib/ILI9341/subdir.mk

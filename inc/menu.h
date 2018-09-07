@@ -16,7 +16,7 @@
 #include "string.h"
 
 
-typedef enum {ZEGAR_MENU = 0, BUDZIK_MENU, USTAWIENIA_MENU, INNE_MENU } menu_state_t;
+typedef enum {ZEGAR_MENU = 0, BUDZIK_MENU, USTAWIENIA_MENU, INNE_MENU, DISPLAY_MESSAGE } menu_state_t;
 
 typedef enum {SET_CLK_HOURS = 0, SET_CLK_MINUTES = 1, SET_CLK_SEK = 2, NO_SET_CLK = 3 } clk_set_state_t;
 typedef enum {SET_DATE_DAY = 0, SET_DATE_MONTH = 1, SET_DATE_YEAR = 2, NO_SET_DATE = 3 } date_set_stete_t;
@@ -26,6 +26,9 @@ typedef enum {SET_DATE_DAY = 0, SET_DATE_MONTH = 1, SET_DATE_YEAR = 2, NO_SET_DA
 void create_menu();
 
 void show_menu();
+
+
+void display_info_message(unsigned char *msg, unsigned int duration);
 
 
 void increment_set_clk_state();
@@ -45,9 +48,7 @@ void on_set_alarm_down();
 void on_set_working_day();
 void on_set_alarm();
 
-
 //void on_set_working_day_off();
-
 
 
 menu_state_t get_menu_state();

@@ -21,6 +21,7 @@
 
 
 BitFilterInstance ALARM_BUTTON_filter;
+BitFilterInstance ALARM_OFF_BUTTON_filter;
 
 
 
@@ -37,7 +38,11 @@ void init_buttons(void){
 
 
 	initBitFilter(&ALARM_BUTTON_filter, 5);
+	initBitFilter(&ALARM_OFF_BUTTON_filter, 255);
+
+
 	bitFilter_setOnBitChangeListener_signal(&ALARM_BUTTON_filter,ALARM_BUTTON_callback);
+	bitFilter_setOnBitChangeListener_signal(&ALARM_OFF_BUTTON_filter,ALARM_OFF_BUTTON_callback);
 
 }
 
@@ -45,9 +50,11 @@ void scanButtonsPins(void) {
 
 	if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1)== Bit_SET){
 		buttonIsPressedNotFiltered(&ALARM_BUTTON_filter);
+		buttonIsPressedNotFiltered(&ALARM_OFF_BUTTON_filter);
 	}
 	else {
 		buttonIsReleasedNotFiltered(&ALARM_BUTTON_filter);
+		buttonIsReleasedNotFiltered(&ALARM_OFF_BUTTON_filter);
 	}
 }
 
@@ -59,11 +66,26 @@ void ALARM_BUTTON_callback(BitEvent bitEvent){
 
 		break;
 		case ACTION_DOWN:
-			printf("Alarm button down\n");
+			printf("Alarm snooze\n");
+			alarm_snooze();
 
 		break;
 	}
 }
+void ALARM_OFF_BUTTON_callback(BitEvent bitEvent){
+	switch(bitEvent){
+		case ACTION_UP:
+
+
+		break;
+		case ACTION_DOWN:
+			printf("Alarm off \n");
+			alarm_stop();
+
+		break;
+	}
+}
+
 
 
 

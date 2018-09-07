@@ -82,6 +82,8 @@
 #define MP3_NO_VALUE	0xFF // !!! Please not use file with this name (255.mp3)
 ////////////////////////////////////////////////////////////////////////////////
 
+#define ALARM_SNOOZE_TIME_MIN 5
+
 void mp3_init(void);
 void mp3_send_cmd (uint8_t cmd, uint16_t high_arg, uint16_t low_arg);
 void MP3_say(uint8_t prefix, int value, uint8_t suffix);

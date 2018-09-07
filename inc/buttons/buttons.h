@@ -72,6 +72,7 @@ void scanButtonsPins(void);
 
 
 void ALARM_BUTTON_callback(BitEvent bitEvent);
+void ALARM_OFF_BUTTON_callback(BitEvent bitEvent);
 
 
 #endif /* BUTTONS_BUTTONS_H_ */

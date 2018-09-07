@@ -109,6 +109,8 @@ RX_USART_TEMP_BUFFER
                     0x80              src/usart_dma.o
 u_temp              0x4               src/bmp180.o
 _RX_USART_BUFFOR    0x83              src/uart_interrupt.o
+ALARM_OFF_BUTTON_filter
+                    0x8               src/buttons/buttons.o
 mp3_RXc             0x1               src/DFPPlayer.o
 u_pres              0x4               src/bmp180.o
 _TX_USART_BUFFOR    0x83              src/uart_interrupt.o
@@ -1606,7 +1608,7 @@ LOAD /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1
                 0x0000000008000000                g_pfnVectors
                 0x0000000008000130                . = ALIGN (0x4)
 
-.text           0x0000000008000130     0x6be0
+.text           0x0000000008000130     0x6c44
                 0x0000000008000130                . = ALIGN (0x4)
  *(.text)
  .text          0x0000000008000130       0x6c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
@@ -2150,676 +2152,682 @@ LOAD /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1
  .text.alarm_stop
                 0x00000000080030e8       0x1c src/DFPPlayer.o
                 0x00000000080030e8                alarm_stop
+ .text.alarm_snooze
+                0x0000000008003104       0x28 src/DFPPlayer.o
+                0x0000000008003104                alarm_snooze
  .text.control_sound_play
-                0x0000000008003104       0x44 src/DFPPlayer.o
-                0x0000000008003104                control_sound_play
+                0x000000000800312c       0x44 src/DFPPlayer.o
+                0x000000000800312c                control_sound_play
  .text.play_alarm
-                0x0000000008003148       0x20 src/DFPPlayer.o
-                0x0000000008003148                play_alarm
+                0x0000000008003170       0x20 src/DFPPlayer.o
+                0x0000000008003170                play_alarm
  .text.BMP180_Init
-                0x0000000008003168       0x94 src/bmp180.o
-                0x0000000008003168                BMP180_Init
+                0x0000000008003190       0x94 src/bmp180.o
+                0x0000000008003190                BMP180_Init
  .text.BMP180_WriteReg
-                0x00000000080031fc       0x74 src/bmp180.o
-                0x00000000080031fc                BMP180_WriteReg
+                0x0000000008003224       0x74 src/bmp180.o
+                0x0000000008003224                BMP180_WriteReg
  .text.BMP180_ReadReg
-                0x0000000008003270       0xbc src/bmp180.o
-                0x0000000008003270                BMP180_ReadReg
+                0x0000000008003298       0xbc src/bmp180.o
+                0x0000000008003298                BMP180_ReadReg
  .text.BMP180_ReadCalibration
-                0x000000000800332c      0x184 src/bmp180.o
-                0x000000000800332c                BMP180_ReadCalibration
+                0x0000000008003354      0x184 src/bmp180.o
+                0x0000000008003354                BMP180_ReadCalibration
  .text.init_bmp180
-                0x00000000080034b0       0x20 src/bmp180.o
-                0x00000000080034b0                init_bmp180
+                0x00000000080034d8       0x20 src/bmp180.o
+                0x00000000080034d8                init_bmp180
  .text.BMP180_Read_UT
-                0x00000000080034d0       0xdc src/bmp180.o
-                0x00000000080034d0                BMP180_Read_UT
+                0x00000000080034f8       0xdc src/bmp180.o
+                0x00000000080034f8                BMP180_Read_UT
  .text.BMP180_Read_PT
-                0x00000000080035ac      0x118 src/bmp180.o
-                0x00000000080035ac                BMP180_Read_PT
+                0x00000000080035d4      0x118 src/bmp180.o
+                0x00000000080035d4                BMP180_Read_PT
  .text.BMP180_Calc_RT
-                0x00000000080036c4       0x30 src/bmp180.o
-                0x00000000080036c4                BMP180_Calc_RT
+                0x00000000080036ec       0x30 src/bmp180.o
+                0x00000000080036ec                BMP180_Calc_RT
  .text.read_temperature_str
-                0x00000000080036f4       0x44 src/bmp180.o
-                0x00000000080036f4                read_temperature_str
+                0x000000000800371c       0x44 src/bmp180.o
+                0x000000000800371c                read_temperature_str
  .text.BMP180_Calc_RP
-                0x0000000008003738       0xa8 src/bmp180.o
-                0x0000000008003738                BMP180_Calc_RP
+                0x0000000008003760       0xa8 src/bmp180.o
+                0x0000000008003760                BMP180_Calc_RP
  .text.read_pressure_str
-                0x00000000080037e0       0x58 src/bmp180.o
-                0x00000000080037e0                read_pressure_str
+                0x0000000008003808       0x58 src/bmp180.o
+                0x0000000008003808                read_pressure_str
  .text.addToBuffor
-                0x0000000008003838       0x18 src/buffors.o
-                0x0000000008003838                addToBuffor
+                0x0000000008003860       0x18 src/buffors.o
+                0x0000000008003860                addToBuffor
  .text.getFromBuffor
-                0x0000000008003850       0x36 src/buffors.o
-                0x0000000008003850                getFromBuffor
+                0x0000000008003878       0x36 src/buffors.o
+                0x0000000008003878                getFromBuffor
  .text.isBufforEmpty
-                0x0000000008003886        0xe src/buffors.o
-                0x0000000008003886                isBufforEmpty
+                0x00000000080038ae        0xe src/buffors.o
+                0x00000000080038ae                isBufforEmpty
  .text.initBuffor
-                0x0000000008003894        0xe src/buffors.o
-                0x0000000008003894                initBuffor
- *fill*         0x00000000080038a2        0x2 
+                0x00000000080038bc        0xe src/buffors.o
+                0x00000000080038bc                initBuffor
+ *fill*         0x00000000080038ca        0x2 
  .text.getStandByModeState
-                0x00000000080038a4        0xc src/device_config.o
-                0x00000000080038a4                getStandByModeState
+                0x00000000080038cc        0xc src/device_config.o
+                0x00000000080038cc                getStandByModeState
  .text.set_sleep_mode
-                0x00000000080038b0       0x24 src/device_config.o
-                0x00000000080038b0                set_sleep_mode
+                0x00000000080038d8       0x24 src/device_config.o
+                0x00000000080038d8                set_sleep_mode
  .text.clr_sleep_mode
-                0x00000000080038d4       0x24 src/device_config.o
-                0x00000000080038d4                clr_sleep_mode
+                0x00000000080038fc       0x24 src/device_config.o
+                0x00000000080038fc                clr_sleep_mode
  .text.sleep_mode_init
-                0x00000000080038f8       0xe4 src/device_config.o
-                0x00000000080038f8                sleep_mode_init
+                0x0000000008003920       0xe4 src/device_config.o
+                0x0000000008003920                sleep_mode_init
  .text.control__goto_sleep_mode
-                0x00000000080039dc       0x24 src/device_config.o
-                0x00000000080039dc                control__goto_sleep_mode
+                0x0000000008003a04       0x24 src/device_config.o
+                0x0000000008003a04                control__goto_sleep_mode
  .text.EXTI0_IRQHandler
-                0x0000000008003a00       0x20 src/device_config.o
-                0x0000000008003a00                EXTI0_IRQHandler
+                0x0000000008003a28       0x20 src/device_config.o
+                0x0000000008003a28                EXTI0_IRQHandler
  .text.EXTI1_IRQHandler
-                0x0000000008003a20        0xa src/device_config.o
-                0x0000000008003a20                EXTI1_IRQHandler
- *fill*         0x0000000008003a2a        0x2 
+                0x0000000008003a48        0xa src/device_config.o
+                0x0000000008003a48                EXTI1_IRQHandler
+ *fill*         0x0000000008003a52        0x2 
  .text.EXTI4_IRQHandler
-                0x0000000008003a2c       0x28 src/device_config.o
-                0x0000000008003a2c                EXTI4_IRQHandler
+                0x0000000008003a54       0x28 src/device_config.o
+                0x0000000008003a54                EXTI4_IRQHandler
  .text.device_init
-                0x0000000008003a54       0x2c src/device_config.o
-                0x0000000008003a54                device_init
+                0x0000000008003a7c       0x2c src/device_config.o
+                0x0000000008003a7c                device_init
  .text.turnOnOffLed
-                0x0000000008003a80       0x28 src/device_config.o
-                0x0000000008003a80                turnOnOffLed
+                0x0000000008003aa8       0x28 src/device_config.o
+                0x0000000008003aa8                turnOnOffLed
  .text.RCC_Conf
-                0x0000000008003aa8       0x64 src/device_config.o
-                0x0000000008003aa8                RCC_Conf
- .text.main     0x0000000008003b0c       0xd4 src/main.o
-                0x0000000008003b0c                main
+                0x0000000008003ad0       0x64 src/device_config.o
+                0x0000000008003ad0                RCC_Conf
+ .text.main     0x0000000008003b34       0xd4 src/main.o
+                0x0000000008003b34                main
  .text.working_day_checked
-                0x0000000008003be0        0xc src/menu.o
-                0x0000000008003be0                working_day_checked
+                0x0000000008003c08        0xc src/menu.o
+                0x0000000008003c08                working_day_checked
  .text.alarm_on_checked
-                0x0000000008003bec        0xc src/menu.o
-                0x0000000008003bec                alarm_on_checked
+                0x0000000008003c14        0xc src/menu.o
+                0x0000000008003c14                alarm_on_checked
  .text.get_menu_state
-                0x0000000008003bf8        0xc src/menu.o
-                0x0000000008003bf8                get_menu_state
+                0x0000000008003c20        0xc src/menu.o
+                0x0000000008003c20                get_menu_state
  .text.on_button_released
-                0x0000000008003c04       0x14 src/menu.o
-                0x0000000008003c04                on_button_released
+                0x0000000008003c2c       0x14 src/menu.o
+                0x0000000008003c2c                on_button_released
  .text.increment_set_clk_state
-                0x0000000008003c18       0x1c src/menu.o
-                0x0000000008003c18                increment_set_clk_state
+                0x0000000008003c40       0x1c src/menu.o
+                0x0000000008003c40                increment_set_clk_state
  .text.control_alarm_off_state
-                0x0000000008003c34       0x10 src/menu.o
-                0x0000000008003c34                control_alarm_off_state
+                0x0000000008003c5c       0x10 src/menu.o
+                0x0000000008003c5c                control_alarm_off_state
  .text.increment_set_date_state
-                0x0000000008003c44       0x1c src/menu.o
-                0x0000000008003c44                increment_set_date_state
+                0x0000000008003c6c       0x1c src/menu.o
+                0x0000000008003c6c                increment_set_date_state
  .text.increment_set_alarm_state
-                0x0000000008003c60       0x1c src/menu.o
-                0x0000000008003c60                increment_set_alarm_state
+                0x0000000008003c88       0x1c src/menu.o
+                0x0000000008003c88                increment_set_alarm_state
  .text.create_menu
-                0x0000000008003c7c       0xe4 src/menu.o
-                0x0000000008003c7c                create_menu
+                0x0000000008003ca4       0xe4 src/menu.o
+                0x0000000008003ca4                create_menu
  .text.setMenuState
-                0x0000000008003d60       0x24 src/menu.o
-                0x0000000008003d60                setMenuState
+                0x0000000008003d88       0x24 src/menu.o
+                0x0000000008003d88                setMenuState
  .text.read_environmental_parameters
-                0x0000000008003d84       0x18 src/menu.o
-                0x0000000008003d84                read_environmental_parameters
+                0x0000000008003dac       0x18 src/menu.o
+                0x0000000008003dac                read_environmental_parameters
  .text.on_set_working_day
-                0x0000000008003d9c       0x1c src/menu.o
-                0x0000000008003d9c                on_set_working_day
+                0x0000000008003dc4       0x1c src/menu.o
+                0x0000000008003dc4                on_set_working_day
  .text.on_set_alarm
-                0x0000000008003db8       0x1c src/menu.o
-                0x0000000008003db8                on_set_alarm
+                0x0000000008003de0       0x1c src/menu.o
+                0x0000000008003de0                on_set_alarm
  .text.on_set_alarm_up
-                0x0000000008003dd4       0x34 src/menu.o
-                0x0000000008003dd4                on_set_alarm_up
+                0x0000000008003dfc       0x34 src/menu.o
+                0x0000000008003dfc                on_set_alarm_up
  .text.on_set_alarm_down
-                0x0000000008003e08       0x34 src/menu.o
-                0x0000000008003e08                on_set_alarm_down
+                0x0000000008003e30       0x34 src/menu.o
+                0x0000000008003e30                on_set_alarm_down
  .text.on_set_up
-                0x0000000008003e3c       0x5c src/menu.o
-                0x0000000008003e3c                on_set_up
+                0x0000000008003e64       0x5c src/menu.o
+                0x0000000008003e64                on_set_up
  .text.on_set_down
-                0x0000000008003e98       0x5c src/menu.o
-                0x0000000008003e98                on_set_down
- *fill*         0x0000000008003ef4        0x4 
+                0x0000000008003ec0       0x5c src/menu.o
+                0x0000000008003ec0                on_set_down
+ *fill*         0x0000000008003f1c        0x4 
  .text.show_menu
-                0x0000000008003ef8      0x490 src/menu.o
-                0x0000000008003ef8                show_menu
+                0x0000000008003f20      0x490 src/menu.o
+                0x0000000008003f20                show_menu
  .text.NVIC_RTC_Configuration
-                0x0000000008004388       0x44 src/rtc.o
-                0x0000000008004388                NVIC_RTC_Configuration
+                0x00000000080043b0       0x44 src/rtc.o
+                0x00000000080043b0                NVIC_RTC_Configuration
  .text.RTCAlarm_IRQHandler
-                0x00000000080043cc       0x30 src/rtc.o
-                0x00000000080043cc                RTCAlarm_IRQHandler
+                0x00000000080043f4       0x28 src/rtc.o
+                0x00000000080043f4                RTCAlarm_IRQHandler
  .text.read_alarm
-                0x00000000080043fc       0xec src/rtc.o
-                0x00000000080043fc                read_alarm
+                0x000000000800441c       0xec src/rtc.o
+                0x000000000800441c                read_alarm
  .text.read_time
-                0x00000000080044e8       0xd8 src/rtc.o
-                0x00000000080044e8                read_time
+                0x0000000008004508       0xd8 src/rtc.o
+                0x0000000008004508                read_time
  .text.read_date
-                0x00000000080045c0       0x78 src/rtc.o
-                0x00000000080045c0                read_date
+                0x00000000080045e0       0x78 src/rtc.o
+                0x00000000080045e0                read_date
  .text.addAlarmHour
-                0x0000000008004638       0x10 src/rtc.o
-                0x0000000008004638                addAlarmHour
+                0x0000000008004658       0x10 src/rtc.o
+                0x0000000008004658                addAlarmHour
  .text.removeAlarmHour
-                0x0000000008004648       0x10 src/rtc.o
-                0x0000000008004648                removeAlarmHour
+                0x0000000008004668       0x10 src/rtc.o
+                0x0000000008004668                removeAlarmHour
  .text.addAlarmMinute
-                0x0000000008004658        0xe src/rtc.o
-                0x0000000008004658                addAlarmMinute
+                0x0000000008004678        0xe src/rtc.o
+                0x0000000008004678                addAlarmMinute
  .text.removeAlarmMinute
-                0x0000000008004666        0xe src/rtc.o
-                0x0000000008004666                removeAlarmMinute
+                0x0000000008004686        0xe src/rtc.o
+                0x0000000008004686                removeAlarmMinute
  .text.addAlarmSec
-                0x0000000008004674        0xe src/rtc.o
-                0x0000000008004674                addAlarmSec
+                0x0000000008004694        0xe src/rtc.o
+                0x0000000008004694                addAlarmSec
  .text.removeAlarmSec
-                0x0000000008004682        0xe src/rtc.o
-                0x0000000008004682                removeAlarmSec
- .text.addHour  0x0000000008004690       0x18 src/rtc.o
-                0x0000000008004690                addHour
+                0x00000000080046a2        0xe src/rtc.o
+                0x00000000080046a2                removeAlarmSec
+ .text.addHour  0x00000000080046b0       0x18 src/rtc.o
+                0x00000000080046b0                addHour
  .text.removeHour
-                0x00000000080046a8       0x18 src/rtc.o
-                0x00000000080046a8                removeHour
- .text.addMin   0x00000000080046c0       0x16 src/rtc.o
-                0x00000000080046c0                addMin
+                0x00000000080046c8       0x18 src/rtc.o
+                0x00000000080046c8                removeHour
+ .text.addMin   0x00000000080046e0       0x16 src/rtc.o
+                0x00000000080046e0                addMin
  .text.removeMin
-                0x00000000080046d6       0x16 src/rtc.o
-                0x00000000080046d6                removeMin
- .text.addSec   0x00000000080046ec       0x16 src/rtc.o
-                0x00000000080046ec                addSec
+                0x00000000080046f6       0x16 src/rtc.o
+                0x00000000080046f6                removeMin
+ .text.addSec   0x000000000800470c       0x16 src/rtc.o
+                0x000000000800470c                addSec
  .text.removeSec
-                0x0000000008004702       0x16 src/rtc.o
-                0x0000000008004702                removeSec
+                0x0000000008004722       0x16 src/rtc.o
+                0x0000000008004722                removeSec
  .text.save_time
-                0x0000000008004718       0x22 src/rtc.o
-                0x0000000008004718                save_time
- *fill*         0x000000000800473a        0x2 
+                0x0000000008004738       0x22 src/rtc.o
+                0x0000000008004738                save_time
+ *fill*         0x000000000800475a        0x2 
  .text.check_leap
-                0x000000000800473c       0x40 src/rtc.o
-                0x000000000800473c                check_leap
+                0x000000000800475c       0x40 src/rtc.o
+                0x000000000800475c                check_leap
  .text.prev_date
-                0x000000000800477c       0xf4 src/rtc.o
-                0x000000000800477c                prev_date
+                0x000000000800479c       0xf4 src/rtc.o
+                0x000000000800479c                prev_date
  .text.removeDay
-                0x0000000008004870        0x8 src/rtc.o
-                0x0000000008004870                removeDay
+                0x0000000008004890        0x8 src/rtc.o
+                0x0000000008004890                removeDay
  .text.removeMonth
-                0x0000000008004878       0x3e src/rtc.o
-                0x0000000008004878                removeMonth
+                0x0000000008004898       0x3e src/rtc.o
+                0x0000000008004898                removeMonth
  .text.removeYear
-                0x00000000080048b6       0x1e src/rtc.o
-                0x00000000080048b6                removeYear
+                0x00000000080048d6       0x1e src/rtc.o
+                0x00000000080048d6                removeYear
  .text.update_date
-                0x00000000080048d4       0xf0 src/rtc.o
-                0x00000000080048d4                update_date
+                0x00000000080048f4       0xf0 src/rtc.o
+                0x00000000080048f4                update_date
  .text.check_next_day
-                0x00000000080049c4       0x2c src/rtc.o
-                0x00000000080049c4                check_next_day
+                0x00000000080049e4       0x2c src/rtc.o
+                0x00000000080049e4                check_next_day
  .text.analize_clock_clendar_state
-                0x00000000080049f0       0x1c src/rtc.o
-                0x00000000080049f0                analize_clock_clendar_state
+                0x0000000008004a10       0x1c src/rtc.o
+                0x0000000008004a10                analize_clock_clendar_state
  .text.addMonth
-                0x0000000008004a0c       0x3e src/rtc.o
-                0x0000000008004a0c                addMonth
- .text.addYear  0x0000000008004a4a       0x1e src/rtc.o
-                0x0000000008004a4a                addYear
+                0x0000000008004a2c       0x3e src/rtc.o
+                0x0000000008004a2c                addMonth
+ .text.addYear  0x0000000008004a6a       0x1e src/rtc.o
+                0x0000000008004a6a                addYear
  .text.save_date
-                0x0000000008004a68       0x90 src/rtc.o
-                0x0000000008004a68                save_date
+                0x0000000008004a88       0x90 src/rtc.o
+                0x0000000008004a88                save_date
  .text.set_alarm
-                0x0000000008004af8       0x2c src/rtc.o
-                0x0000000008004af8                set_alarm
+                0x0000000008004b18       0x2c src/rtc.o
+                0x0000000008004b18                set_alarm
  .text.check_for_days_elapsed
-                0x0000000008004b24       0x5c src/rtc.o
-                0x0000000008004b24                check_for_days_elapsed
+                0x0000000008004b44       0x5c src/rtc.o
+                0x0000000008004b44                check_for_days_elapsed
  .text.RTC_Configuration
-                0x0000000008004b80       0xcc src/rtc.o
-                0x0000000008004b80                RTC_Configuration
+                0x0000000008004ba0       0xcc src/rtc.o
+                0x0000000008004ba0                RTC_Configuration
  .text.rtc_init
-                0x0000000008004c4c       0x64 src/rtc.o
-                0x0000000008004c4c                rtc_init
+                0x0000000008004c6c       0x64 src/rtc.o
+                0x0000000008004c6c                rtc_init
  .text.day_of_week
-                0x0000000008004cb0       0x94 src/rtc.o
-                0x0000000008004cb0                day_of_week
+                0x0000000008004cd0       0x94 src/rtc.o
+                0x0000000008004cd0                day_of_week
  .text.RTC_IRQHandler
-                0x0000000008004d44       0xb8 src/rtc.o
-                0x0000000008004d44                RTC_IRQHandler
- .text.addDay   0x0000000008004dfc       0x48 src/rtc.o
-                0x0000000008004dfc                addDay
+                0x0000000008004d64       0xb4 src/rtc.o
+                0x0000000008004d64                RTC_IRQHandler
+ .text.addDay   0x0000000008004e18       0x48 src/rtc.o
+                0x0000000008004e18                addDay
  .text.getTimerChannelState
-                0x0000000008004e44       0x34 src/scan_timer.o
-                0x0000000008004e44                getTimerChannelState
+                0x0000000008004e60       0x34 src/scan_timer.o
+                0x0000000008004e60                getTimerChannelState
  .text.setTimerChannelState
-                0x0000000008004e78       0x28 src/scan_timer.o
-                0x0000000008004e78                setTimerChannelState
+                0x0000000008004e94       0x28 src/scan_timer.o
+                0x0000000008004e94                setTimerChannelState
  .text.init_timer
-                0x0000000008004ea0       0xe4 src/scan_timer.o
-                0x0000000008004ea0                init_timer
+                0x0000000008004ebc       0xe4 src/scan_timer.o
+                0x0000000008004ebc                init_timer
  .text.TIM1_CC_IRQHandler
-                0x0000000008004f84       0xdc src/scan_timer.o
-                0x0000000008004f84                TIM1_CC_IRQHandler
+                0x0000000008004fa0       0xdc src/scan_timer.o
+                0x0000000008004fa0                TIM1_CC_IRQHandler
  .text.SetSysClockTo72
-                0x0000000008005060       0xc4 src/system_stm32f10x.o
+                0x000000000800507c       0xc4 src/system_stm32f10x.o
  .text.SetSysClock
-                0x0000000008005124        0x8 src/system_stm32f10x.o
+                0x0000000008005140        0x8 src/system_stm32f10x.o
  .text.SystemInit
-                0x000000000800512c       0x50 src/system_stm32f10x.o
-                0x000000000800512c                SystemInit
+                0x0000000008005148       0x50 src/system_stm32f10x.o
+                0x0000000008005148                SystemInit
  .text.TIM2_IRQHandler
-                0x000000000800517c       0xdc src/timers.o
-                0x000000000800517c                TIM2_IRQHandler
+                0x0000000008005198       0xdc src/timers.o
+                0x0000000008005198                TIM2_IRQHandler
  .text.set_pushed_filter
-                0x0000000008005258        0xc src/touch_screen.o
-                0x0000000008005258                set_pushed_filter
+                0x0000000008005274        0xc src/touch_screen.o
+                0x0000000008005274                set_pushed_filter
  .text.DMA1_Channel4_IRQHandler
-                0x0000000008005264       0x28 src/touch_screen.o
-                0x0000000008005264                DMA1_Channel4_IRQHandler
+                0x0000000008005280       0x28 src/touch_screen.o
+                0x0000000008005280                DMA1_Channel4_IRQHandler
  .text.DMA1_Channel5_IRQHandler
-                0x000000000800528c       0x28 src/touch_screen.o
-                0x000000000800528c                DMA1_Channel5_IRQHandler
+                0x00000000080052a8       0x28 src/touch_screen.o
+                0x00000000080052a8                DMA1_Channel5_IRQHandler
  .text.SPI2_IRQHandler
-                0x00000000080052b4       0xb0 src/touch_screen.o
-                0x00000000080052b4                SPI2_IRQHandler
+                0x00000000080052d0       0xb0 src/touch_screen.o
+                0x00000000080052d0                SPI2_IRQHandler
  .text.get_touch_force
-                0x0000000008005364        0xc src/touch_screen.o
-                0x0000000008005364                get_touch_force
+                0x0000000008005380        0xc src/touch_screen.o
+                0x0000000008005380                get_touch_force
  .text.run_command
-                0x0000000008005370       0x3c src/touch_screen.o
-                0x0000000008005370                run_command
+                0x000000000800538c       0x3c src/touch_screen.o
+                0x000000000800538c                run_command
  .text.run_command_parameter
-                0x00000000080053ac       0x40 src/touch_screen.o
-                0x00000000080053ac                run_command_parameter
+                0x00000000080053c8       0x40 src/touch_screen.o
+                0x00000000080053c8                run_command_parameter
  .text.control_touch_buttons
-                0x00000000080053ec      0x178 src/touch_screen.o
-                0x00000000080053ec                control_touch_buttons
+                0x0000000008005408      0x178 src/touch_screen.o
+                0x0000000008005408                control_touch_buttons
  .text.getTouchData
-                0x0000000008005564        0x8 src/touch_screen.o
-                0x0000000008005564                getTouchData
+                0x0000000008005580        0x8 src/touch_screen.o
+                0x0000000008005580                getTouchData
  .text.touch_screen_cs_low
-                0x000000000800556c       0x14 src/touch_screen.o
-                0x000000000800556c                touch_screen_cs_low
+                0x0000000008005588       0x14 src/touch_screen.o
+                0x0000000008005588                touch_screen_cs_low
  .text.touch_screen_cs_high
-                0x0000000008005580       0x14 src/touch_screen.o
-                0x0000000008005580                touch_screen_cs_high
+                0x000000000800559c       0x14 src/touch_screen.o
+                0x000000000800559c                touch_screen_cs_high
  .text.init_spi_2
-                0x0000000008005594       0xd0 src/touch_screen.o
-                0x0000000008005594                init_spi_2
+                0x00000000080055b0       0xd0 src/touch_screen.o
+                0x00000000080055b0                init_spi_2
  .text.init_touch_screen
-                0x0000000008005664        0x8 src/touch_screen.o
-                0x0000000008005664                init_touch_screen
+                0x0000000008005680        0x8 src/touch_screen.o
+                0x0000000008005680                init_touch_screen
  .text.touch_screen_send_command
-                0x000000000800566c       0x1c src/touch_screen.o
-                0x000000000800566c                touch_screen_send_command
+                0x0000000008005688       0x1c src/touch_screen.o
+                0x0000000008005688                touch_screen_send_command
  .text.analize_data_from_touch_screen
-                0x0000000008005688       0x54 src/touch_screen.o
-                0x0000000008005688                analize_data_from_touch_screen
+                0x00000000080056a4       0x54 src/touch_screen.o
+                0x00000000080056a4                analize_data_from_touch_screen
  .text.uart_interrup_init
-                0x00000000080056dc       0xe4 src/uart_interrupt.o
-                0x00000000080056dc                uart_interrup_init
+                0x00000000080056f8       0xe4 src/uart_interrupt.o
+                0x00000000080056f8                uart_interrup_init
  .text.uart_send_data
-                0x00000000080057c0       0x34 src/uart_interrupt.o
-                0x00000000080057c0                uart_send_data
+                0x00000000080057dc       0x34 src/uart_interrupt.o
+                0x00000000080057dc                uart_send_data
  .text.USART3_IRQHandler
-                0x00000000080057f4       0x8c src/uart_interrupt.o
-                0x00000000080057f4                USART3_IRQHandler
+                0x0000000008005810       0x8c src/uart_interrupt.o
+                0x0000000008005810                USART3_IRQHandler
  .text.analizeIncomingMp3Data
-                0x0000000008005880       0x24 src/uart_interrupt.o
-                0x0000000008005880                analizeIncomingMp3Data
+                0x000000000800589c       0x24 src/uart_interrupt.o
+                0x000000000800589c                analizeIncomingMp3Data
  .text.nullCallback
-                0x00000000080058a4        0x2 src/buttons/buttons.o
- *fill*         0x00000000080058a6        0x2 
+                0x00000000080058c0        0x2 src/buttons/buttons.o
+ *fill*         0x00000000080058c2        0x2 
  .text.ALARM_BUTTON_callback
-                0x00000000080058a8       0x14 src/buttons/buttons.o
-                0x00000000080058a8                ALARM_BUTTON_callback
+                0x00000000080058c4       0x18 src/buttons/buttons.o
+                0x00000000080058c4                ALARM_BUTTON_callback
+ .text.ALARM_OFF_BUTTON_callback
+                0x00000000080058dc       0x18 src/buttons/buttons.o
+                0x00000000080058dc                ALARM_OFF_BUTTON_callback
  .text.initBitFilter
-                0x00000000080058bc       0x18 src/buttons/buttons.o
-                0x00000000080058bc                initBitFilter
+                0x00000000080058f4       0x18 src/buttons/buttons.o
+                0x00000000080058f4                initBitFilter
  .text.bitFilter_setOnBitChangeListener_signal
-                0x00000000080058d4        0x4 src/buttons/buttons.o
-                0x00000000080058d4                bitFilter_setOnBitChangeListener_signal
+                0x000000000800590c        0x4 src/buttons/buttons.o
+                0x000000000800590c                bitFilter_setOnBitChangeListener_signal
  .text.init_buttons
-                0x00000000080058d8       0x40 src/buttons/buttons.o
-                0x00000000080058d8                init_buttons
+                0x0000000008005910       0x5c src/buttons/buttons.o
+                0x0000000008005910                init_buttons
  .text.callbackEventPressed
-                0x0000000008005918        0xa src/buttons/buttons.o
-                0x0000000008005918                callbackEventPressed
+                0x000000000800596c        0xa src/buttons/buttons.o
+                0x000000000800596c                callbackEventPressed
  .text.callbackEventReleased
-                0x0000000008005922        0xa src/buttons/buttons.o
-                0x0000000008005922                callbackEventReleased
+                0x0000000008005976        0xa src/buttons/buttons.o
+                0x0000000008005976                callbackEventReleased
  .text.buttonIsPressedFiltered
-                0x000000000800592c       0x12 src/buttons/buttons.o
-                0x000000000800592c                buttonIsPressedFiltered
+                0x0000000008005980       0x12 src/buttons/buttons.o
+                0x0000000008005980                buttonIsPressedFiltered
  .text.buttonIsReleasedFiltered
-                0x000000000800593e       0x12 src/buttons/buttons.o
-                0x000000000800593e                buttonIsReleasedFiltered
+                0x0000000008005992       0x12 src/buttons/buttons.o
+                0x0000000008005992                buttonIsReleasedFiltered
  .text.incrementPressedProbe
-                0x0000000008005950       0x32 src/buttons/buttons.o
-                0x0000000008005950                incrementPressedProbe
+                0x00000000080059a4       0x32 src/buttons/buttons.o
+                0x00000000080059a4                incrementPressedProbe
  .text.incrementReleasedProbe
-                0x0000000008005982       0x30 src/buttons/buttons.o
-                0x0000000008005982                incrementReleasedProbe
+                0x00000000080059d6       0x30 src/buttons/buttons.o
+                0x00000000080059d6                incrementReleasedProbe
  .text.buttonIsPressedNotFiltered
-                0x00000000080059b2        0x8 src/buttons/buttons.o
-                0x00000000080059b2                buttonIsPressedNotFiltered
+                0x0000000008005a06        0x8 src/buttons/buttons.o
+                0x0000000008005a06                buttonIsPressedNotFiltered
  .text.buttonIsReleasedNotFiltered
-                0x00000000080059ba        0x8 src/buttons/buttons.o
-                0x00000000080059ba                buttonIsReleasedNotFiltered
- *fill*         0x00000000080059c2        0x2 
+                0x0000000008005a0e        0x8 src/buttons/buttons.o
+                0x0000000008005a0e                buttonIsReleasedNotFiltered
+ *fill*         0x0000000008005a16        0x2 
  .text.scanButtonsPins
-                0x00000000080059c4       0x28 src/buttons/buttons.o
-                0x00000000080059c4                scanButtonsPins
+                0x0000000008005a18       0x38 src/buttons/buttons.o
+                0x0000000008005a18                scanButtonsPins
  .text.FLASH_WriteSettings
-                0x00000000080059ec       0x38 src/flash/flash.o
-                0x00000000080059ec                FLASH_WriteSettings
+                0x0000000008005a50       0x38 src/flash/flash.o
+                0x0000000008005a50                FLASH_WriteSettings
  .text.flash_set_date_storage
-                0x0000000008005a24       0x14 src/flash/flash.o
-                0x0000000008005a24                flash_set_date_storage
+                0x0000000008005a88       0x14 src/flash/flash.o
+                0x0000000008005a88                flash_set_date_storage
  .text.Reset_Handler
-                0x0000000008005a38       0x50 startup/startup_stm32.o
-                0x0000000008005a38                Reset_Handler
+                0x0000000008005a9c       0x50 startup/startup_stm32.o
+                0x0000000008005a9c                Reset_Handler
  .text.Default_Handler
-                0x0000000008005a88        0x2 startup/startup_stm32.o
-                0x0000000008005a88                EXTI2_IRQHandler
-                0x0000000008005a88                TIM8_TRG_COM_IRQHandler
-                0x0000000008005a88                TIM8_CC_IRQHandler
-                0x0000000008005a88                DebugMon_Handler
-                0x0000000008005a88                HardFault_Handler
-                0x0000000008005a88                TIM6_IRQHandler
-                0x0000000008005a88                PVD_IRQHandler
-                0x0000000008005a88                SDIO_IRQHandler
-                0x0000000008005a88                PendSV_Handler
-                0x0000000008005a88                NMI_Handler
-                0x0000000008005a88                EXTI3_IRQHandler
-                0x0000000008005a88                USB_HP_CAN_TX_IRQHandler
-                0x0000000008005a88                I2C2_EV_IRQHandler
-                0x0000000008005a88                UsageFault_Handler
-                0x0000000008005a88                ADC1_2_IRQHandler
-                0x0000000008005a88                SPI1_IRQHandler
-                0x0000000008005a88                CAN_SCE_IRQHandler
-                0x0000000008005a88                TAMPER_IRQHandler
-                0x0000000008005a88                TIM8_UP_IRQHandler
-                0x0000000008005a88                DMA2_Channel2_IRQHandler
-                0x0000000008005a88                DMA1_Channel7_IRQHandler
-                0x0000000008005a88                UART5_IRQHandler
-                0x0000000008005a88                ADC3_IRQHandler
-                0x0000000008005a88                TIM4_IRQHandler
-                0x0000000008005a88                CAN_RX1_IRQHandler
-                0x0000000008005a88                DMA2_Channel1_IRQHandler
-                0x0000000008005a88                I2C1_EV_IRQHandler
-                0x0000000008005a88                DMA1_Channel6_IRQHandler
-                0x0000000008005a88                UART4_IRQHandler
-                0x0000000008005a88                TIM3_IRQHandler
-                0x0000000008005a88                RCC_IRQHandler
-                0x0000000008005a88                TIM1_TRG_COM_IRQHandler
-                0x0000000008005a88                DMA1_Channel1_IRQHandler
-                0x0000000008005a88                Default_Handler
-                0x0000000008005a88                EXTI15_10_IRQHandler
-                0x0000000008005a88                TIM7_IRQHandler
-                0x0000000008005a88                TIM5_IRQHandler
-                0x0000000008005a88                EXTI9_5_IRQHandler
-                0x0000000008005a88                USB_LP_CAN_RX0_IRQHandler
-                0x0000000008005a88                MemManage_Handler
-                0x0000000008005a88                SVC_Handler
-                0x0000000008005a88                FSMC_IRQHandler
-                0x0000000008005a88                TIM1_UP_IRQHandler
-                0x0000000008005a88                WWDG_IRQHandler
-                0x0000000008005a88                TIM1_BRK_IRQHandler
-                0x0000000008005a88                DMA2_Channel4_5_IRQHandler
-                0x0000000008005a88                USART2_IRQHandler
-                0x0000000008005a88                I2C2_ER_IRQHandler
-                0x0000000008005a88                TIM8_BRK_IRQHandler
-                0x0000000008005a88                FLASH_IRQHandler
-                0x0000000008005a88                BusFault_Handler
-                0x0000000008005a88                USART1_IRQHandler
-                0x0000000008005a88                SPI3_IRQHandler
-                0x0000000008005a88                I2C1_ER_IRQHandler
-                0x0000000008005a88                DMA2_Channel3_IRQHandler
- *fill*         0x0000000008005a8a        0x2 
- .text.__errno  0x0000000008005a8c        0xc /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-errno.o)
-                0x0000000008005a8c                __errno
+                0x0000000008005aec        0x2 startup/startup_stm32.o
+                0x0000000008005aec                EXTI2_IRQHandler
+                0x0000000008005aec                TIM8_TRG_COM_IRQHandler
+                0x0000000008005aec                TIM8_CC_IRQHandler
+                0x0000000008005aec                DebugMon_Handler
+                0x0000000008005aec                HardFault_Handler
+                0x0000000008005aec                TIM6_IRQHandler
+                0x0000000008005aec                PVD_IRQHandler
+                0x0000000008005aec                SDIO_IRQHandler
+                0x0000000008005aec                PendSV_Handler
+                0x0000000008005aec                NMI_Handler
+                0x0000000008005aec                EXTI3_IRQHandler
+                0x0000000008005aec                USB_HP_CAN_TX_IRQHandler
+                0x0000000008005aec                I2C2_EV_IRQHandler
+                0x0000000008005aec                UsageFault_Handler
+                0x0000000008005aec                ADC1_2_IRQHandler
+                0x0000000008005aec                SPI1_IRQHandler
+                0x0000000008005aec                CAN_SCE_IRQHandler
+                0x0000000008005aec                TAMPER_IRQHandler
+                0x0000000008005aec                TIM8_UP_IRQHandler
+                0x0000000008005aec                DMA2_Channel2_IRQHandler
+                0x0000000008005aec                DMA1_Channel7_IRQHandler
+                0x0000000008005aec                UART5_IRQHandler
+                0x0000000008005aec                ADC3_IRQHandler
+                0x0000000008005aec                TIM4_IRQHandler
+                0x0000000008005aec                CAN_RX1_IRQHandler
+                0x0000000008005aec                DMA2_Channel1_IRQHandler
+                0x0000000008005aec                I2C1_EV_IRQHandler
+                0x0000000008005aec                DMA1_Channel6_IRQHandler
+                0x0000000008005aec                UART4_IRQHandler
+                0x0000000008005aec                TIM3_IRQHandler
+                0x0000000008005aec                RCC_IRQHandler
+                0x0000000008005aec                TIM1_TRG_COM_IRQHandler
+                0x0000000008005aec                DMA1_Channel1_IRQHandler
+                0x0000000008005aec                Default_Handler
+                0x0000000008005aec                EXTI15_10_IRQHandler
+                0x0000000008005aec                TIM7_IRQHandler
+                0x0000000008005aec                TIM5_IRQHandler
+                0x0000000008005aec                EXTI9_5_IRQHandler
+                0x0000000008005aec                USB_LP_CAN_RX0_IRQHandler
+                0x0000000008005aec                MemManage_Handler
+                0x0000000008005aec                SVC_Handler
+                0x0000000008005aec                FSMC_IRQHandler
+                0x0000000008005aec                TIM1_UP_IRQHandler
+                0x0000000008005aec                WWDG_IRQHandler
+                0x0000000008005aec                TIM1_BRK_IRQHandler
+                0x0000000008005aec                DMA2_Channel4_5_IRQHandler
+                0x0000000008005aec                USART2_IRQHandler
+                0x0000000008005aec                I2C2_ER_IRQHandler
+                0x0000000008005aec                TIM8_BRK_IRQHandler
+                0x0000000008005aec                FLASH_IRQHandler
+                0x0000000008005aec                BusFault_Handler
+                0x0000000008005aec                USART1_IRQHandler
+                0x0000000008005aec                SPI3_IRQHandler
+                0x0000000008005aec                I2C1_ER_IRQHandler
+                0x0000000008005aec                DMA2_Channel3_IRQHandler
+ *fill*         0x0000000008005aee        0x2 
+ .text.__errno  0x0000000008005af0        0xc /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-errno.o)
+                0x0000000008005af0                __errno
  .text._cleanup_r
-                0x0000000008005a98        0xc /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
-                0x0000000008005a98                _cleanup_r
+                0x0000000008005afc        0xc /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
+                0x0000000008005afc                _cleanup_r
  .text.std.isra.0
-                0x0000000008005aa4       0x48 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
+                0x0000000008005b08       0x48 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
  .text.__sfmoreglue
-                0x0000000008005aec       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
-                0x0000000008005aec                __sfmoreglue
- .text.__sinit  0x0000000008005b18       0x60 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
-                0x0000000008005b18                __sinit
- .text.__sfp    0x0000000008005b78       0x78 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
-                0x0000000008005b78                __sfp
+                0x0000000008005b50       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
+                0x0000000008005b50                __sfmoreglue
+ .text.__sinit  0x0000000008005b7c       0x60 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
+                0x0000000008005b7c                __sinit
+ .text.__sfp    0x0000000008005bdc       0x78 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
+                0x0000000008005bdc                __sfp
  .text._fwalk_reent
-                0x0000000008005bf0       0x3c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fwalk.o)
-                0x0000000008005bf0                _fwalk_reent
+                0x0000000008005c54       0x3c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fwalk.o)
+                0x0000000008005c54                _fwalk_reent
  .text._malloc_r
-                0x0000000008005c2c       0xbc /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-mallocr.o)
-                0x0000000008005c2c                _malloc_r
- .text.printf   0x0000000008005ce8       0x30 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-printf.o)
-                0x0000000008005ce8                printf
-                0x0000000008005ce8                iprintf
- .text._puts_r  0x0000000008005d18       0xb8 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-puts.o)
-                0x0000000008005d18                _puts_r
- .text.puts     0x0000000008005dd0       0x10 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-puts.o)
-                0x0000000008005dd0                puts
- .text._sbrk_r  0x0000000008005de0       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-sbrkr.o)
-                0x0000000008005de0                _sbrk_r
- .text.sprintf  0x0000000008005e00       0x48 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-sprintf.o)
-                0x0000000008005e00                sprintf
-                0x0000000008005e00                siprintf
- .text.__sread  0x0000000008005e48       0x22 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-stdio.o)
-                0x0000000008005e48                __sread
+                0x0000000008005c90       0xbc /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-mallocr.o)
+                0x0000000008005c90                _malloc_r
+ .text.printf   0x0000000008005d4c       0x30 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-printf.o)
+                0x0000000008005d4c                printf
+                0x0000000008005d4c                iprintf
+ .text._puts_r  0x0000000008005d7c       0xb8 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-puts.o)
+                0x0000000008005d7c                _puts_r
+ .text.puts     0x0000000008005e34       0x10 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-puts.o)
+                0x0000000008005e34                puts
+ .text._sbrk_r  0x0000000008005e44       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-sbrkr.o)
+                0x0000000008005e44                _sbrk_r
+ .text.sprintf  0x0000000008005e64       0x48 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-sprintf.o)
+                0x0000000008005e64                sprintf
+                0x0000000008005e64                siprintf
+ .text.__sread  0x0000000008005eac       0x22 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-stdio.o)
+                0x0000000008005eac                __sread
  .text.__swrite
-                0x0000000008005e6a       0x38 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-stdio.o)
-                0x0000000008005e6a                __swrite
- .text.__sseek  0x0000000008005ea2       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-stdio.o)
-                0x0000000008005ea2                __sseek
+                0x0000000008005ece       0x38 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-stdio.o)
+                0x0000000008005ece                __swrite
+ .text.__sseek  0x0000000008005f06       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-stdio.o)
+                0x0000000008005f06                __sseek
  .text.__sclose
-                0x0000000008005ec6        0x8 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-stdio.o)
-                0x0000000008005ec6                __sclose
- *fill*         0x0000000008005ece        0x2 
+                0x0000000008005f2a        0x8 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-stdio.o)
+                0x0000000008005f2a                __sclose
+ *fill*         0x0000000008005f32        0x2 
  .text.__swbuf_r
-                0x0000000008005ed0       0xa4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-wbuf.o)
-                0x0000000008005ed0                __swbuf_r
+                0x0000000008005f34       0xa4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-wbuf.o)
+                0x0000000008005f34                __swbuf_r
  .text._write_r
-                0x0000000008005f74       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-writer.o)
-                0x0000000008005f74                _write_r
+                0x0000000008005fd8       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-writer.o)
+                0x0000000008005fd8                _write_r
  .text.__swsetup_r
-                0x0000000008005f98       0xdc /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-wsetup.o)
-                0x0000000008005f98                __swsetup_r
+                0x0000000008005ffc       0xdc /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-wsetup.o)
+                0x0000000008005ffc                __swsetup_r
  .text._close_r
-                0x0000000008006074       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-closer.o)
-                0x0000000008006074                _close_r
+                0x00000000080060d8       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-closer.o)
+                0x00000000080060d8                _close_r
  .text.__sflush_r
-                0x0000000008006094      0x110 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fflush.o)
-                0x0000000008006094                __sflush_r
+                0x00000000080060f8      0x110 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fflush.o)
+                0x00000000080060f8                __sflush_r
  .text._fflush_r
-                0x00000000080061a4       0x54 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fflush.o)
-                0x00000000080061a4                _fflush_r
+                0x0000000008006208       0x54 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fflush.o)
+                0x0000000008006208                _fflush_r
  .text._lseek_r
-                0x00000000080061f8       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-lseekr.o)
-                0x00000000080061f8                _lseek_r
+                0x000000000800625c       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-lseekr.o)
+                0x000000000800625c                _lseek_r
  .text.__swhatbuf_r
-                0x000000000800621c       0x48 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-makebuf.o)
-                0x000000000800621c                __swhatbuf_r
+                0x0000000008006280       0x48 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-makebuf.o)
+                0x0000000008006280                __swhatbuf_r
  .text.__smakebuf_r
-                0x0000000008006264       0x80 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-makebuf.o)
-                0x0000000008006264                __smakebuf_r
+                0x00000000080062c8       0x80 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-makebuf.o)
+                0x00000000080062c8                __smakebuf_r
  .text.__malloc_lock
-                0x00000000080062e4        0x2 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-mlock.o)
-                0x00000000080062e4                __malloc_lock
+                0x0000000008006348        0x2 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-mlock.o)
+                0x0000000008006348                __malloc_lock
  .text.__malloc_unlock
-                0x00000000080062e6        0x2 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-mlock.o)
-                0x00000000080062e6                __malloc_unlock
- .text._free_r  0x00000000080062e8       0x98 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-freer.o)
-                0x00000000080062e8                _free_r
+                0x000000000800634a        0x2 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-mlock.o)
+                0x000000000800634a                __malloc_unlock
+ .text._free_r  0x000000000800634c       0x98 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-freer.o)
+                0x000000000800634c                _free_r
  .text.__ssputs_r
-                0x0000000008006380       0xb6 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-svfprintf.o)
-                0x0000000008006380                __ssputs_r
- *fill*         0x0000000008006436        0x2 
+                0x00000000080063e4       0xb6 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-svfprintf.o)
+                0x00000000080063e4                __ssputs_r
+ *fill*         0x000000000800649a        0x2 
  .text._svfprintf_r
-                0x0000000008006438      0x1e8 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-svfprintf.o)
-                0x0000000008006438                _svfprintf_r
-                0x0000000008006438                _svfiprintf_r
+                0x000000000800649c      0x1e8 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-svfprintf.o)
+                0x000000000800649c                _svfprintf_r
+                0x000000000800649c                _svfiprintf_r
  .text.__sfputc_r
-                0x0000000008006620       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf.o)
+                0x0000000008006684       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf.o)
  .text.__sfputs_r
-                0x000000000800664c       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf.o)
-                0x000000000800664c                __sfputs_r
+                0x00000000080066b0       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf.o)
+                0x00000000080066b0                __sfputs_r
  .text._vfprintf_r
-                0x0000000008006670      0x22c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf.o)
-                0x0000000008006670                _vfiprintf_r
-                0x0000000008006670                _vfprintf_r
+                0x00000000080066d4      0x22c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf.o)
+                0x00000000080066d4                _vfiprintf_r
+                0x00000000080066d4                _vfprintf_r
  .text._printf_common
-                0x000000000800689c       0xee /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
-                0x000000000800689c                _printf_common
- *fill*         0x000000000800698a        0x2 
+                0x0000000008006900       0xee /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x0000000008006900                _printf_common
+ *fill*         0x00000000080069ee        0x2 
  .text._printf_i
-                0x000000000800698c      0x240 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
-                0x000000000800698c                _printf_i
- .text._read_r  0x0000000008006bcc       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-readr.o)
-                0x0000000008006bcc                _read_r
+                0x00000000080069f0      0x240 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x00000000080069f0                _printf_i
+ .text._read_r  0x0000000008006c30       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-readr.o)
+                0x0000000008006c30                _read_r
  .text._fstat_r
-                0x0000000008006bf0       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fstatr.o)
-                0x0000000008006bf0                _fstat_r
+                0x0000000008006c54       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fstatr.o)
+                0x0000000008006c54                _fstat_r
  .text._isatty_r
-                0x0000000008006c14       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-isattyr.o)
-                0x0000000008006c14                _isatty_r
- .text.memchr   0x0000000008006c34       0x1c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memchr-stub.o)
-                0x0000000008006c34                memchr
- .text.memcpy   0x0000000008006c50       0x16 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memcpy-stub.o)
-                0x0000000008006c50                memcpy
- .text.memmove  0x0000000008006c66       0x34 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memmove.o)
-                0x0000000008006c66                memmove
+                0x0000000008006c78       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-isattyr.o)
+                0x0000000008006c78                _isatty_r
+ .text.memchr   0x0000000008006c98       0x1c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memchr-stub.o)
+                0x0000000008006c98                memchr
+ .text.memcpy   0x0000000008006cb4       0x16 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memcpy-stub.o)
+                0x0000000008006cb4                memcpy
+ .text.memmove  0x0000000008006cca       0x34 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memmove.o)
+                0x0000000008006cca                memmove
  .text._realloc_r
-                0x0000000008006c9a       0x4c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-reallocr.o)
-                0x0000000008006c9a                _realloc_r
+                0x0000000008006cfe       0x4c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-reallocr.o)
+                0x0000000008006cfe                _realloc_r
  .text._malloc_usable_size_r
-                0x0000000008006ce6       0x12 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-msizer.o)
-                0x0000000008006ce6                _malloc_usable_size_r
+                0x0000000008006d4a       0x12 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-msizer.o)
+                0x0000000008006d4a                _malloc_usable_size_r
  *(.glue_7)
- .glue_7        0x0000000008006cf8        0x0 linker stubs
+ .glue_7        0x0000000008006d5c        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x0000000008006cf8        0x0 linker stubs
+ .glue_7t       0x0000000008006d5c        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x0000000008006cf8        0x0 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
+ .eh_frame      0x0000000008006d5c        0x0 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
  *(.init)
- .init          0x0000000008006cf8        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crti.o
-                0x0000000008006cf8                _init
- .init          0x0000000008006cfc        0x8 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtn.o
+ .init          0x0000000008006d5c        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crti.o
+                0x0000000008006d5c                _init
+ .init          0x0000000008006d60        0x8 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtn.o
  *(.fini)
- .fini          0x0000000008006d04        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crti.o
-                0x0000000008006d04                _fini
- .fini          0x0000000008006d08        0x8 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtn.o
-                0x0000000008006d10                . = ALIGN (0x4)
-                0x0000000008006d10                _etext = .
+ .fini          0x0000000008006d68        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crti.o
+                0x0000000008006d68                _fini
+ .fini          0x0000000008006d6c        0x8 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtn.o
+                0x0000000008006d74                . = ALIGN (0x4)
+                0x0000000008006d74                _etext = .
 
-.vfp11_veneer   0x0000000008006d10        0x0
- .vfp11_veneer  0x0000000008006d10        0x0 linker stubs
+.vfp11_veneer   0x0000000008006d74        0x0
+ .vfp11_veneer  0x0000000008006d74        0x0 linker stubs
 
-.v4_bx          0x0000000008006d10        0x0
- .v4_bx         0x0000000008006d10        0x0 linker stubs
+.v4_bx          0x0000000008006d74        0x0
+ .v4_bx         0x0000000008006d74        0x0 linker stubs
 
-.iplt           0x0000000008006d10        0x0
- .iplt          0x0000000008006d10        0x0 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
+.iplt           0x0000000008006d74        0x0
+ .iplt          0x0000000008006d74        0x0 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
 
-.rodata         0x0000000008006d10      0x78c
-                0x0000000008006d10                . = ALIGN (0x4)
+.rodata         0x0000000008006d74      0x788
+                0x0000000008006d74                . = ALIGN (0x4)
  *(.rodata)
- .rodata        0x0000000008006d10       0x63 lib/ILI9341/core.o
- *fill*         0x0000000008006d73        0x1 
- .rodata        0x0000000008006d74      0x500 lib/ILI9341/text.o
+ .rodata        0x0000000008006d74       0x63 lib/ILI9341/core.o
+ *fill*         0x0000000008006dd7        0x1 
+ .rodata        0x0000000008006dd8      0x500 lib/ILI9341/text.o
  *(.rodata*)
  .rodata._global_impure_ptr
-                0x0000000008007274        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-impure.o)
-                0x0000000008007274                _global_impure_ptr
+                0x00000000080072d8        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-impure.o)
+                0x00000000080072d8                _global_impure_ptr
  .rodata.initialise_monitor_handles.str1.1
-                0x0000000008007278        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/librdimon_nano.a(rdimon-syscalls.o)
+                0x00000000080072dc        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/librdimon_nano.a(rdimon-syscalls.o)
  .rodata.str1.4
-                0x000000000800727c       0x14 src/bmp180.o
+                0x00000000080072e0       0x14 src/bmp180.o
  .rodata.str1.4
-                0x0000000008007290        0x6 src/main.o
- *fill*         0x0000000008007296        0x2 
+                0x00000000080072f4        0x6 src/main.o
+ *fill*         0x00000000080072fa        0x2 
  .rodata.str1.4
-                0x0000000008007298       0xb6 src/menu.o
- *fill*         0x000000000800734e        0x2 
+                0x00000000080072fc       0xb6 src/menu.o
+ *fill*         0x00000000080073b2        0x2 
  .rodata.str1.4
-                0x0000000008007350       0xa4 src/rtc.o
-                                         0xa8 (size before relaxing)
+                0x00000000080073b4       0x98 src/rtc.o
+                                         0x9c (size before relaxing)
  .rodata.str1.4
-                0x00000000080073f4       0x14 src/buttons/buttons.o
-                                         0x12 (size before relaxing)
+                0x000000000800744c       0x1c src/buttons/buttons.o
+                                         0x1b (size before relaxing)
  .rodata.__sf_fake_stderr
-                0x0000000008007408       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
-                0x0000000008007408                __sf_fake_stderr
+                0x0000000008007468       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
+                0x0000000008007468                __sf_fake_stderr
  .rodata.__sf_fake_stdin
-                0x0000000008007428       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
-                0x0000000008007428                __sf_fake_stdin
+                0x0000000008007488       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
+                0x0000000008007488                __sf_fake_stdin
  .rodata.__sf_fake_stdout
-                0x0000000008007448       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
-                0x0000000008007448                __sf_fake_stdout
+                0x00000000080074a8       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
+                0x00000000080074a8                __sf_fake_stdout
  .rodata._svfprintf_r.str1.1
-                0x0000000008007468       0x11 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-svfprintf.o)
+                0x00000000080074c8       0x11 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-svfprintf.o)
  .rodata._vfprintf_r.str1.1
-                0x0000000008007479       0x11 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf.o)
+                0x00000000080074d9       0x11 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf.o)
  .rodata._printf_i.str1.1
-                0x0000000008007479       0x22 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
-                0x000000000800749c                . = ALIGN (0x4)
- *fill*         0x000000000800749b        0x1 
+                0x00000000080074d9       0x22 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+                0x00000000080074fc                . = ALIGN (0x4)
+ *fill*         0x00000000080074fb        0x1 
 
-.rel.dyn        0x000000000800749c        0x0
- .rel.iplt      0x000000000800749c        0x0 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
+.rel.dyn        0x00000000080074fc        0x0
+ .rel.iplt      0x00000000080074fc        0x0 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
 
-.ARM.extab      0x000000000800749c        0x0
-                0x000000000800749c                . = ALIGN (0x4)
+.ARM.extab      0x00000000080074fc        0x0
+                0x00000000080074fc                . = ALIGN (0x4)
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x000000000800749c                . = ALIGN (0x4)
+                0x00000000080074fc                . = ALIGN (0x4)
 
-.ARM            0x000000000800749c        0x0
-                0x000000000800749c                . = ALIGN (0x4)
-                0x000000000800749c                __exidx_start = .
+.ARM            0x00000000080074fc        0x0
+                0x00000000080074fc                . = ALIGN (0x4)
+                0x00000000080074fc                __exidx_start = .
  *(.ARM.exidx*)
-                0x000000000800749c                __exidx_end = .
-                0x000000000800749c                . = ALIGN (0x4)
+                0x00000000080074fc                __exidx_end = .
+                0x00000000080074fc                . = ALIGN (0x4)
 
-.preinit_array  0x000000000800749c        0x0
-                0x000000000800749c                . = ALIGN (0x4)
-                0x000000000800749c                PROVIDE (__preinit_array_start, .)
+.preinit_array  0x00000000080074fc        0x0
+                0x00000000080074fc                . = ALIGN (0x4)
+                0x00000000080074fc                PROVIDE (__preinit_array_start, .)
  *(.preinit_array*)
-                0x000000000800749c                PROVIDE (__preinit_array_end, .)
-                0x000000000800749c                . = ALIGN (0x4)
+                0x00000000080074fc                PROVIDE (__preinit_array_end, .)
+                0x00000000080074fc                . = ALIGN (0x4)
 
-.init_array     0x000000000800749c        0x4
-                0x000000000800749c                . = ALIGN (0x4)
-                0x000000000800749c                PROVIDE (__init_array_start, .)
+.init_array     0x00000000080074fc        0x4
+                0x00000000080074fc                . = ALIGN (0x4)
+                0x00000000080074fc                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array*)
- .init_array    0x000000000800749c        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
-                0x00000000080074a0                PROVIDE (__init_array_end, .)
-                0x00000000080074a0                . = ALIGN (0x4)
+ .init_array    0x00000000080074fc        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
+                0x0000000008007500                PROVIDE (__init_array_end, .)
+                0x0000000008007500                . = ALIGN (0x4)
 
-.fini_array     0x00000000080074a0        0x4
-                0x00000000080074a0                . = ALIGN (0x4)
+.fini_array     0x0000000008007500        0x4
+                0x0000000008007500                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (__fini_array_start, .)
  *(SORT(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x00000000080074a0        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
+ .fini_array    0x0000000008007500        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end, .)
-                0x00000000080074a4                . = ALIGN (0x4)
-                0x00000000080074a4                _sidata = LOADADDR (.data)
+                0x0000000008007504                . = ALIGN (0x4)
+                0x0000000008007504                _sidata = LOADADDR (.data)
 
-.data           0x0000000020000000       0xf8 load address 0x00000000080074a4
+.data           0x0000000020000000       0xf8 load address 0x0000000008007504
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                _sdata = .
  *(.data)
@@ -2870,14 +2878,14 @@ LOAD /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1
                 0x00000000200000f8                . = ALIGN (0x4)
                 0x00000000200000f8                _edata = .
 
-.jcr            0x00000000200000f8        0x0 load address 0x000000000800759c
+.jcr            0x00000000200000f8        0x0 load address 0x00000000080075fc
  .jcr           0x00000000200000f8        0x0 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
 
-.igot.plt       0x00000000200000f8        0x0 load address 0x000000000800759c
+.igot.plt       0x00000000200000f8        0x0 load address 0x00000000080075fc
  .igot.plt      0x00000000200000f8        0x0 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtbegin.o
                 0x00000000200000f8                . = ALIGN (0x4)
 
-.bss            0x00000000200000f8     0x1354 load address 0x000000000800759c
+.bss            0x00000000200000f8     0x135c load address 0x00000000080075fc
                 0x00000000200000f8                _sbss = .
                 0x00000000200000f8                __bss_start__ = _sbss
  *(.bss)
@@ -2971,24 +2979,25 @@ LOAD /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1
                 0x0000000020001328                _RX_USART_BUFFOR
                 0x00000000200013ac                _TX_USART_BUFFOR
                 0x0000000020001430                USART_InitStructure
- COMMON         0x0000000020001440        0x8 src/buttons/buttons.o
-                0x0000000020001440                ALARM_BUTTON_filter
- COMMON         0x0000000020001448        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-reent.o)
-                0x0000000020001448                errno
-                0x000000002000144c                . = ALIGN (0x4)
-                0x000000002000144c                _ebss = .
-                0x000000002000144c                __bss_end__ = _ebss
+ COMMON         0x0000000020001440       0x10 src/buttons/buttons.o
+                0x0000000020001440                ALARM_OFF_BUTTON_filter
+                0x0000000020001448                ALARM_BUTTON_filter
+ COMMON         0x0000000020001450        0x4 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-reent.o)
+                0x0000000020001450                errno
+                0x0000000020001454                . = ALIGN (0x4)
+                0x0000000020001454                _ebss = .
+                0x0000000020001454                __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x000000002000144c      0x404 load address 0x000000000800759c
-                0x0000000020001450                . = ALIGN (0x8)
- *fill*         0x000000002000144c        0x4 
-                0x0000000020001450                PROVIDE (end, .)
+                0x0000000020001454      0x404 load address 0x00000000080075fc
+                0x0000000020001458                . = ALIGN (0x8)
+ *fill*         0x0000000020001454        0x4 
+                0x0000000020001458                PROVIDE (end, .)
                 [!provide]                        PROVIDE (_end, .)
-                0x0000000020001450                . = (. + _Min_Heap_Size)
-                0x0000000020001850                . = (. + _Min_Stack_Size)
- *fill*         0x0000000020001450      0x400 
-                0x0000000020001850                . = ALIGN (0x8)
+                0x0000000020001458                . = (. + _Min_Heap_Size)
+                0x0000000020001858                . = (. + _Min_Stack_Size)
+ *fill*         0x0000000020001458      0x400 
+                0x0000000020001858                . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)
@@ -3152,7 +3161,7 @@ LOAD /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1
                 0x0000000000000d89       0x1d /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/crtn.o
 OUTPUT(clock_digital.elf elf32-littlearm)
 
-.debug_frame    0x0000000000000000     0x3c08
+.debug_frame    0x0000000000000000     0x3c38
  .debug_frame   0x0000000000000000       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-init.o)
  .debug_frame   0x000000000000002c       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memset.o)
  .debug_frame   0x000000000000004c      0x33c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/librdimon_nano.a(rdimon-syscalls.o)
@@ -3175,57 +3184,57 @@ OUTPUT(clock_digital.elf elf32-littlearm)
  .debug_frame   0x0000000000001cd8      0x1a0 lib/ILI9341/dma.o
  .debug_frame   0x0000000000001e78      0x1d0 lib/ILI9341/graph.o
  .debug_frame   0x0000000000002048      0x100 lib/ILI9341/text.o
- .debug_frame   0x0000000000002148      0x11c src/DFPPlayer.o
- .debug_frame   0x0000000000002264      0x16c src/bmp180.o
- .debug_frame   0x00000000000023d0       0x70 src/buffors.o
- .debug_frame   0x0000000000002440      0x148 src/device_config.o
- .debug_frame   0x0000000000002588       0x28 src/main.o
- .debug_frame   0x00000000000025b0      0x1b8 src/menu.o
- .debug_frame   0x0000000000002768      0x430 src/rtc.o
- .debug_frame   0x0000000000002b98       0x7c src/scan_timer.o
- .debug_frame   0x0000000000002c14       0x6c src/system_stm32f10x.o
- .debug_frame   0x0000000000002c80       0x4c src/timers.o
- .debug_frame   0x0000000000002ccc      0x1f0 src/touch_screen.o
- .debug_frame   0x0000000000002ebc       0xe8 src/uart_interrupt.o
- .debug_frame   0x0000000000002fa4      0x154 src/buttons/buttons.o
- .debug_frame   0x00000000000030f8       0x88 src/flash/flash.o
- .debug_frame   0x0000000000003180       0xac /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/libgcc.a(_arm_addsubdf3.o)
- .debug_frame   0x000000000000322c       0x50 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/libgcc.a(_arm_muldivdf3.o)
- .debug_frame   0x000000000000327c       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/libgcc.a(_arm_fixdfsi.o)
- .debug_frame   0x00000000000032a0       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/libgcc.a(_arm_fixunsdfsi.o)
- .debug_frame   0x00000000000032c4       0x4c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/libgcc.a(_arm_addsubsf3.o)
- .debug_frame   0x0000000000003310       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-errno.o)
- .debug_frame   0x0000000000003330      0x11c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
- .debug_frame   0x000000000000344c       0x54 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fwalk.o)
- .debug_frame   0x00000000000034a0       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-mallocr.o)
- .debug_frame   0x00000000000034cc       0x74 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-printf.o)
- .debug_frame   0x0000000000003540       0x3c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-puts.o)
- .debug_frame   0x000000000000357c       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-sbrkr.o)
- .debug_frame   0x00000000000035a8       0x70 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-sprintf.o)
- .debug_frame   0x0000000000003618       0x88 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-stdio.o)
- .debug_frame   0x00000000000036a0       0x40 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-wbuf.o)
- .debug_frame   0x00000000000036e0       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-writer.o)
- .debug_frame   0x000000000000370c       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-wsetup.o)
- .debug_frame   0x0000000000003738       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-closer.o)
- .debug_frame   0x0000000000003764       0x68 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fflush.o)
- .debug_frame   0x00000000000037cc       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-lseekr.o)
- .debug_frame   0x00000000000037f8       0x58 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-makebuf.o)
- .debug_frame   0x0000000000003850       0x30 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-mlock.o)
- .debug_frame   0x0000000000003880       0x38 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-freer.o)
- .debug_frame   0x00000000000038b8       0x90 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-svfprintf.o)
- .debug_frame   0x0000000000003948       0xac /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf.o)
- .debug_frame   0x00000000000039f4       0x60 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
- .debug_frame   0x0000000000003a54       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-readr.o)
- .debug_frame   0x0000000000003a80       0x5c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-reent.o)
- .debug_frame   0x0000000000003adc       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fstatr.o)
- .debug_frame   0x0000000000003b08       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-isattyr.o)
- .debug_frame   0x0000000000003b34       0x28 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memchr-stub.o)
- .debug_frame   0x0000000000003b5c       0x28 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memcpy-stub.o)
- .debug_frame   0x0000000000003b84       0x28 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memmove.o)
- .debug_frame   0x0000000000003bac       0x3c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-reallocr.o)
- .debug_frame   0x0000000000003be8       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-msizer.o)
+ .debug_frame   0x0000000000002148      0x134 src/DFPPlayer.o
+ .debug_frame   0x000000000000227c      0x16c src/bmp180.o
+ .debug_frame   0x00000000000023e8       0x70 src/buffors.o
+ .debug_frame   0x0000000000002458      0x148 src/device_config.o
+ .debug_frame   0x00000000000025a0       0x28 src/main.o
+ .debug_frame   0x00000000000025c8      0x1b8 src/menu.o
+ .debug_frame   0x0000000000002780      0x430 src/rtc.o
+ .debug_frame   0x0000000000002bb0       0x7c src/scan_timer.o
+ .debug_frame   0x0000000000002c2c       0x6c src/system_stm32f10x.o
+ .debug_frame   0x0000000000002c98       0x4c src/timers.o
+ .debug_frame   0x0000000000002ce4      0x1f0 src/touch_screen.o
+ .debug_frame   0x0000000000002ed4       0xe8 src/uart_interrupt.o
+ .debug_frame   0x0000000000002fbc      0x16c src/buttons/buttons.o
+ .debug_frame   0x0000000000003128       0x88 src/flash/flash.o
+ .debug_frame   0x00000000000031b0       0xac /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/libgcc.a(_arm_addsubdf3.o)
+ .debug_frame   0x000000000000325c       0x50 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/libgcc.a(_arm_muldivdf3.o)
+ .debug_frame   0x00000000000032ac       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/libgcc.a(_arm_fixdfsi.o)
+ .debug_frame   0x00000000000032d0       0x24 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/libgcc.a(_arm_fixunsdfsi.o)
+ .debug_frame   0x00000000000032f4       0x4c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7-m/libgcc.a(_arm_addsubsf3.o)
+ .debug_frame   0x0000000000003340       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-errno.o)
+ .debug_frame   0x0000000000003360      0x11c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-findfp.o)
+ .debug_frame   0x000000000000347c       0x54 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fwalk.o)
+ .debug_frame   0x00000000000034d0       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-mallocr.o)
+ .debug_frame   0x00000000000034fc       0x74 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-printf.o)
+ .debug_frame   0x0000000000003570       0x3c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-puts.o)
+ .debug_frame   0x00000000000035ac       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-sbrkr.o)
+ .debug_frame   0x00000000000035d8       0x70 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-sprintf.o)
+ .debug_frame   0x0000000000003648       0x88 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-stdio.o)
+ .debug_frame   0x00000000000036d0       0x40 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-wbuf.o)
+ .debug_frame   0x0000000000003710       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-writer.o)
+ .debug_frame   0x000000000000373c       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-wsetup.o)
+ .debug_frame   0x0000000000003768       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-closer.o)
+ .debug_frame   0x0000000000003794       0x68 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fflush.o)
+ .debug_frame   0x00000000000037fc       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-lseekr.o)
+ .debug_frame   0x0000000000003828       0x58 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-makebuf.o)
+ .debug_frame   0x0000000000003880       0x30 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-mlock.o)
+ .debug_frame   0x00000000000038b0       0x38 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-freer.o)
+ .debug_frame   0x00000000000038e8       0x90 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-svfprintf.o)
+ .debug_frame   0x0000000000003978       0xac /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf.o)
+ .debug_frame   0x0000000000003a24       0x60 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-vfprintf_i.o)
+ .debug_frame   0x0000000000003a84       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-readr.o)
+ .debug_frame   0x0000000000003ab0       0x5c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-reent.o)
+ .debug_frame   0x0000000000003b0c       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-fstatr.o)
+ .debug_frame   0x0000000000003b38       0x2c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-isattyr.o)
+ .debug_frame   0x0000000000003b64       0x28 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memchr-stub.o)
+ .debug_frame   0x0000000000003b8c       0x28 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memcpy-stub.o)
+ .debug_frame   0x0000000000003bb4       0x28 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-memmove.o)
+ .debug_frame   0x0000000000003bdc       0x3c /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-reallocr.o)
+ .debug_frame   0x0000000000003c18       0x20 /home/gwarchol/1200/IDE/plugins/fr.ac6.mcu.externaltools.arm-none.linux64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/libc_nano.a(lib_a-nano-msizer.o)
 
-.debug_info     0x0000000000000000    0x1cde5
+.debug_info     0x0000000000000000    0x1cf5b
  .debug_info    0x0000000000000000      0x4ed StdPeriph_Driver/src/misc.o
  .debug_info    0x00000000000004ed      0x7d3 StdPeriph_Driver/src/stm32f10x_bkp.o
  .debug_info    0x0000000000000cc0      0x15b StdPeriph_Driver/src/stm32f10x_dbgmcu.o
@@ -3245,23 +3254,23 @@ OUTPUT(clock_digital.elf elf32-littlearm)
  .debug_info    0x0000000000008c96     0x130a lib/ILI9341/dma.o
  .debug_info    0x0000000000009fa0     0x2746 lib/ILI9341/graph.o
  .debug_info    0x000000000000c6e6      0x77d lib/ILI9341/text.o
- .debug_info    0x000000000000ce63     0x1329 src/DFPPlayer.o
- .debug_info    0x000000000000e18c     0x12a5 src/bmp180.o
- .debug_info    0x000000000000f431      0x1d5 src/buffors.o
- .debug_info    0x000000000000f606     0x1944 src/device_config.o
- .debug_info    0x0000000000010f4a     0x133d src/main.o
- .debug_info    0x0000000000012287     0x21c9 src/menu.o
- .debug_info    0x0000000000014450     0x279a src/rtc.o
- .debug_info    0x0000000000016bea      0xae1 src/scan_timer.o
- .debug_info    0x00000000000176cb      0x46d src/system_stm32f10x.o
- .debug_info    0x0000000000017b38      0xa69 src/timers.o
- .debug_info    0x00000000000185a1     0x24dd src/touch_screen.o
- .debug_info    0x000000000001aa7e     0x19ae src/uart_interrupt.o
- .debug_info    0x000000000001c42c      0x632 src/buttons/buttons.o
- .debug_info    0x000000000001ca5e      0x318 src/flash/flash.o
- .debug_info    0x000000000001cd76       0x6f startup/startup_stm32.o
+ .debug_info    0x000000000000ce63     0x1399 src/DFPPlayer.o
+ .debug_info    0x000000000000e1fc     0x12a5 src/bmp180.o
+ .debug_info    0x000000000000f4a1      0x1d5 src/buffors.o
+ .debug_info    0x000000000000f676     0x1944 src/device_config.o
+ .debug_info    0x0000000000010fba     0x133a src/main.o
+ .debug_info    0x00000000000122f4     0x21c9 src/menu.o
+ .debug_info    0x00000000000144bd     0x2783 src/rtc.o
+ .debug_info    0x0000000000016c40      0xae1 src/scan_timer.o
+ .debug_info    0x0000000000017721      0x46d src/system_stm32f10x.o
+ .debug_info    0x0000000000017b8e      0xa69 src/timers.o
+ .debug_info    0x00000000000185f7     0x24dd src/touch_screen.o
+ .debug_info    0x000000000001aad4     0x19ae src/uart_interrupt.o
+ .debug_info    0x000000000001c482      0x752 src/buttons/buttons.o
+ .debug_info    0x000000000001cbd4      0x318 src/flash/flash.o
+ .debug_info    0x000000000001ceec       0x6f startup/startup_stm32.o
 
-.debug_abbrev   0x0000000000000000     0x464d
+.debug_abbrev   0x0000000000000000     0x469f
  .debug_abbrev  0x0000000000000000      0x190 StdPeriph_Driver/src/misc.o
  .debug_abbrev  0x0000000000000190      0x1a4 StdPeriph_Driver/src/stm32f10x_bkp.o
  .debug_abbrev  0x0000000000000334      0x102 StdPeriph_Driver/src/stm32f10x_dbgmcu.o
@@ -3281,23 +3290,23 @@ OUTPUT(clock_digital.elf elf32-littlearm)
  .debug_abbrev  0x0000000000001c27      0x29f lib/ILI9341/dma.o
  .debug_abbrev  0x0000000000001ec6      0x26c lib/ILI9341/graph.o
  .debug_abbrev  0x0000000000002132      0x20a lib/ILI9341/text.o
- .debug_abbrev  0x000000000000233c      0x2fc src/DFPPlayer.o
- .debug_abbrev  0x0000000000002638      0x271 src/bmp180.o
- .debug_abbrev  0x00000000000028a9       0xf4 src/buffors.o
- .debug_abbrev  0x000000000000299d      0x32e src/device_config.o
- .debug_abbrev  0x0000000000002ccb      0x29a src/main.o
- .debug_abbrev  0x0000000000002f65      0x320 src/menu.o
- .debug_abbrev  0x0000000000003285      0x3db src/rtc.o
- .debug_abbrev  0x0000000000003660      0x206 src/scan_timer.o
- .debug_abbrev  0x0000000000003866      0x19d src/system_stm32f10x.o
- .debug_abbrev  0x0000000000003a03      0x196 src/timers.o
- .debug_abbrev  0x0000000000003b99      0x47b src/touch_screen.o
- .debug_abbrev  0x0000000000004014      0x31b src/uart_interrupt.o
- .debug_abbrev  0x000000000000432f      0x1d0 src/buttons/buttons.o
- .debug_abbrev  0x00000000000044ff      0x13c src/flash/flash.o
- .debug_abbrev  0x000000000000463b       0x12 startup/startup_stm32.o
+ .debug_abbrev  0x000000000000233c      0x31f src/DFPPlayer.o
+ .debug_abbrev  0x000000000000265b      0x271 src/bmp180.o
+ .debug_abbrev  0x00000000000028cc       0xf4 src/buffors.o
+ .debug_abbrev  0x00000000000029c0      0x32e src/device_config.o
+ .debug_abbrev  0x0000000000002cee      0x29a src/main.o
+ .debug_abbrev  0x0000000000002f88      0x320 src/menu.o
+ .debug_abbrev  0x00000000000032a8      0x3db src/rtc.o
+ .debug_abbrev  0x0000000000003683      0x206 src/scan_timer.o
+ .debug_abbrev  0x0000000000003889      0x19d src/system_stm32f10x.o
+ .debug_abbrev  0x0000000000003a26      0x196 src/timers.o
+ .debug_abbrev  0x0000000000003bbc      0x47b src/touch_screen.o
+ .debug_abbrev  0x0000000000004037      0x31b src/uart_interrupt.o
+ .debug_abbrev  0x0000000000004352      0x1ff src/buttons/buttons.o
+ .debug_abbrev  0x0000000000004551      0x13c src/flash/flash.o
+ .debug_abbrev  0x000000000000468d       0x12 startup/startup_stm32.o
 
-.debug_loc      0x0000000000000000     0x9855
+.debug_loc      0x0000000000000000     0x9889
  .debug_loc     0x0000000000000000      0x105 StdPeriph_Driver/src/misc.o
  .debug_loc     0x0000000000000105       0xd8 StdPeriph_Driver/src/stm32f10x_bkp.o
  .debug_loc     0x00000000000001dd       0x3a StdPeriph_Driver/src/stm32f10x_dbgmcu.o
@@ -3317,20 +3326,20 @@ OUTPUT(clock_digital.elf elf32-littlearm)
  .debug_loc     0x0000000000004dcc      0x62e lib/ILI9341/dma.o
  .debug_loc     0x00000000000053fa     0x23f2 lib/ILI9341/graph.o
  .debug_loc     0x00000000000077ec      0x829 lib/ILI9341/text.o
- .debug_loc     0x0000000000008015      0x239 src/DFPPlayer.o
- .debug_loc     0x000000000000824e      0x52a src/bmp180.o
- .debug_loc     0x0000000000008778      0x123 src/buffors.o
- .debug_loc     0x000000000000889b       0x58 src/device_config.o
- .debug_loc     0x00000000000088f3       0x60 src/menu.o
- .debug_loc     0x0000000000008953      0x6b6 src/rtc.o
- .debug_loc     0x0000000000009009       0x85 src/scan_timer.o
- .debug_loc     0x000000000000908e       0xdf src/system_stm32f10x.o
- .debug_loc     0x000000000000916d      0x31e src/touch_screen.o
- .debug_loc     0x000000000000948b       0x8c src/uart_interrupt.o
- .debug_loc     0x0000000000009517      0x147 src/buttons/buttons.o
- .debug_loc     0x000000000000965e      0x1f7 src/flash/flash.o
+ .debug_loc     0x0000000000008015      0x24c src/DFPPlayer.o
+ .debug_loc     0x0000000000008261      0x52a src/bmp180.o
+ .debug_loc     0x000000000000878b      0x123 src/buffors.o
+ .debug_loc     0x00000000000088ae       0x58 src/device_config.o
+ .debug_loc     0x0000000000008906       0x60 src/menu.o
+ .debug_loc     0x0000000000008966      0x6b6 src/rtc.o
+ .debug_loc     0x000000000000901c       0x85 src/scan_timer.o
+ .debug_loc     0x00000000000090a1       0xdf src/system_stm32f10x.o
+ .debug_loc     0x0000000000009180      0x31e src/touch_screen.o
+ .debug_loc     0x000000000000949e       0x8c src/uart_interrupt.o
+ .debug_loc     0x000000000000952a      0x168 src/buttons/buttons.o
+ .debug_loc     0x0000000000009692      0x1f7 src/flash/flash.o
 
-.debug_aranges  0x0000000000000000     0x13c0
+.debug_aranges  0x0000000000000000     0x13d0
  .debug_aranges
                 0x0000000000000000       0x40 StdPeriph_Driver/src/misc.o
  .debug_aranges
@@ -3370,37 +3379,37 @@ OUTPUT(clock_digital.elf elf32-littlearm)
  .debug_aranges
                 0x0000000000000ce0       0x58 lib/ILI9341/text.o
  .debug_aranges
-                0x0000000000000d38       0x78 src/DFPPlayer.o
+                0x0000000000000d38       0x80 src/DFPPlayer.o
  .debug_aranges
-                0x0000000000000db0       0x80 src/bmp180.o
+                0x0000000000000db8       0x80 src/bmp180.o
  .debug_aranges
-                0x0000000000000e30       0x48 src/buffors.o
+                0x0000000000000e38       0x48 src/buffors.o
  .debug_aranges
-                0x0000000000000e78       0x80 src/device_config.o
+                0x0000000000000e80       0x80 src/device_config.o
  .debug_aranges
-                0x0000000000000ef8       0x20 src/main.o
+                0x0000000000000f00       0x20 src/main.o
  .debug_aranges
-                0x0000000000000f18       0xb8 src/menu.o
+                0x0000000000000f20       0xb8 src/menu.o
  .debug_aranges
-                0x0000000000000fd0      0x160 src/rtc.o
+                0x0000000000000fd8      0x160 src/rtc.o
  .debug_aranges
-                0x0000000000001130       0x40 src/scan_timer.o
+                0x0000000000001138       0x40 src/scan_timer.o
  .debug_aranges
-                0x0000000000001170       0x38 src/system_stm32f10x.o
+                0x0000000000001178       0x38 src/system_stm32f10x.o
  .debug_aranges
-                0x00000000000011a8       0x28 src/timers.o
+                0x00000000000011b0       0x28 src/timers.o
  .debug_aranges
-                0x00000000000011d0       0xb0 src/touch_screen.o
+                0x00000000000011d8       0xb0 src/touch_screen.o
  .debug_aranges
-                0x0000000000001280       0x50 src/uart_interrupt.o
+                0x0000000000001288       0x50 src/uart_interrupt.o
  .debug_aranges
-                0x00000000000012d0       0x88 src/buttons/buttons.o
+                0x00000000000012d8       0x90 src/buttons/buttons.o
  .debug_aranges
-                0x0000000000001358       0x40 src/flash/flash.o
+                0x0000000000001368       0x40 src/flash/flash.o
  .debug_aranges
-                0x0000000000001398       0x28 startup/startup_stm32.o
+                0x00000000000013a8       0x28 startup/startup_stm32.o
 
-.debug_ranges   0x0000000000000000     0x1358
+.debug_ranges   0x0000000000000000     0x1368
  .debug_ranges  0x0000000000000000       0x30 StdPeriph_Driver/src/misc.o
  .debug_ranges  0x0000000000000030       0x68 StdPeriph_Driver/src/stm32f10x_bkp.o
  .debug_ranges  0x0000000000000098       0x20 StdPeriph_Driver/src/stm32f10x_dbgmcu.o
@@ -3420,23 +3429,23 @@ OUTPUT(clock_digital.elf elf32-littlearm)
  .debug_ranges  0x0000000000000ae0       0x88 lib/ILI9341/dma.o
  .debug_ranges  0x0000000000000b68      0x148 lib/ILI9341/graph.o
  .debug_ranges  0x0000000000000cb0       0x90 lib/ILI9341/text.o
- .debug_ranges  0x0000000000000d40       0x68 src/DFPPlayer.o
- .debug_ranges  0x0000000000000da8       0x70 src/bmp180.o
- .debug_ranges  0x0000000000000e18       0x38 src/buffors.o
- .debug_ranges  0x0000000000000e50       0x70 src/device_config.o
- .debug_ranges  0x0000000000000ec0       0x10 src/main.o
- .debug_ranges  0x0000000000000ed0       0xa8 src/menu.o
- .debug_ranges  0x0000000000000f78      0x168 src/rtc.o
- .debug_ranges  0x00000000000010e0       0x30 src/scan_timer.o
- .debug_ranges  0x0000000000001110       0x28 src/system_stm32f10x.o
- .debug_ranges  0x0000000000001138       0x18 src/timers.o
- .debug_ranges  0x0000000000001150       0xd0 src/touch_screen.o
- .debug_ranges  0x0000000000001220       0x40 src/uart_interrupt.o
- .debug_ranges  0x0000000000001260       0x78 src/buttons/buttons.o
- .debug_ranges  0x00000000000012d8       0x60 src/flash/flash.o
- .debug_ranges  0x0000000000001338       0x20 startup/startup_stm32.o
+ .debug_ranges  0x0000000000000d40       0x70 src/DFPPlayer.o
+ .debug_ranges  0x0000000000000db0       0x70 src/bmp180.o
+ .debug_ranges  0x0000000000000e20       0x38 src/buffors.o
+ .debug_ranges  0x0000000000000e58       0x70 src/device_config.o
+ .debug_ranges  0x0000000000000ec8       0x10 src/main.o
+ .debug_ranges  0x0000000000000ed8       0xa8 src/menu.o
+ .debug_ranges  0x0000000000000f80      0x168 src/rtc.o
+ .debug_ranges  0x00000000000010e8       0x30 src/scan_timer.o
+ .debug_ranges  0x0000000000001118       0x28 src/system_stm32f10x.o
+ .debug_ranges  0x0000000000001140       0x18 src/timers.o
+ .debug_ranges  0x0000000000001158       0xd0 src/touch_screen.o
+ .debug_ranges  0x0000000000001228       0x40 src/uart_interrupt.o
+ .debug_ranges  0x0000000000001268       0x80 src/buttons/buttons.o
+ .debug_ranges  0x00000000000012e8       0x60 src/flash/flash.o
+ .debug_ranges  0x0000000000001348       0x20 startup/startup_stm32.o
 
-.debug_line     0x0000000000000000     0x911f
+.debug_line     0x0000000000000000     0x915e
  .debug_line    0x0000000000000000      0x2cb StdPeriph_Driver/src/misc.o
  .debug_line    0x00000000000002cb      0x349 StdPeriph_Driver/src/stm32f10x_bkp.o
  .debug_line    0x0000000000000614      0x254 StdPeriph_Driver/src/stm32f10x_dbgmcu.o
@@ -3456,23 +3465,23 @@ OUTPUT(clock_digital.elf elf32-littlearm)
  .debug_line    0x000000000000448f      0x4e0 lib/ILI9341/dma.o
  .debug_line    0x000000000000496f      0x552 lib/ILI9341/graph.o
  .debug_line    0x0000000000004ec1      0x360 lib/ILI9341/text.o
- .debug_line    0x0000000000005221      0x4e8 src/DFPPlayer.o
- .debug_line    0x0000000000005709      0x514 src/bmp180.o
- .debug_line    0x0000000000005c1d       0xde src/buffors.o
- .debug_line    0x0000000000005cfb      0x547 src/device_config.o
- .debug_line    0x0000000000006242      0x4bb src/main.o
- .debug_line    0x00000000000066fd      0x628 src/menu.o
- .debug_line    0x0000000000006d25      0x8f4 src/rtc.o
- .debug_line    0x0000000000007619      0x345 src/scan_timer.o
- .debug_line    0x000000000000795e      0x2ba src/system_stm32f10x.o
- .debug_line    0x0000000000007c18      0x2ce src/timers.o
- .debug_line    0x0000000000007ee6      0x645 src/touch_screen.o
- .debug_line    0x000000000000852b      0x4ab src/uart_interrupt.o
- .debug_line    0x00000000000089d6      0x3be src/buttons/buttons.o
- .debug_line    0x0000000000008d94      0x30f src/flash/flash.o
- .debug_line    0x00000000000090a3       0x7c startup/startup_stm32.o
+ .debug_line    0x0000000000005221      0x50f src/DFPPlayer.o
+ .debug_line    0x0000000000005730      0x514 src/bmp180.o
+ .debug_line    0x0000000000005c44       0xde src/buffors.o
+ .debug_line    0x0000000000005d22      0x547 src/device_config.o
+ .debug_line    0x0000000000006269      0x4bb src/main.o
+ .debug_line    0x0000000000006724      0x628 src/menu.o
+ .debug_line    0x0000000000006d4c      0x8f3 src/rtc.o
+ .debug_line    0x000000000000763f      0x345 src/scan_timer.o
+ .debug_line    0x0000000000007984      0x2ba src/system_stm32f10x.o
+ .debug_line    0x0000000000007c3e      0x2ce src/timers.o
+ .debug_line    0x0000000000007f0c      0x645 src/touch_screen.o
+ .debug_line    0x0000000000008551      0x4ab src/uart_interrupt.o
+ .debug_line    0x00000000000089fc      0x3d7 src/buttons/buttons.o
+ .debug_line    0x0000000000008dd3      0x30f src/flash/flash.o
+ .debug_line    0x00000000000090e2       0x7c startup/startup_stm32.o
 
-.debug_str      0x0000000000000000     0x5186
+.debug_str      0x0000000000000000     0x51c5
  .debug_str     0x0000000000000000      0x3b4 StdPeriph_Driver/src/misc.o
                                         0x3f9 (size before relaxing)
  .debug_str     0x00000000000003b4      0x3d6 StdPeriph_Driver/src/stm32f10x_bkp.o
@@ -3511,33 +3520,33 @@ OUTPUT(clock_digital.elf elf32-littlearm)
                                         0x3ae (size before relaxing)
  .debug_str     0x00000000000036bc      0x13a lib/ILI9341/text.o
                                         0x377 (size before relaxing)
- .debug_str     0x00000000000037f6      0x584 src/DFPPlayer.o
-                                        0x7de (size before relaxing)
- .debug_str     0x0000000000003d7a      0x12a src/bmp180.o
+ .debug_str     0x00000000000037f6      0x5a0 src/DFPPlayer.o
+                                        0x7fa (size before relaxing)
+ .debug_str     0x0000000000003d96      0x12a src/bmp180.o
                                         0x631 (size before relaxing)
- .debug_str     0x0000000000003ea4       0xe2 src/buffors.o
+ .debug_str     0x0000000000003ec0       0xe2 src/buffors.o
                                         0x1d4 (size before relaxing)
- .debug_str     0x0000000000003f86      0x180 src/device_config.o
+ .debug_str     0x0000000000003fa2      0x180 src/device_config.o
                                         0xeaf (size before relaxing)
- .debug_str     0x0000000000004106      0x1c6 src/main.o
+ .debug_str     0x0000000000004122      0x1c6 src/main.o
                                         0x87a (size before relaxing)
- .debug_str     0x00000000000042cc      0x41d src/menu.o
+ .debug_str     0x00000000000042e8      0x40e src/menu.o
                                         0xb3a (size before relaxing)
- .debug_str     0x00000000000046e9      0x333 src/rtc.o
+ .debug_str     0x00000000000046f6      0x333 src/rtc.o
                                        0x1012 (size before relaxing)
- .debug_str     0x0000000000004a1c       0xae src/scan_timer.o
+ .debug_str     0x0000000000004a29       0xae src/scan_timer.o
                                         0x9b9 (size before relaxing)
- .debug_str     0x0000000000004aca       0x57 src/system_stm32f10x.o
+ .debug_str     0x0000000000004ad7       0x57 src/system_stm32f10x.o
                                         0x300 (size before relaxing)
- .debug_str     0x0000000000004b21       0x59 src/timers.o
+ .debug_str     0x0000000000004b2e       0x59 src/timers.o
                                         0x95c (size before relaxing)
- .debug_str     0x0000000000004b7a      0x30b src/touch_screen.o
+ .debug_str     0x0000000000004b87      0x30b src/touch_screen.o
                                        0x128e (size before relaxing)
- .debug_str     0x0000000000004e85       0xbc src/uart_interrupt.o
+ .debug_str     0x0000000000004e92       0xbc src/uart_interrupt.o
                                         0xde0 (size before relaxing)
- .debug_str     0x0000000000004f41      0x1e4 src/buttons/buttons.o
-                                        0x54d (size before relaxing)
- .debug_str     0x0000000000005125       0x61 src/flash/flash.o
+ .debug_str     0x0000000000004f4e      0x216 src/buttons/buttons.o
+                                        0x597 (size before relaxing)
+ .debug_str     0x0000000000005164       0x61 src/flash/flash.o
                                         0x2eb (size before relaxing)
 
 .comment        0x0000000000000000       0x7f

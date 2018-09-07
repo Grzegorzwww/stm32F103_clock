@@ -13,6 +13,7 @@
 
 
 static menu_state_t menu_state;
+static menu_state_t prv_menu_state;
 
 static bool is_button_pushed_up = false;
 static bool is_button_pushed_down = false;
@@ -28,6 +29,9 @@ static date_set_stete_t date_set_stete = NO_SET_DATE;
 
 static bool working_days_alarm_flag = false;
 static bool on_off_alarm_flag = false;
+
+static unsigned char *msg_ptr;
+static unsigned int msg_duration;
 
 
 
@@ -282,6 +286,7 @@ void show_menu(){
 	unsigned char alarm_str[20];
 
 	touch_data_t *temp_data_touch = getTouchData();
+	static int msg_durration_counter;
 
 
 //	getTouchData()
@@ -476,12 +481,50 @@ void show_menu(){
 //		LCD_writeString("INNE MENU");
 
 		break;
+	case DISPLAY_MESSAGE:
+		if(msg_durration_counter++ < msg_duration){
+			LCD_setTextBgColor(BLACK);
+		LCD_setTextSize(6);
+		LCD_setTextColor(RED);
+
+
+		LCD_setTextSize(4);
+		LCD_setCursor(50, 75);
+		LCD_writeString(msg_ptr);
+
+		}else{
+			if(prv_menu_state == DISPLAY_MESSAGE){
+				menu_state = ZEGAR_MENU;
+			}else{
+				menu_state = prv_menu_state;
+			}
+			setMenuState(menu_state );
+			msg_durration_counter = 0;
+			msg_duration = 0;
+		}
+
+
+
+		break;
+
 
 
 	}
 
 
 
+}
+
+
+
+void display_info_message(unsigned char *msg, unsigned int duration){
+
+	prv_menu_state = menu_state;
+	setMenuState(DISPLAY_MESSAGE);
+
+
+	msg_duration = duration;
+	msg_ptr = msg;
 }
 
 

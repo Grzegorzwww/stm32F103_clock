@@ -242,12 +242,11 @@ void RTC_IRQHandler(void)
 
 
 		if(alarm_on_checked()){
-			int rand_alarm = (total_rtc_ticks % 6) + 1 ;// 1-5
+			int rand_alarm = ( s_DateStructVar.u8_Day % 5) + 1 ;// 1-5
 			printf("alarm tutaj %d\n", rand_alarm);
 			//printf("ALARM Alarm przerwanie \n");
 			RTC_WaitForLastTask();
 			unsigned char current_day = day_of_week();
-
 			if(working_day_checked()){
 				if(current_day != 5 && current_day != 6){
 					play_alarm(rand_alarm, 4);
@@ -258,7 +257,6 @@ void RTC_IRQHandler(void)
 				play_alarm(rand_alarm, 4);
 				turnOnOffLed(true);
 			}
-
 		}
 		//odczekanie na zakończenie operacji na RTC
 		RTC_WaitForLastTask();
@@ -267,26 +265,15 @@ void RTC_IRQHandler(void)
 
 
 void RTCAlarm_IRQHandler(void){
-
-
-	//
-		 printf("ALARM !");
-
-
-
-		  if (RTC_GetITStatus(RTC_IT_ALR) != RESET)
-		  {
-
-				 printf("ALARM 2!");
-			  RTC_WaitForLastTask();
-			          //wyczyszczenie flagi przerwania
-			   RTC_ClearITPendingBit(RTC_IT_ALR);
-			          //odczekanie na zakończenie operacji na RTC
-			   RTC_WaitForLastTask();
-
-		  }
-
-
+	printf("ALARM !");
+	if (RTC_GetITStatus(RTC_IT_ALR) != RESET)
+	{
+		RTC_WaitForLastTask();
+		//wyczyszczenie flagi przerwania
+		RTC_ClearITPendingBit(RTC_IT_ALR);
+		//odczekanie na zakończenie operacji na RTC
+		RTC_WaitForLastTask();
+	}
 }
 
 
@@ -460,10 +447,7 @@ void removeSec() {
 void save_time(unsigned char hours, unsigned char minutes, unsigned short seconds){
 
 
-
-
 	unsigned long int total_ticks_to_add = (hours * 3600) + (minutes * 60) +seconds;
-
 	RTC_WaitForLastTask();
 	RTC_SetCounter(total_ticks_to_add);
 	RTC_WaitForLastTask();

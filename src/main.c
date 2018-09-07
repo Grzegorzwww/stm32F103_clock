@@ -36,6 +36,7 @@ volatile bool state = false;
 
 //unsigned char temp_data[6];
 
+
 int main(void) {
 
 
@@ -59,15 +60,15 @@ int main(void) {
 	rtc_init();
 	sleep_mode_init();
 
-	delay_ms(500);
+	delay_ms(100);
 
-	save_time(23, 59, 45);
+	save_time(8, 0, 0);
 	save_date(17,9,1988);
-	set_alarm(0, 0, 30);
+	set_alarm(8, 0, 20);
 
 	//FLASH_Init();
 
-	delay_ms(100);
+	delay_ms(50);
 
 	mp3_init();
 
@@ -79,13 +80,12 @@ int main(void) {
 
 		analizeIncomingMp3Data();
 
-		 scanButtonsPins();
+		scanButtonsPins();
 
 		if(getTimerChannelState(TIMER_10ms)){
 			setTimerChannelState(TIMER_10ms, false);
 
 		}
-
 
 		if (getTimerChannelState(TIMER_100ms)) {
 			analize_data_from_touch_screen(true);

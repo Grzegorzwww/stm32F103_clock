@@ -33,9 +33,12 @@ volatile uint8_t mp3_queue[MP3_QUEUE_LEN] = {MP3_NO_VALUE, MP3_NO_VALUE, MP3_NO_
 volatile int8_t mp3_queue_id = 0;
 volatile uint8_t mp3_track_playing_finished = 0;
 
+
 volatile int play_alarm_couner = 0;
 volatile int play_alarm_id = 1;
 volatile bool alarm_is_working = false;
+volatile bool alarm_snooze_is_working = false;
+unsigned long actual_set_alarm;
 
 
 bool get_alarm_is_working() {return alarm_is_working;}
@@ -54,6 +57,9 @@ void mp3_init(void)
 
 
 	MP3_clear_RXBuffer();
+
+	actual_set_alarm = RTC_GetAlarm();
+
 
 	//MP3_set_folder(5);
 	//delay_ms(10);
@@ -230,14 +236,37 @@ void play_alarm(int alarm_no, int num_of_repet ){
 
 
 void alarm_stop(){
+	if(alarm_snooze_is_working && alarm_is_working ){
+		RTC_SetAlarm(actual_set_alarm);
+		alarm_snooze_is_working = false;
+		display_info_message("ALARM WYL", 15);
+		mp3_send_cmd(MP3_RESET, 0, 0);
+	}else if(alarm_snooze_is_working && !alarm_is_working){
+		alarm_snooze_is_working = false;
+		display_info_message("ALARM WYL", 15);
+		mp3_send_cmd(MP3_RESET, 0, 0);
+		RTC_SetAlarm(actual_set_alarm);
+	}
 	mp3_track_playing_finished = 0;
 	play_alarm_couner = 0;
 	alarm_is_working = false;
-	mp3_send_cmd(MP3_RESET, 0, 0);
 
-//	printf("alarm stop\n");
+
 }
 
+
+void alarm_snooze(){
+	if(alarm_is_working ){
+		display_info_message(" DRZEMKA ", 10);
+		mp3_send_cmd(MP3_RESET, 0, 0);
+		addAlarmMinute();
+	}
+	mp3_track_playing_finished = 0;
+	play_alarm_couner = 0;
+	alarm_is_working = false;
+	alarm_snooze_is_working = true;
+
+}
 
 void control_sound_play(){
 	if(mp3_track_playing_finished == 1){
