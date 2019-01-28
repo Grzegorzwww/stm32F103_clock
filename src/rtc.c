@@ -178,7 +178,6 @@ void NVIC_RTC_Configuration(void)
 	//      RTC_WaitForLastTask();
 
 
-
 	//  NVIC_InitStructure.NVIC_IRQChannel = PVD_IRQn;
 	//   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 	//   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
@@ -186,28 +185,19 @@ void NVIC_RTC_Configuration(void)
 
 
 
-
-
 }
 
 
 
 
 
-void analize_clock_clendar_state(void)
-{
-
-	if(clock_state_changed){
-
-		check_next_day();
-
-		clock_state_changed = false;
-	}
-
-
-
-
-}
+//void analize_clock_clendar_state(void)
+//{
+//	if(clock_state_changed){
+//		//check_next_day();
+//		clock_state_changed = false;
+//	}
+//}
 
 volatile bool x = false;
 
@@ -219,7 +209,8 @@ void RTC_IRQHandler(void)
 		RTC_ClearITPendingBit(RTC_IT_SEC);
 		/* Toggle LED1 */
 		total_rtc_ticks = RTC_GetCounter();
-		clock_state_changed = true;
+//		clock_state_changed = true;
+		check_next_day();
 		//update_date();
 		switch(x){
 		case true:
@@ -239,7 +230,6 @@ void RTC_IRQHandler(void)
 	if (RTC_GetITStatus(RTC_IT_ALR) != RESET)
 	{
 		RTC_ClearITPendingBit(RTC_IT_ALR);	//wyczyszczenie flagi przerwania
-
 
 		if(alarm_on_checked()){
 			int rand_alarm = ( s_DateStructVar.u8_Day % 5) + 1 ;// 1-5
@@ -367,6 +357,14 @@ void addAlarmMinute(){
 	total_alarm_ticks_to_add +=  60;
 	RTC_SetAlarm(total_alarm_ticks_to_add);
 }
+
+void addAlarmSnooze(){
+	unsigned long int total_alarm_ticks_to_add = RTC_GetAlarm();
+	total_alarm_ticks_to_add +=  (60 * SNOOZE_TIME_MIN);
+	RTC_SetAlarm(total_alarm_ticks_to_add);
+}
+
+
 void removeAlarmMinute(){
 	unsigned long int total_alarm_ticks_to_add = RTC_GetAlarm();
 	total_alarm_ticks_to_add -=  60;
@@ -458,7 +456,6 @@ void save_time(unsigned char hours, unsigned char minutes, unsigned short second
 
 void check_next_day(void){
 	uint32_t timevar = RTC_GetCounter();
-	//if(total_rtc_ticks % 86399 == 0){
 	if((timevar  % 86399) == 0){
 		update_date();
 	}
@@ -636,7 +633,6 @@ void prev_date(){
 			s_DateStructVar.u8_Day = 29;
 		}
 	}
-
 	BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
 	BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
 	BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
@@ -716,7 +712,6 @@ void update_date(void){
 			s_DateStructVar.u8_Day = 1;
 		}
 	}
-
 	BKP_WriteBackupRegister(BKP_DR2,s_DateStructVar.u8_Month);
 	BKP_WriteBackupRegister(BKP_DR3,s_DateStructVar.u8_Day);
 	BKP_WriteBackupRegister(BKP_DR4,s_DateStructVar.u16_Year);
@@ -748,15 +743,12 @@ u8 check_leap(u16 u16_Year)
 
 void save_date(unsigned char day, unsigned char month, unsigned short year){
 
-
 	//	  RightLeftIntExtOnOffConfig(DISABLE);
 	//	  UpDownIntOnOffConfig(DISABLE);
-
 	if((( month ==4 || month ==6 || month ==9 || month==11) && day ==31) \
 			|| (month==2 && day ==31)|| (month==2 && day==30)|| \
 			(month==2 && day ==29 && (check_leap(year)==0)))
 	{
-
 	}else{
 
 		s_DateStructVar.u8_Day = day;
@@ -773,12 +765,7 @@ void save_date(unsigned char day, unsigned char month, unsigned short year){
 		BKP_WriteBackupRegister(BKP_DR9,day);
 		BKP_WriteBackupRegister(BKP_DR10,year);
 
-
-
-
 	}
-
-
 }
 
 
@@ -817,31 +804,27 @@ void check_for_days_elapsed(void)
 
 
 
-unsigned char day_of_week()
-{
+unsigned int day_of_week() {
+  /* using C99 compound literals in a single line: notice the splicing */
 
 	u16 u16_CurrentYear =  BKP_ReadBackupRegister(BKP_DR4);
 	u8 u8_CurrentMonth = BKP_ReadBackupRegister(BKP_DR2);
 	u8 u8_CurrentDay =  BKP_ReadBackupRegister(BKP_DR3);
 
-	unsigned char  u16_Temp1,u16_Temp2,u16_Temp3,u16_Temp4,u16_CurrentWeekDay;
+	unsigned int day_of_week =
+      (                                                            \
+    	u8_CurrentDay                                                      \
+        + ((153 * (u8_CurrentMonth + 12 * ((14 - u8_CurrentMonth) / 12) - 3) + 2) / 5) \
+        + (365 * (u16_CurrentYear + 4800 - ((14 - u8_CurrentMonth) / 12)))              \
+        + ((u16_CurrentYear + 4800 - ((14 - u8_CurrentMonth) / 12)) / 4)                \
+        - ((u16_CurrentYear + 4800 - ((14 - u8_CurrentMonth) / 12)) / 100)              \
+        + ((u16_CurrentYear + 4800 - ((14 - u8_CurrentMonth) / 12)) / 400)              \
+        - 32045                                                    \
+      ) % 7;
 
-	if(u8_CurrentMonth < 3)
-	{
-		u8_CurrentMonth=u8_CurrentMonth + 12;
-		u16_CurrentYear=u16_CurrentYear-1;
-	}
-
-	u16_Temp1=(6*(u8_CurrentMonth + 1))/10;
-	u16_Temp2=u16_CurrentYear/4;
-	u16_Temp3=u16_CurrentYear/100;
-	u16_Temp4=u16_CurrentYear/400;
-	u16_CurrentWeekDay=u8_CurrentDay + (2 * u8_CurrentMonth) + u16_Temp1 \
-			+ u16_CurrentYear + u16_Temp2 - u16_Temp3 + u16_Temp4 +1;
-	u16_CurrentWeekDay = u16_CurrentWeekDay % 7;
-
-	return(u16_CurrentWeekDay);
+	return day_of_week;
 }
+
 
 
 

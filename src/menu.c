@@ -39,15 +39,12 @@ bool working_day_checked(){return working_days_alarm_flag;}
 bool alarm_on_checked(){return on_off_alarm_flag;}
 
 
-unsigned char *days[7] = {"Poniedzialek", "Wtorek ", "Sroda ", "Czwartek", "Piątek", "Sobota", "Niedziela" };
-
-
+unsigned char *days[7] = {"Poniedzialek", "Wtorek      ", "Sroda      ", "Czwartek    ", "Piątek     ", "Sobota     ", "Niedziela" };
 
 
 
 
 menu_state_t get_menu_state() {return menu_state;}
-
 
 void on_button_released(){
 	is_button_pushed_up = false;
@@ -277,7 +274,48 @@ void on_set_down()
 
 
 
+unsigned char *  set_adjustable_element_on_blinking(int element_no, unsigned char *str, int period, bool year)
+{
 
+	static int prtiod_counter = 0;
+	if(prtiod_counter >= period){
+			prtiod_counter = 0;
+		}
+
+
+	prtiod_counter++;
+	if(prtiod_counter < period / 2  ){
+		return str;
+
+	}else if(prtiod_counter > period / 2  ){
+		switch(element_no){
+		case 0:
+			str[0] = ' ';
+			str[1] = ' ';
+			break;
+		case 1:
+			str[3] = ' ';
+			str[4] = ' ';
+			break;
+		case 2:
+			str[6] = ' ';
+			str[7] = ' ';
+			if(year){
+				str[8] = ' ';
+				str[9] = ' ';
+			}
+			break;
+
+		}
+		return str;
+	}
+
+
+
+
+
+
+}
 
 void show_menu(){
 
@@ -287,6 +325,8 @@ void show_menu(){
 
 	touch_data_t *temp_data_touch = getTouchData();
 	static int msg_durration_counter;
+
+	static bool blinking_state = false;
 
 
 //	getTouchData()
@@ -317,11 +357,7 @@ void show_menu(){
 		LCD_setTextSize(2);
 		LCD_setCursor(125, 120);
 
-
-
 		LCD_writeString(days[day_of_week()]);
-//		printf("dzien = %d\n", day_of_week());
-
 
 		LCD_setTextSize(2);
 		LCD_setCursor(55, 165);
@@ -426,7 +462,25 @@ void show_menu(){
 		LCD_writeString("Godz: ");
 
 		LCD_setCursor(120, 5);
-		LCD_writeString(timer_str);
+//		LCD_writeString(timer_str);
+
+		if(clk_set_state == SET_CLK_HOURS){
+				set_adjustable_element_on_blinking(0, timer_str, 10, false);
+				LCD_writeString(timer_str);
+			}
+			else if(clk_set_state == SET_CLK_MINUTES){
+				set_adjustable_element_on_blinking(1, timer_str, 10, false);
+				LCD_writeString(timer_str);
+			}
+			else if(clk_set_state == SET_CLK_SEK){
+				set_adjustable_element_on_blinking(2, timer_str, 10, false);
+				LCD_writeString(timer_str);
+			}else{
+				LCD_writeString(timer_str);
+			}
+
+
+
 
 
 
@@ -439,9 +493,29 @@ void show_menu(){
 		LCD_setCursor(10, 70);
 
 
+
+
 		LCD_writeString("Data: ");
 		LCD_setCursor(120, 70);
-		LCD_writeString(date_str);
+		if(date_set_stete == SET_DATE_DAY){
+			set_adjustable_element_on_blinking(SET_DATE_DAY, date_str, 10, false);
+			LCD_writeString(date_str);
+		}
+		else if(date_set_stete == SET_DATE_MONTH){
+			set_adjustable_element_on_blinking(SET_DATE_MONTH, date_str, 10, false);
+			LCD_writeString(date_str);
+		}
+		else if(date_set_stete == SET_DATE_YEAR){
+			set_adjustable_element_on_blinking(SET_DATE_YEAR, date_str, 10, true);
+			LCD_writeString(date_str);
+		}else{
+			LCD_writeString(date_str);
+		}
+
+
+
+
+
 
 
 
@@ -503,15 +577,11 @@ void show_menu(){
 			msg_duration = 0;
 		}
 
-
-
 		break;
 
 
 
 	}
-
-
 
 }
 
@@ -530,12 +600,7 @@ void display_info_message(unsigned char *msg, unsigned int duration){
 
 
 
-
-
 void create_firts_submenu(unsigned char *menu_title){
-
-
-
 
 
 

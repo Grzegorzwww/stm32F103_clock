@@ -13,6 +13,7 @@
 #include "itoa.h"
 #include "stdbool.h"
 #include "bmp180.h"
+
 #include "string.h"
 
 
@@ -29,6 +30,8 @@ void show_menu();
 
 
 void display_info_message(unsigned char *msg, unsigned int duration);
+
+unsigned char * set_adjustable_element_on_blinking(int element_no, unsigned char *str, int period, bool year);
 
 
 void increment_set_clk_state();

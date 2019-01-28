@@ -259,7 +259,7 @@ void alarm_snooze(){
 	if(alarm_is_working ){
 		display_info_message(" DRZEMKA ", 10);
 		mp3_send_cmd(MP3_RESET, 0, 0);
-		addAlarmMinute();
+		addAlarmSnooze();
 	}
 	mp3_track_playing_finished = 0;
 	play_alarm_couner = 0;

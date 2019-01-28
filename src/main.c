@@ -62,21 +62,18 @@ int main(void) {
 
 	delay_ms(100);
 
-	save_time(8, 0, 0);
-	save_date(17,9,1988);
+	save_time(23, 59, 00);
+	save_date(28,01,2019);
 	set_alarm(8, 0, 20);
 
 	//FLASH_Init();
 
 	delay_ms(50);
-
 	mp3_init();
-
 
 
 	while (1) {
 		__WFI();
-
 
 		analizeIncomingMp3Data();
 
@@ -94,14 +91,11 @@ int main(void) {
 			setTimerChannelState(TIMER_100ms, false);
 		}
 
-
 		if (getTimerChannelState(TIMER_1s)) {
 
-				//analize_button();
-
-
+			//analize_button();
 			control_sound_play();
-			analize_clock_clendar_state();
+//			analize_clock_clendar_state();
 			read_environmental_parameters();
 			control__goto_sleep_mode();
 			setTimerChannelState(TIMER_1s, false);
