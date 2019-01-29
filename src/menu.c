@@ -43,7 +43,6 @@ unsigned char *days[7] = {"Poniedzialek", "Wtorek      ", "Sroda      ", "Czwart
 
 
 
-
 menu_state_t get_menu_state() {return menu_state;}
 
 void on_button_released(){
@@ -53,11 +52,24 @@ void on_button_released(){
 	is_switch_days = false;
 }
 
+
 void increment_set_clk_state() {
-	if(clk_set_state >= 3){
-		clk_set_state = 0;
-	}else{
-		clk_set_state++;
+	if(date_set_stete ==  NO_SET_DATE){
+		if(clk_set_state >= NO_SET_CLK){
+			clk_set_state = SET_CLK_HOURS;
+		}else{
+			clk_set_state++;
+		}
+	}
+}
+
+void increment_set_date_state() {
+	if(clk_set_state ==  NO_SET_CLK){
+		if(date_set_stete == SET_DATE_DAY){
+			date_set_stete = NO_SET_DATE;
+		}else{
+			date_set_stete--;
+		}
 	}
 }
 
@@ -65,19 +77,8 @@ void control_alarm_off_state() {
 	if(get_alarm_is_working()){
 		alarm_stop();
 	}
-
 }
 
-
-void increment_set_date_state() {
-
-	if(date_set_stete == 0){
-		date_set_stete = 3;
-	}else{
-		date_set_stete--;
-	}
-
-}
 
 void increment_set_alarm_state() {
 	if(alarm_set_state >= 3){
@@ -90,12 +91,8 @@ void increment_set_alarm_state() {
 
 void create_menu(){
 
-
     LCD_fillScreen(BLACK);
     LCD_setTextBgColor(WHITE );
-//    LCD_setTextSize(5);
-
-
 
     LCD_setTextSize(2);
 
@@ -217,16 +214,15 @@ void on_set_up(){
 		addSec();
 	}
 
-
-	if(date_set_stete == SET_DATE_DAY){
+	else if(date_set_stete == SET_DATE_DAY){
 		//printf("day up\n");
 		addDay();
 	}
-	if(date_set_stete == SET_DATE_MONTH){
+	else if(date_set_stete == SET_DATE_MONTH){
 		//printf("month up\n");
 		addMonth();
 	}
-	if(date_set_stete == SET_DATE_YEAR){
+	else if(date_set_stete == SET_DATE_YEAR){
 		//printf("year up\n");
 		addYear();
 	}
@@ -243,8 +239,6 @@ void on_set_saver(){
 	}
 
 }
-
-
 
 
 
@@ -274,15 +268,13 @@ void on_set_down()
 
 
 
-unsigned char *  set_adjustable_element_on_blinking(int element_no, unsigned char *str, int period, bool year)
+unsigned char * set_adjustable_element_on_blinking(int element_no, unsigned char *str, int period, bool year)
 {
 
 	static int prtiod_counter = 0;
 	if(prtiod_counter >= period){
 			prtiod_counter = 0;
 		}
-
-
 	prtiod_counter++;
 	if(prtiod_counter < period / 2  ){
 		return str;
@@ -305,16 +297,9 @@ unsigned char *  set_adjustable_element_on_blinking(int element_no, unsigned cha
 				str[9] = ' ';
 			}
 			break;
-
 		}
 		return str;
 	}
-
-
-
-
-
-
 }
 
 void show_menu(){
@@ -381,14 +366,28 @@ void show_menu(){
 		LCD_writeString("Alarm: ");
 
 
-
 		if(alarm_set_state == SET_CLK_HOURS){ LCD_setTextColor(RED); }
 		else if(alarm_set_state== SET_CLK_MINUTES) { LCD_setTextColor(GREEN); }
 		else if(alarm_set_state == SET_CLK_SEK) { LCD_setTextColor(YELLOW); }
 		else{ LCD_setTextColor(WHITE);}
 
 		LCD_setCursor(140, 5);
-		LCD_writeString(alarm_str);
+
+		if(alarm_set_state == SET_CLK_HOURS){
+			set_adjustable_element_on_blinking(SET_CLK_HOURS, alarm_str, 10, false);
+			LCD_writeString(alarm_str);
+		}
+		else if(alarm_set_state == SET_CLK_MINUTES){
+			set_adjustable_element_on_blinking(SET_CLK_MINUTES, alarm_str, 10, false);
+			LCD_writeString(alarm_str);
+		}
+		else if(alarm_set_state == SET_CLK_SEK){
+			set_adjustable_element_on_blinking(SET_CLK_SEK, alarm_str, 10, false);
+			LCD_writeString(alarm_str);
+		}else{
+			LCD_writeString(alarm_str);
+		}
+
 
 
 		LCD_setTextColor(WHITE);
@@ -481,10 +480,6 @@ void show_menu(){
 
 
 
-
-
-
-
 		if(date_set_stete == SET_DATE_DAY ){ LCD_setTextColor(RED); }
 		else if(date_set_stete == SET_DATE_MONTH) { LCD_setTextColor(GREEN); }
 		else if(date_set_stete ==  SET_DATE_YEAR) { LCD_setTextColor(YELLOW); }
@@ -511,8 +506,6 @@ void show_menu(){
 		}else{
 			LCD_writeString(date_str);
 		}
-
-
 
 
 

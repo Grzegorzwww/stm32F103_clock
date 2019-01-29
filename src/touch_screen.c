@@ -185,17 +185,6 @@ void touch_screen_receive_dma_data_set(){
 }
 
 
-
-//void DMA2_Channel1_IRQHandler(void) {
-//	printf("+");
-//	if (DMA_GetITStatus(DMA2_IT_TC1) == SET) {
-////		DMA_Cmd(DMA2_Channel1, DISABLE);
-//
-//		DMA_ClearITPendingBit(DMA2_IT_TC1);
-//	}
-//}
-
-
 void DMA1_Channel4_IRQHandler(void) {
 
 	if (DMA_GetITStatus(DMA1_IT_TC4) == SET) {
@@ -363,14 +352,12 @@ touch_data_t * getTouchData(){
 }
 
 
-
 void touch_screen_send_command(unsigned short command){
 
 	touch_screen_cs_low();
 	SPI_I2S_SendData(SPI2,command);
 	touch_screen_cs_high();
 }
-
 
 
 void touch_screen_cs_low(void){

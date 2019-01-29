@@ -28,17 +28,15 @@
 #include "flash/flash.h"
 
 
+
 #ifdef DEBUG
 extern void initialise_monitor_handles(void);
 #endif
 
-volatile bool state = false;
-
-//unsigned char temp_data[6];
+//volatile bool state = false;
 
 
 int main(void) {
-
 
 #ifdef DEBUG
 	initialise_monitor_handles();
@@ -62,11 +60,10 @@ int main(void) {
 
 	delay_ms(100);
 
-	save_time(23, 59, 00);
-	save_date(28,01,2019);
-	set_alarm(8, 0, 20);
+	save_time(00, 00, 00);
+	save_date(29,01,2019);
+	set_alarm(7, 0, 00);
 
-	//FLASH_Init();
 
 	delay_ms(50);
 	mp3_init();
@@ -81,7 +78,6 @@ int main(void) {
 
 		if(getTimerChannelState(TIMER_10ms)){
 			setTimerChannelState(TIMER_10ms, false);
-
 		}
 
 		if (getTimerChannelState(TIMER_100ms)) {
@@ -93,9 +89,7 @@ int main(void) {
 
 		if (getTimerChannelState(TIMER_1s)) {
 
-			//analize_button();
 			control_sound_play();
-//			analize_clock_clendar_state();
 			read_environmental_parameters();
 			control__goto_sleep_mode();
 			setTimerChannelState(TIMER_1s, false);

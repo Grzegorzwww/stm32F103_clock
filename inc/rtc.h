@@ -29,9 +29,9 @@
 #define LEAP 1
 #define NOT_LEAP 0
 
-#define ALARM_REPEATER 2
+#define ALARM_REPEATER 4
 
-#define SNOOZE_TIME_MIN 10
+#define SNOOZE_TIME_MIN 90
 
 
 

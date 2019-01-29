@@ -24,11 +24,9 @@ static volatile bool alarm_state = false;
 static uint8_t prev_day = 1;
 
 
-
 bool getAlarmState(){
 	return alarm_state;
 }
-
 
 
 void rtc_init(void){
@@ -163,32 +161,7 @@ void NVIC_RTC_Configuration(void)
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 
-
-	//
-	//  //konfiguracja przerwań pochodzących od RTC Alarm
-	//      EXTI_ClearITPendingBit(EXTI_Line17);
-	//      EXTI_InitStructure.EXTI_Line = EXTI_Line17;
-	//      EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-	//      EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-	//      EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-	//      EXTI_Init(&amp;EXTI_InitStructure);
-	//      //generowanie przerwania przez RTC Alarm
-	//      RTC_ITConfig(RTC_IT_ALR, ENABLE);
-	//      //odczekanie na zakończenie operacji
-	//      RTC_WaitForLastTask();
-
-
-	//  NVIC_InitStructure.NVIC_IRQChannel = PVD_IRQn;
-	//   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-	//   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	//   NVIC_Init(&NVIC_InitStructure);
-
-
-
 }
-
-
-
 
 
 //void analize_clock_clendar_state(void)
@@ -364,7 +337,6 @@ void addAlarmSnooze(){
 	RTC_SetAlarm(total_alarm_ticks_to_add);
 }
 
-
 void removeAlarmMinute(){
 	unsigned long int total_alarm_ticks_to_add = RTC_GetAlarm();
 	total_alarm_ticks_to_add -=  60;
@@ -380,10 +352,6 @@ void removeAlarmSec(){
 	total_alarm_ticks_to_add -=  1;
 	RTC_SetAlarm(total_alarm_ticks_to_add);
 }
-
-
-
-
 
 
 
@@ -474,8 +442,6 @@ void addDay(){
 		flash_set_date_storage(day, month, year);
 	}
 	prev_day = day_of_week();
-
-
 
 
 }
