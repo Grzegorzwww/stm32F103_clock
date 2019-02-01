@@ -31,7 +31,7 @@
 
 #define ALARM_REPEATER 4
 
-#define SNOOZE_TIME_MIN 90
+#define SNOOZE_TIME_MIN 120
 
 
 

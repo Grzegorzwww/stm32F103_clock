@@ -36,6 +36,7 @@
 "src/menu.o"
 "src/rtc.o"
 "src/scan_timer.o"
+"src/stoper.o"
 "src/syscalls.o"
 "src/system_stm32f10x.o"
 "src/timers.o"

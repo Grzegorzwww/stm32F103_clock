@@ -184,10 +184,13 @@ void RTC_IRQHandler(void)
 		total_rtc_ticks = RTC_GetCounter();
 //		clock_state_changed = true;
 		check_next_day();
-		//update_date();
+
+		decrement_Counters();
+
 		switch(x){
 		case true:
 			//turnOnOffLed(true);
+
 			x = false;
 			break;
 		case false:

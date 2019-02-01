@@ -96,5 +96,7 @@ void play_alarm(int alarm_no, int num_of_repet);
 void control_sound_play();
 bool get_alarm_is_working();
 
+void alarmSetActive(bool x);
+
 
 #endif /* DFPPLAYER_H_ */

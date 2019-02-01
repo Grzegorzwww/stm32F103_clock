@@ -68,6 +68,7 @@ int main(void) {
 	delay_ms(50);
 	mp3_init();
 
+//	set_T1_Timer(100);
 
 	while (1) {
 		__WFI();
@@ -92,6 +93,9 @@ int main(void) {
 			control_sound_play();
 			read_environmental_parameters();
 			control__goto_sleep_mode();
+			reset_time_flags();
+
+
 			setTimerChannelState(TIMER_1s, false);
 		}
 	}

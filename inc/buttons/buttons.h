@@ -35,10 +35,10 @@ typedef enum{
 
 
 typedef struct{
-	volatile	unsigned char previousNotFilteredState;
-	volatile	unsigned char count;
-	unsigned char  previousFilteredKeyState;
-	unsigned char  numberOfCorrectProbes;
+	volatile	unsigned int previousNotFilteredState;
+	volatile	unsigned int count;
+	unsigned int  previousFilteredKeyState;
+	unsigned int  numberOfCorrectProbes;
 	void (*callback)(BitEvent);
 }BitFilterInstance;
 
@@ -57,7 +57,7 @@ typedef struct{
 
 
 
-void initBitFilter(BitFilterInstance *bitFilterInstance, unsigned char numberOfCorrectProbes);
+void initBitFilter(BitFilterInstance *bitFilterInstance, unsigned int numberOfCorrectProbes);
 void bitFilter_setOnBitChangeListener_signal(BitFilterInstance *bitFilterInstance, void (*nCallback)(BitEvent));
 void buttonIsPressedNotFiltered(BitFilterInstance *bitFilterInstance);
 void buttonIsReleasedNotFiltered(BitFilterInstance *bitFilterInstance);
@@ -72,7 +72,9 @@ void scanButtonsPins(void);
 
 
 void ALARM_BUTTON_callback(BitEvent bitEvent);
-void ALARM_OFF_BUTTON_callback(BitEvent bitEvent);
+void  ALARM_OFF_BUTTON_callback(BitEvent bitEvent);
+
+void STOPER_ON_BUTTON_callback(BitEvent bitEvent);
 
 
 #endif /* BUTTONS_BUTTONS_H_ */

@@ -12,6 +12,7 @@ C_SRCS += \
 ../src/menu.c \
 ../src/rtc.c \
 ../src/scan_timer.c \
+../src/stoper.c \
 ../src/system_stm32f10x.c \
 ../src/timers.c \
 ../src/touch_screen.c \
@@ -27,6 +28,7 @@ OBJS += \
 ./src/menu.o \
 ./src/rtc.o \
 ./src/scan_timer.o \
+./src/stoper.o \
 ./src/system_stm32f10x.o \
 ./src/timers.o \
 ./src/touch_screen.o \
@@ -42,6 +44,7 @@ C_DEPS += \
 ./src/menu.d \
 ./src/rtc.d \
 ./src/scan_timer.d \
+./src/stoper.d \
 ./src/system_stm32f10x.d \
 ./src/timers.d \
 ./src/touch_screen.d \

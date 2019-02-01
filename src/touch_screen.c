@@ -302,7 +302,7 @@ void control_touch_buttons()
 			run_command_parameter(103, 125 ,100, 125,  setMenuState, ZEGAR_MENU);
 			run_command_parameter( 70, 100,100, 125, setMenuState, BUDZIK_MENU);
 			run_command_parameter( 44, 70,100, 125, setMenuState, USTAWIENIA_MENU);
-			run_command_parameter( 0, 44, 100, 125, setMenuState, INNE_MENU);
+			run_command_parameter( 0, 44, 100, 125, setMenuState, STOPER_MENU);
 
 			run_command(0, 124, 0, 124, control_alarm_off_state);
 
@@ -323,6 +323,26 @@ void control_touch_buttons()
 
 
 			}
+			if(get_menu_state() == STOPER_MENU){
+
+
+				run_command(0, 86, 37, 64,  T1_Timer_state);
+
+				run_command(0, 86, 70, 93,  T2_Timer_state);
+
+
+				run_command(90, 120, 37, 64,  T1_Timer_reset);
+
+				run_command(90, 120, 70, 93,  T2_Timer_reset);
+
+
+
+
+
+
+			}
+
+
 		}
 	}else{
 		actualice_pushed_filter();

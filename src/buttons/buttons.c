@@ -6,7 +6,7 @@
  */
 
 #include "buttons/buttons.h"
-
+#include "menu.h"
 #include "stm32f10x.h"
 
 
@@ -22,6 +22,8 @@
 
 BitFilterInstance ALARM_BUTTON_filter;
 BitFilterInstance ALARM_OFF_BUTTON_filter;
+BitFilterInstance STOPER_ON_BUTTON_filter;
+
 
 
 
@@ -37,12 +39,16 @@ void init_buttons(void){
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 
-	initBitFilter(&ALARM_BUTTON_filter, 5);
-	initBitFilter(&ALARM_OFF_BUTTON_filter, 255);
+	initBitFilter(&ALARM_BUTTON_filter, 250);
+	initBitFilter(&ALARM_OFF_BUTTON_filter, 1000);
+
+	initBitFilter(&STOPER_ON_BUTTON_filter, 10);
 
 
 	bitFilter_setOnBitChangeListener_signal(&ALARM_BUTTON_filter,ALARM_BUTTON_callback);
 	bitFilter_setOnBitChangeListener_signal(&ALARM_OFF_BUTTON_filter,ALARM_OFF_BUTTON_callback);
+
+	bitFilter_setOnBitChangeListener_signal(&STOPER_ON_BUTTON_filter, STOPER_ON_BUTTON_callback);
 
 }
 
@@ -51,10 +57,12 @@ void scanButtonsPins(void) {
 	if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1)== Bit_SET){
 		buttonIsPressedNotFiltered(&ALARM_BUTTON_filter);
 		buttonIsPressedNotFiltered(&ALARM_OFF_BUTTON_filter);
+		buttonIsPressedNotFiltered(&STOPER_ON_BUTTON_filter);
 	}
 	else {
 		buttonIsReleasedNotFiltered(&ALARM_BUTTON_filter);
 		buttonIsReleasedNotFiltered(&ALARM_OFF_BUTTON_filter);
+		buttonIsReleasedNotFiltered(&STOPER_ON_BUTTON_filter);
 	}
 }
 
@@ -63,12 +71,12 @@ void ALARM_BUTTON_callback(BitEvent bitEvent){
 	switch(bitEvent){
 		case ACTION_UP:
 			//printf("Alarm button up\n");
-
 		break;
 		case ACTION_DOWN:
 			printf("Alarm snooze\n");
-			alarm_snooze();
-
+			if(isAlarmActive()){
+				alarm_snooze();
+			}
 		break;
 	}
 }
@@ -76,15 +84,31 @@ void ALARM_OFF_BUTTON_callback(BitEvent bitEvent){
 	switch(bitEvent){
 		case ACTION_UP:
 
-
 		break;
 		case ACTION_DOWN:
 			printf("Alarm off \n");
-			alarm_stop();
+			if(isAlarmActive()){
+				alarm_stop();
+			}
 
 		break;
 	}
 }
+
+void STOPER_ON_BUTTON_callback(BitEvent bitEvent){
+	switch(bitEvent){
+		case ACTION_UP:
+
+		break;
+		case ACTION_DOWN:
+			//printf("Alarm off \n");
+			on_stoper_menu_presed();
+
+
+		break;
+	}
+}
+
 
 
 
@@ -93,7 +117,7 @@ void ALARM_OFF_BUTTON_callback(BitEvent bitEvent){
 static void nullCallback(BitEvent bitEvent){}
 
 
-void initBitFilter(BitFilterInstance *bitFilterInstance, unsigned char  numberOfCorrectProbes){
+void initBitFilter(BitFilterInstance *bitFilterInstance, unsigned int  numberOfCorrectProbes){
 	bitFilterInstance->callback = nullCallback;
 	bitFilterInstance->previousFilteredKeyState = 2; // 2 - not defined, used for first scan
 	bitFilterInstance->previousNotFilteredState = 0;

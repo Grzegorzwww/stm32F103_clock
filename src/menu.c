@@ -9,6 +9,7 @@
 #include "menu.h"
 #include "rtc.h"
 #include "touch_screen.h"
+#include "stoper.h"
 
 
 
@@ -26,13 +27,14 @@ static clk_set_state_t clk_set_state = NO_SET_CLK;
 static clk_set_state_t alarm_set_state = NO_SET_CLK;
 
 static date_set_stete_t date_set_stete = NO_SET_DATE;
+static countdown_1_stete_t countdown_1_stete = COUNTER_NOT_SET;
+static countdown_1_stete_t countdown_2_stete = COUNTER_NOT_SET;
 
 static bool working_days_alarm_flag = false;
 static bool on_off_alarm_flag = false;
 
 static unsigned char *msg_ptr;
 static unsigned int msg_duration;
-
 
 
 bool working_day_checked(){return working_days_alarm_flag;}
@@ -88,6 +90,41 @@ void increment_set_alarm_state() {
 	}
 }
 
+void T1_Timer_state(){
+
+	if(countdown_1_stete == COUNTER_NOT_SET){
+		countdown_1_stete = COUNTER_SET;
+	}else{
+		countdown_1_stete = COUNTER_NOT_SET;
+		//if(is_t1_Timer_empty()){
+			T1_Timer_start(true);
+		//}
+	}
+}
+
+
+void T2_Timer_state(){
+
+	if(countdown_2_stete == COUNTER_NOT_SET){
+		countdown_2_stete = COUNTER_SET;
+	}else{
+		countdown_2_stete = COUNTER_NOT_SET;
+		//if(is_t2_Timer_empty()){
+			T2_Timer_start(true);
+		//}
+	}
+}
+
+void T1_Timer_reset(){
+	set_T1_Timer_reset();
+}
+
+void T2_Timer_reset(){
+	set_T2_Timer_reset();
+}
+
+
+
 
 void create_menu(){
 
@@ -96,12 +133,10 @@ void create_menu(){
 
     LCD_setTextSize(2);
 
-
     LCD_fillRect(0, 200, 80, 40, RED);
     LCD_fillRect(80, 200, 80, 40, GREEN);
     LCD_fillRect(160, 200, 80, 40, YELLOW);
     LCD_fillRect(240, 200, 80, 40, BLUE);
-
 
     LCD_setTextBgColor(RED);
     LCD_setTextColor(BLACK);
@@ -120,13 +155,9 @@ void create_menu(){
 
     LCD_setTextBgColor(BLUE);
     LCD_setTextColor(BLACK);
-    LCD_setCursor(250, 210);
-    LCD_writeString("INNE");
-
-
+    LCD_setCursor(245, 210);
+    LCD_writeString("STOPER");
     menu_state  = ZEGAR_MENU;
-
-
 
 }
 
@@ -134,8 +165,12 @@ void setMenuState(menu_state_t state) {
 	LCD_fillRect(0, 0, 320, 200, BLACK);
 	//LCD_fillScreen(BLACK);
 	menu_state = state;
-
-
+	if(menu_state == STOPER_MENU){
+		setAlarmActive(false);
+	}
+	else {
+		setAlarmActive(true);
+	}
 }
 
 unsigned char temperature_str[10];
@@ -167,10 +202,7 @@ void on_set_alarm(){
 	}
 }
 
-//void on_set_working_day_off(){
-//	working_days_alarm_flag = false;
-//}
-//
+
 
 void on_set_alarm_up(){
 
@@ -186,7 +218,6 @@ void on_set_alarm_up(){
 }
 
 void on_set_alarm_down(){
-
 	is_button_pushed_down = true;
 	if(alarm_set_state == SET_CLK_HOURS){
 		removeAlarmHour();
@@ -196,7 +227,6 @@ void on_set_alarm_down(){
 	else  if (alarm_set_state == SET_CLK_SEK){
 		removeAlarmSec();
 	}
-
 }
 
 
@@ -302,11 +332,38 @@ unsigned char * set_adjustable_element_on_blinking(int element_no, unsigned char
 	}
 }
 
+void set_record_on_blinking(unsigned char *str, int period)
+{
+
+	static int prtiod_counter = 0;
+	if(prtiod_counter >= period){
+			prtiod_counter = 0;
+		}
+	prtiod_counter++;
+	if(prtiod_counter < period / 2  ){
+		;
+
+	}else if(prtiod_counter > period / 2  ){
+
+			str[4] = ' ';
+			str[5] = ' ';
+			str[6] = ' ';
+			str[7] = ' ';
+			str[8] = ' ';
+			str[9] = ' ';
+			str[10] = ' ';
+			str[11] = ' ';
+
+	}
+}
+
 void show_menu(){
 
 	unsigned char timer_str[20];
 	unsigned char date_str[20];
 	unsigned char alarm_str[20];
+	unsigned char counter1_str[20];
+	unsigned char counter2_str[20];
 
 	touch_data_t *temp_data_touch = getTouchData();
 	static int msg_durration_counter;
@@ -510,8 +567,6 @@ void show_menu(){
 
 
 
-
-
 		LCD_setTextSize(3);
 		if(is_button_pushed_up){LCD_drawRect(30, 130, 110, 42, BLUE);}
 		else {LCD_drawRect(30, 130, 110, 42, WHITE);}
@@ -529,18 +584,59 @@ void show_menu(){
 
 
 		break;
-	case INNE_MENU:
+	case STOPER_MENU:
+
+
+			read_time(timer_str);
+
+
+			LCD_setTextSize(6);
+		    LCD_setTextColor(WHITE);
+		    LCD_setTextBgColor(BLACK);
+
+			LCD_setCursor(20, 0);
+			LCD_writeString(timer_str);
+
+
+		    LCD_setTextBgColor(BLACK);
+		    LCD_setTextSize(3);
+			LCD_setCursor(10, 5);
+
+
+			LCD_setCursor(65, 80);
+			get_T1_Timer(counter1_str);
+			if(countdown_1_stete == COUNTER_SET)
+				set_record_on_blinking(counter1_str, 10);
+			LCD_writeString(counter1_str);
+
+			LCD_setCursor(10, 80);
+			LCD_writeString("R");
+
+
+			LCD_setCursor(65, 145);
+			get_T2_Timer(counter2_str);
+			if(countdown_2_stete == COUNTER_SET)
+				set_record_on_blinking(counter2_str, 10);
+			LCD_writeString(counter2_str);
+
+			LCD_setCursor(10, 145);
+			LCD_writeString("R");
+//			LCD_writeString("T2: 00:00:00");
 
 
 
-		LCD_setTextSize(5);
 
-	    LCD_setTextColor(WHITE);
-	    LCD_setTextBgColor(BLACK);
-//	    LCD_setCursor(20, 0);
-	    if(temp_data_touch->y_axis < 105){
-	    	LCD_drawCircle((int)((float)(310 -  temp_data_touch->x_axis ) * 2.8) , (temp_data_touch->y_axis * 1.90), 3 , WHITE);
-	    }
+
+
+
+//		LCD_setTextSize(5);
+//
+//	    LCD_setTextColor(WHITE);
+//	    LCD_setTextBgColor(BLACK);
+////	    LCD_setCursor(20, 0);
+//	    if(temp_data_touch->y_axis < 105){
+//	    	LCD_drawCircle((int)((float)(310 -  temp_data_touch->x_axis ) * 2.8) , (temp_data_touch->y_axis * 1.90), 3 , WHITE);
+//	    }
 	    //LCD_putPixel((int)((float)(310 -  temp_data_touch->x_axis ) * 2.8) , (temp_data_touch->y_axis * 1.90), WHITE);
 	   //LCD_putPixel(310, 210,WHITE);
 
@@ -553,7 +649,6 @@ void show_menu(){
 			LCD_setTextBgColor(BLACK);
 		LCD_setTextSize(6);
 		LCD_setTextColor(RED);
-
 
 		LCD_setTextSize(4);
 		LCD_setCursor(50, 75);
@@ -572,8 +667,6 @@ void show_menu(){
 
 		break;
 
-
-
 	}
 
 }
@@ -590,7 +683,33 @@ void display_info_message(unsigned char *msg, unsigned int duration){
 	msg_ptr = msg;
 }
 
+static unsigned int enter_to_countdown_mode = 1;
 
+
+
+void on_stoper_menu_presed(){
+	if(enter_to_countdown_mode-- == 0){
+		if(menu_state != STOPER_MENU){
+			setMenuState(STOPER_MENU);
+			enter_to_countdown_mode = 1;
+		}
+	}
+	if(countdown_1_stete == COUNTER_SET){
+			set_T1_Timer(30);
+	}else{
+
+	}
+
+	if(countdown_2_stete == COUNTER_SET){
+			set_T2_Timer(30);
+	} else {
+
+	}
+
+}
+void reset_time_flags(){
+	enter_to_countdown_mode = 1;
+}
 
 
 void create_firts_submenu(unsigned char *menu_title){

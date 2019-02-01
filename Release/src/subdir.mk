@@ -12,6 +12,7 @@ C_SRCS += \
 ../src/menu.c \
 ../src/rtc.c \
 ../src/scan_timer.c \
+../src/stoper.c \
 ../src/syscalls.c \
 ../src/system_stm32f10x.c \
 ../src/timers.c \
@@ -28,6 +29,7 @@ OBJS += \
 ./src/menu.o \
 ./src/rtc.o \
 ./src/scan_timer.o \
+./src/stoper.o \
 ./src/syscalls.o \
 ./src/system_stm32f10x.o \
 ./src/timers.o \
@@ -44,6 +46,7 @@ C_DEPS += \
 ./src/menu.d \
 ./src/rtc.d \
 ./src/scan_timer.d \
+./src/stoper.d \
 ./src/syscalls.d \
 ./src/system_stm32f10x.d \
 ./src/timers.d \
